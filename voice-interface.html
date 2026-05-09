@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PM Interview Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .interview-setup {
+            margin-bottom: 30px;
+        }
+
+        .interview-setup label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .interview-setup select,
+        .interview-setup input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .status-indicator.idle {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .status-indicator.listening {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-indicator.processing {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-indicator.speaking {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .idle .status-dot { background: #999; }
+        .listening .status-dot { background: #1976d2; }
+        .processing .status-dot { background: #f57c00; }
+        .speaking .status-dot { background: #388e3c; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .conversation {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .message.ai {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .message.user {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .message .role {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .start-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .start-btn:hover:not(:disabled) {
+            background: #5568d3;
+        }
+
+        .speak-btn {
+            background: #1976d2;
+            color: white;
+        }
+
+        .speak-btn:hover:not(:disabled) {
+            background: #1565c0;
+        }
+
+        .speak-btn.recording {
+            background: #f44336;
+            animation: pulse-button 1s infinite;
+        }
+
+        @keyframes pulse-button {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .end-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .end-btn:hover:not(:disabled) {
+            background: #d32f2f;
+        }
+
+        .evaluation-btn {
+            background: #4caf50;
+            color: white;
+        }
+
+        .evaluation-btn:hover:not(:disabled) {
+            background: #388e3c;
+        }
+
+        .transcript {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+            min-height: 60px;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .framework-toggle {
+            background: none;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: none;
+            width: auto;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+
+        .framework-toggle:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .framework-panel {
+            background: #f5f3ff;
+            border: 1px solid #c4b5fd;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            font-size: 13px;
+        }
+
+        .framework-panel h3 {
+            color: #5b21b6;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .framework-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .framework-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .step-letter {
+            background: #7c3aed;
+            color: white;
+            border-radius: 4px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            color: #4c1d95;
+            line-height: 1.4;
+            padding-top: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 AI PM Interview Practice</h1>
+        <p class="subtitle">Voice-only practice with real big tech interview questions</p>
+
+        <div id="error" class="error hidden"></div>
+
+        <!-- Interview Setup (shown initially) -->
+        <div id="setup" class="interview-setup">
+            <label for="interviewType">Select Interview Type:</label>
+            <select id="interviewType">
+                <option value="">Choose interview type...</option>
+                <option value="Product Design">Product Design</option>
+                <option value="Product Strategy">Product Strategy</option>
+                <option value="Metrics & Analytics">Metrics & Analytics</option>
+                <option value="Behavioral">Behavioral</option>
+                <option value="Product Execution">Product Execution</option>
+                <option value="Technical PM">Technical PM</option>
+            </select>
+
+            <label for="candidateName">Your Name (optional):</label>
+            <input type="text" id="candidateName" placeholder="Enter your name">
+
+            <button class="start-btn" onclick="startInterview()">Start Interview</button>
+        </div>
+
+        <!-- Interview Interface (hidden initially) -->
+        <div id="interview" class="hidden">
+            <button class="framework-toggle" onclick="toggleFramework()">📋 Show Framework Hints</button>
+            <div id="frameworkPanel" class="framework-panel hidden">
+                <h3 id="frameworkTitle">Framework</h3>
+                <div id="frameworkSteps" class="framework-steps"></div>
+            </div>
+
+            <div id="status" class="status-indicator idle">
+                <div class="status-dot"></div>
+                <span id="statusText">Ready</span>
+            </div>
+
+            <div id="conversation" class="conversation"></div>
+
+            <div class="transcript">
+                <strong>Your response:</strong>
+                <div id="transcript">Click "Speak" to answer...</div>
+            </div>
+
+            <div class="controls">
+                <button class="speak-btn" id="speakBtn" onclick="toggleRecording()">
+                    🎤 Speak
+                </button>
+                <button class="evaluation-btn" id="evalBtn" onclick="getEvaluation()">
+                    📊 Get Feedback
+                </button>
+                <button class="end-btn" onclick="endInterview()">
+                    ❌ End
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_URL = 'http://localhost:3000/api';
+
+        // Framework hints data keyed by interview type value
+        const FRAMEWORKS = {
+            'Product Design': {
+                name: 'CIRCLES Method',
+                steps: [
+                    ['C', 'Comprehend the situation — clarify scope & constraints'],
+                    ['I', 'Identify the customer — segment your users'],
+                    ['R', 'Report customer needs — what pain are they feeling?'],
+                    ['C', 'Cut through prioritization — pick the most important need'],
+                    ['L', 'List solutions — brainstorm 3–4 options'],
+                    ['E', 'Evaluate tradeoffs — effort, impact, risk'],
+                    ['S', 'Summarize recommendation — one clear answer'],
+                ]
+            },
+            'Metrics & Analytics': {
+                name: 'DIGS Framework',
+                steps: [
+                    ['D', 'Define the goal — what is the product trying to achieve?'],
+                    ['I', 'Identify metrics — north star + supporting metrics'],
+                    ['G', 'Guard against gaming — what could be gamed or misleading?'],
+                    ['S', 'Segment — break down by user type, platform, cohort'],
+                ]
+            },
+            'Behavioral': {
+                name: 'STAR Method',
+                steps: [
+                    ['S', 'Situation — set the scene with specific context'],
+                    ['T', 'Task — what was your responsibility or challenge?'],
+                    ['A', 'Action — what did YOU specifically do? (use "I" not "we")'],
+                    ['R', 'Result — quantify the outcome; what did you learn?'],
+                ]
+            },
+            'Product Strategy': {
+                name: 'SWOT Analysis',
+                steps: [
+                    ['S', 'Strengths — internal advantages the company has'],
+                    ['W', 'Weaknesses — internal gaps or disadvantages'],
+                    ['O', 'Opportunities — external trends to capitalize on'],
+                    ['T', 'Threats — external risks or competition'],
+                    ['+', 'Recommendation — clear strategic direction with rationale'],
+                ]
+            },
+            'Product Execution': {
+                name: 'RICE Prioritization',
+                steps: [
+                    ['R', 'Reach — how many users impacted per quarter?'],
+                    ['I', 'Impact — effect on core metric (1=minimal, 3=massive)'],
+                    ['C', 'Confidence — % confidence in your estimates'],
+                    ['E', 'Effort — person-weeks of work required'],
+                    ['+', 'Score = (Reach × Impact × Confidence) / Effort'],
+                ]
+            },
+            'Technical PM': {
+                name: 'System Design',
+                steps: [
+                    ['1', 'Clarify scale — how many users/requests per day?'],
+                    ['2', 'Define components — API, DB, cache, CDN'],
+                    ['3', 'Data model — what entities and relationships?'],
+                    ['4', 'Scale bottlenecks — where does it break under load?'],
+                    ['5', 'Trade-offs — consistency vs. availability, SQL vs. NoSQL'],
+                ]
+            },
+        };
+
+        let frameworkVisible = false;
+
+        function toggleFramework() {
+            const panel = document.getElementById('frameworkPanel');
+            const btn = document.querySelector('.framework-toggle');
+            frameworkVisible = !frameworkVisible;
+            panel.classList.toggle('hidden', !frameworkVisible);
+            btn.textContent = frameworkVisible ? '📋 Hide Framework Hints' : '📋 Show Framework Hints';
+        }
+
+        function loadFrameworkHints(interviewType) {
+            const fw = FRAMEWORKS[interviewType];
+            if (!fw) return;
+            document.getElementById('frameworkTitle').textContent = fw.name;
+            const stepsEl = document.getElementById('frameworkSteps');
+            stepsEl.innerHTML = fw.steps.map(([letter, text]) => `
+                <div class="framework-step">
+                    <span class="step-letter">${letter}</span>
+                    <span class="step-text">${text}</span>
+                </div>
+            `).join('');
+        }
+        
+        // State
+        let sessionId = null;
+        let recognition = null;
+        let synthesis = window.speechSynthesis;
+        let isRecording = false;
+        let currentTranscript = '';
+        let accumulatedTranscript = ''; // Track all finalized speech across pauses
+
+        // Initialize Speech Recognition
+        function initSpeechRecognition() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                showError('Speech recognition not supported in this browser. Please use Chrome or Edge.');
+                return false;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript + ' ';
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+
+                // Accumulate finalized results
+                if (finalTranscript) {
+                    accumulatedTranscript += finalTranscript;
+                }
+                
+                // Show accumulated + interim
+                currentTranscript = accumulatedTranscript + interimTranscript;
+                document.getElementById('transcript').textContent = currentTranscript || 'Listening...';
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                stopRecording();
+            };
+
+            recognition.onend = () => {
+                if (isRecording) {
+                    recognition.start();
+                }
+            };
+
+            return true;
+        }
+
+        // Start Interview
+        async function startInterview() {
+            const interviewType = document.getElementById('interviewType').value;
+            const candidateName = document.getElementById('candidateName').value;
+
+            if (!interviewType) {
+                showError('Please select an interview type');
+                return;
+            }
+
+            if (!initSpeechRecognition()) {
+                return;
+            }
+
+            updateStatus('processing', 'Starting interview...');
+
+            try {
+                const response = await fetch(`${API_URL}/interview/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ interviewType, candidateName })
+                });
+
+                const data = await response.json();
+                sessionId = data.sessionId;
+
+                document.getElementById('setup').classList.add('hidden');
+                document.getElementById('interview').classList.remove('hidden');
+                loadFrameworkHints(interviewType);
+
+                addMessage('ai', data.message);
+                speak(data.message);
+
+                updateStatus('idle', 'Waiting for your response');
+
+            } catch (error) {
+                showError('Failed to start interview: ' + error.message);
+                updateStatus('idle', 'Error');
+            }
+        }
+
+        // Toggle Recording
+        function toggleRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        }
+
+        function startRecording() {
+            currentTranscript = '';
+            accumulatedTranscript = ''; // Reset for new recording
+            document.getElementById('transcript').textContent = 'Listening...';
+            
+            recognition.start();
+            isRecording = true;
+            
+            const speakBtn = document.getElementById('speakBtn');
+            speakBtn.textContent = '⏹️ Stop';
+            speakBtn.classList.add('recording');
+            
+            updateStatus('listening', 'Listening to your answer...');
+        }
+
+        async function stopRecording() {
+            recognition.stop();
+            isRecording = false;
+            
+            const speakBtn = document.getElementById('speakBtn');
+            speakBtn.textContent = '🎤 Speak';
+            speakBtn.classList.remove('recording');
+
+            if (currentTranscript.trim()) {
+                addMessage('user', currentTranscript);
+                updateStatus('processing', 'AI is thinking...');
+                
+                try {
+                    const response = await fetch(`${API_URL}/interview/respond`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            sessionId,
+                            response: currentTranscript
+                        })
+                    });
+
+                    const data = await response.json();
+                    addMessage('ai', data.message);
+                    speak(data.message);
+
+                } catch (error) {
+                    showError('Failed to send response: ' + error.message);
+                    updateStatus('idle', 'Error');
+                }
+            } else {
+                updateStatus('idle', 'No speech detected');
+            }
+
+            currentTranscript = '';
+        }
+
+        // Get Final Evaluation
+        async function getEvaluation() {
+            updateStatus('processing', 'Generating evaluation...');
+
+            try {
+                const response = await fetch(`${API_URL}/interview/evaluate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sessionId })
+                });
+
+                const data = await response.json();
+                addMessage('ai', '📊 FINAL EVALUATION:\n\n' + data.evaluation);
+                speak(data.evaluation);
+
+            } catch (error) {
+                showError('Failed to get evaluation: ' + error.message);
+                updateStatus('idle', 'Error');
+            }
+        }
+
+        // End Interview
+        async function endInterview() {
+            if (confirm('Are you sure you want to end this interview?')) {
+                try {
+                    await fetch(`${API_URL}/interview/end`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ sessionId })
+                    });
+                    location.reload();
+                } catch (error) {
+                    console.error('Error ending interview:', error);
+                    location.reload();
+                }
+            }
+        }
+
+        // Text-to-Speech
+        function speak(text) {
+            synthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+
+            utterance.onstart = () => {
+                updateStatus('speaking', 'AI is speaking...');
+            };
+
+            utterance.onend = () => {
+                updateStatus('idle', 'Waiting for your response');
+            };
+
+            synthesis.speak(utterance);
+        }
+
+        // UI Helper Functions
+        function addMessage(role, text) {
+            const conversation = document.getElementById('conversation');
+            const message = document.createElement('div');
+            message.className = `message ${role}`;
+            message.innerHTML = `
+                <div class="role">${role === 'ai' ? 'AI Interviewer' : 'You'}</div>
+                <div>${text}</div>
+            `;
+            conversation.appendChild(message);
+            conversation.scrollTop = conversation.scrollHeight;
+        }
+
+        function updateStatus(state, text) {
+            const statusDiv = document.getElementById('status');
+            const statusText = document.getElementById('statusText');
+            
+            statusDiv.className = `status-indicator ${state}`;
+            statusText.textContent = text;
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            setTimeout(() => errorDiv.classList.add('hidden'), 5000);
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (synthesis) synthesis.cancel();
+            if (recognition) recognition.stop();
+        });
+    </script>
+</body>
+</html>

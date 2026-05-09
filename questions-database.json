@@ -1,0 +1,107 @@
+{
+  "questions": [
+    {
+      "id": "pd001",
+      "category": "Product Design",
+      "difficulty": "medium",
+      "company": "Google",
+      "question": "Design a product for drivers driving in rush hour.",
+      "frameworks": ["CIRCLES"],
+      "expectedApproach": [
+        "Clarify the situation",
+        "Identify customer segments",
+        "Report customer needs",
+        "Cut through prioritization",
+        "List solutions",
+        "Evaluate tradeoffs",
+        "Summarize recommendation"
+      ]
+    },
+    {
+      "id": "pd002",
+      "category": "Product Design",
+      "difficulty": "medium",
+      "company": "Meta",
+      "question": "How would you improve Facebook Groups?",
+      "frameworks": ["User Stories"]
+    },
+    {
+      "id": "met001",
+      "category": "Metrics",
+      "difficulty": "medium",
+      "company": "Amazon",
+      "question": "You're the PM for Amazon Prime. How would you measure the success of the product?",
+      "frameworks": ["Metrics Framework", "AARRR"]
+    },
+    {
+      "id": "beh001",
+      "category": "Behavioral",
+      "difficulty": "medium",
+      "company": "Google",
+      "question": "Tell me about a time when you had to make a decision with incomplete information.",
+      "frameworks": ["STAR"]
+    },
+    {
+      "id": "beh002",
+      "category": "Behavioral",
+      "difficulty": "medium",
+      "company": "Meta",
+      "question": "Describe a situation where you had to work with a difficult stakeholder.",
+      "frameworks": ["STAR"]
+    },
+    {
+      "id": "str001",
+      "category": "Product Strategy",
+      "difficulty": "hard",
+      "company": "Apple",
+      "question": "Should Apple enter the search engine market?",
+      "frameworks": ["SWOT"]
+    },
+    {
+      "id": "exe001",
+      "category": "Execution",
+      "difficulty": "medium",
+      "company": "Microsoft",
+      "question": "You have three features you want to build but can only build one this quarter. How do you prioritize?",
+      "frameworks": ["RICE"]
+    },
+    {
+      "id": "tech001",
+      "category": "Technical",
+      "difficulty": "medium",
+      "company": "Google",
+      "question": "Explain how you would design the backend system for a URL shortener.",
+      "frameworks": ["System Design"]
+    }
+  ],
+  "frameworks": {
+    "CIRCLES": {
+      "name": "CIRCLES Method",
+      "usage": "Product Design questions",
+      "steps": [
+        "Comprehend the situation",
+        "Identify the customer",
+        "Report customer needs",
+        "Cut through prioritization",
+        "List solutions",
+        "Evaluate tradeoffs",
+        "Summarize recommendations"
+      ]
+    },
+    "STAR": {
+      "name": "STAR Method",
+      "usage": "Behavioral questions",
+      "steps": [
+        "Situation",
+        "Task",
+        "Action",
+        "Result"
+      ]
+    },
+    "RICE": {
+      "name": "RICE Framework",
+      "usage": "Feature prioritization",
+      "formula": "(Reach × Impact × Confidence) / Effort"
+    }
+  }
+}

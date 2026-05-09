@@ -1,0 +1,1245 @@
+{
+  "questions": [
+    {
+      "id": "pd001",
+      "category": "product-design",
+      "difficulty": "medium",
+      "framework": "CIRCLES",
+      "source": "Cracking the PM Interview",
+      "company": "Google",
+      "question": "Design a product for elderly people.",
+      "sampleAnswer": {
+        "overview": "I'd use the CIRCLES framework to structure my answer.",
+        "steps": {
+          "Comprehend": "What type of product — hardware, software, or service? Let's focus on a mobile app to help elderly people live independently.",
+          "Identify": "Primary users: adults 65+, many with limited tech experience, possible vision/motor impairments. Secondary: adult children who want to monitor parents.",
+          "Report needs": "Stay connected with family, manage medications, access emergency help quickly, combat loneliness.",
+          "Cut/Prioritize": "Most critical: safety and emergency access. Biggest pain point: current apps are too complex for elderly users.",
+          "List solutions": "1) One-tap emergency SOS with GPS. 2) Simplified medication reminder with large UI. 3) Family video check-in. 4) Voice-first interface.",
+          "Evaluate": "SOS + medication reminder has highest impact/effort ratio. Voice-first reduces barrier to entry. Family check-in builds habit loop.",
+          "Summarize": "Build a voice-first companion app with large-text UI, daily medication reminders, and one-tap SOS. Launch MVP with SOS + reminders, then add family check-in."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Clarifies scope, identifies 2+ user segments, prioritizes needs, proposes 3+ solutions with clear tradeoffs, recommends one with reasoning",
+        "good": "Uses CIRCLES partially, identifies main user, proposes multiple solutions",
+        "fair": "Some structure but jumps to solution, limited user empathy",
+        "poor": "No framework, single solution, no user consideration"
+      },
+      "keyPoints": ["Accessibility constraints", "Voice-first design", "Caregiver as secondary user", "Simple UI with large touch targets", "Emergency feature is table stakes"]
+    },
+    {
+      "id": "pd002",
+      "category": "product-design",
+      "difficulty": "medium",
+      "framework": "CIRCLES",
+      "source": "Decode and Conquer",
+      "company": "Google",
+      "question": "Design a product for drivers in rush hour.",
+      "sampleAnswer": {
+        "overview": "Using CIRCLES to design a rush-hour driver product.",
+        "steps": {
+          "Comprehend": "Scope: mobile app for commuters, not commercial drivers. Rush hour = 7-9am and 5-7pm.",
+          "Identify": "Daily commuters 25-50, stressed, time-constrained, may be carpooling.",
+          "Report needs": "Reduce commute time, reduce stress, stay informed about delays, use commute productively.",
+          "Cut/Prioritize": "Biggest pain: unpredictable delays. Most underserved: productive use of stuck time.",
+          "List solutions": "1) Hyper-accurate predictive routing with ML. 2) Commute podcast/audio content tied to route length. 3) Carpool matching. 4) Real-time parking availability.",
+          "Evaluate": "Predictive routing improves core need. Audio content is differentiator vs. Waze. Carpool has network effects.",
+          "Summarize": "AI routing + commute-length audio content as MVP. Carpool as phase 2."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Distinguishes commuter vs. commercial, surfaces stress/time pain points, creative differentiated solution",
+        "good": "Solid CIRCLES usage, practical solutions",
+        "fair": "Mentions routing but doesn't go beyond Waze-clone thinking",
+        "poor": "No user research, just lists features"
+      },
+      "keyPoints": ["Commuter vs. commercial driver distinction", "Stress as key emotion", "Audio content as differentiation", "Network effects in carpool"]
+    },
+    {
+      "id": "pd003",
+      "category": "product-design",
+      "difficulty": "hard",
+      "framework": "CIRCLES",
+      "source": "The Product Manager Interview",
+      "company": "Meta",
+      "question": "How would you improve Facebook Groups?",
+      "sampleAnswer": {
+        "overview": "I'd start by clarifying the goal — engagement, retention, or new user acquisition — then use CIRCLES.",
+        "steps": {
+          "Comprehend": "Goal: increase meaningful engagement in Groups. Platform: mobile-first.",
+          "Identify": "Power users (community admins), casual lurkers, new members, local community users.",
+          "Report needs": "Admins: easier moderation. Lurkers: relevant content without noise. New members: onboarding. Local users: hyper-local discovery.",
+          "Cut/Prioritize": "Biggest drop-off: new members who join but never post. Biggest opportunity: turning lurkers into contributors.",
+          "List solutions": "1) AI-suggested first post for new members. 2) Topic threads within groups. 3) Group health score for admins. 4) Local group discovery map.",
+          "Evaluate": "AI first-post reduces barrier; thread organization reduces noise. Admin health score enables better moderation at scale.",
+          "Summarize": "Launch topic threads + AI-assisted first post. Measure: post rate of new members in 30 days."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Clarifies business goal, segments users well, proposes measurable improvements with success metrics",
+        "good": "Multiple user types, concrete features, some metrics",
+        "fair": "One user type, vague improvements",
+        "poor": "Lists features without user grounding"
+      },
+      "keyPoints": ["Clarify business goal first", "Admin vs. lurker vs. new member", "Lurker-to-contributor conversion", "Success metric: post rate in 30 days"]
+    },
+    {
+      "id": "pd004",
+      "category": "product-design",
+      "difficulty": "medium",
+      "framework": "CIRCLES",
+      "source": "Cracking the PM Interview",
+      "company": "Amazon",
+      "question": "Design a product to help people find parking.",
+      "sampleAnswer": {
+        "overview": "Using CIRCLES for a parking product.",
+        "steps": {
+          "Comprehend": "Urban parking discovery and reservation, mobile-first.",
+          "Identify": "Daily urban commuters, event attendees, delivery drivers, handicapped drivers.",
+          "Report needs": "Find available spots quickly, know price upfront, avoid circling blocks, accessible spots.",
+          "Cut/Prioritize": "Highest frustration: not knowing availability in advance. Most revenue opportunity: reservation.",
+          "List solutions": "1) Real-time availability map with IoT sensors. 2) Advance reservation + payment. 3) Dynamic pricing. 4) Accessible spot filter.",
+          "Evaluate": "Real-time map needs sensor partnerships (high effort). Reservation is highest monetization. Accessible filter is low effort, high goodwill.",
+          "Summarize": "Partner with garages for reservation API first. Add IoT sensor data in phase 2. Launch accessible filter at launch."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Addresses supply-side partnership challenge, dynamic pricing insight, accessible user segment",
+        "good": "Core flow covered, practical solutions",
+        "fair": "App idea but ignores supply constraints",
+        "poor": "No supply-side thinking"
+      },
+      "keyPoints": ["Supply-side partnership challenge", "Reservation as monetization", "Accessible parking segment", "IoT sensor data"]
+    },
+    {
+      "id": "pd005",
+      "category": "product-design",
+      "difficulty": "hard",
+      "framework": "CIRCLES",
+      "source": "Swipe to Unlock",
+      "company": "Apple",
+      "question": "Design the next version of Apple Watch.",
+      "sampleAnswer": {
+        "overview": "Clarify: new hardware iteration or new software capabilities? I'll focus on new software capabilities for Watch OS.",
+        "steps": {
+          "Comprehend": "Enhance Apple Watch for health-focused users. Assume same hardware, new software.",
+          "Identify": "Fitness enthusiasts, chronic condition patients (diabetes, heart), elderly, productivity users.",
+          "Report needs": "More actionable health insights, earlier warning of health issues, seamless integration with care providers.",
+          "Cut/Prioritize": "Biggest unmet need: translating health data into action. Current gap: data without context.",
+          "List solutions": "1) AI health coaching with daily nudges. 2) Doctor-share health report PDF. 3) Medication adherence tracking. 4) Fall prediction (pre-fall vs. post-fall detection).",
+          "Evaluate": "AI coaching has broad appeal. Doctor-share enables care coordination. Fall prediction is breakthrough for elderly segment.",
+          "Summarize": "AI health coach + doctor-share report as flagship features for Watch OS next release."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Distinguishes hardware vs. software scope, addresses health ecosystem integration, care provider as stakeholder",
+        "good": "Health focus with multiple user segments",
+        "fair": "Generic fitness features",
+        "poor": "No user grounding, just specs"
+      },
+      "keyPoints": ["Scope clarification: hardware vs. software", "Care provider integration", "Actionable insights vs. raw data", "Fall prediction innovation"]
+    },
+    {
+      "id": "pd006",
+      "category": "product-design",
+      "difficulty": "medium",
+      "framework": "CIRCLES",
+      "source": "Decode and Conquer",
+      "company": "Airbnb",
+      "question": "Design a product for frequent business travelers.",
+      "sampleAnswer": {
+        "overview": "CIRCLES applied to business travel product.",
+        "steps": {
+          "Comprehend": "B2B-leaning product for road warriors, 10+ trips/year.",
+          "Identify": "Consultants, sales reps, executives. Age 28-50. Heavy expense reporting pain.",
+          "Report needs": "Reliable same-hotel stays, corporate billing, fast check-in, loyalty points consolidation.",
+          "Cut/Prioritize": "Biggest pain: expense reporting and corporate approval workflows.",
+          "List solutions": "1) Corporate account with direct billing. 2) Saved preferences (room type, floor, pillow). 3) Loyalty points import from hotel chains. 4) AI itinerary builder.",
+          "Evaluate": "Corporate billing removes biggest friction. Saved preferences is delight feature. Loyalty import requires partnerships.",
+          "Summarize": "Corporate billing + saved preferences as MVP. Differentiation vs. hotels.com: personalization at scale."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Identifies corporate billing as key unlock, B2B revenue model insight, loyalty as competitive moat",
+        "good": "Business traveler needs well articulated",
+        "fair": "Generic travel features",
+        "poor": "Consumer travel thinking applied to business"
+      },
+      "keyPoints": ["Corporate billing as primary unlock", "Expense reporting pain", "Loyalty consolidation", "B2B revenue model"]
+    },
+    {
+      "id": "pd007",
+      "category": "product-design",
+      "difficulty": "medium",
+      "framework": "CIRCLES",
+      "source": "The Product Manager Interview",
+      "company": "Uber",
+      "question": "Design Uber for kids.",
+      "sampleAnswer": {
+        "overview": "This is a safety-critical design — I'll structure with CIRCLES and put safety at the center.",
+        "steps": {
+          "Comprehend": "Rideshare for minors (under 18), likely 10-17. Parents as payers/approvers.",
+          "Identify": "Kids: school commute, extracurriculars. Parents: primary decision makers. Drivers: background-checked specialists.",
+          "Report needs": "Parents: real-time tracking, verified drivers, child check-in. Kids: easy request, safe ride.",
+          "Cut/Prioritize": "Safety and trust are non-negotiables. Can't launch without solving both.",
+          "List solutions": "1) Enhanced driver background check + child transport certification. 2) Parent live tracking with ETA. 3) Kid-only confirmation screen with PIN. 4) No cash, parent card only.",
+          "Evaluate": "Driver certification is highest trust signal. PIN confirmation prevents stranger pickup. Live tracking is table stakes for parents.",
+          "Summarize": "Launch with certified drivers, parent tracking, PIN confirmation. Trust over growth."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Safety-first framing, parent as decision maker, driver certification insight, PIN/confirmation mechanic",
+        "good": "Safety addressed, parent tracking included",
+        "fair": "Basic safety features, misses driver certification",
+        "poor": "Standard rideshare with age filter"
+      },
+      "keyPoints": ["Parent as primary user/payer", "Driver certification is table stakes", "PIN confirmation mechanic", "Trust over growth principle"]
+    },
+    {
+      "id": "pd008",
+      "category": "product-design",
+      "difficulty": "hard",
+      "framework": "CIRCLES",
+      "source": "Cracking the PM Interview",
+      "company": "Microsoft",
+      "question": "Design a product that helps people learn a new language.",
+      "sampleAnswer": {
+        "overview": "Language learning product using CIRCLES.",
+        "steps": {
+          "Comprehend": "Mobile app for adult language learners. Assume self-directed, not classroom.",
+          "Identify": "Casual learners (travel), professional learners (career), heritage speakers reconnecting.",
+          "Report needs": "Real conversation practice, vocabulary retention, progress feedback, fitting into daily routine.",
+          "Cut/Prioritize": "Biggest failure mode: learners quit after 2 weeks. Key need: habit formation + speaking confidence.",
+          "List solutions": "1) AI conversation partner (voice). 2) Spaced repetition for vocabulary. 3) Contextual learning via Netflix subtitles. 4) Streak + social accountability.",
+          "Evaluate": "AI conversation partner is differentiator. Spaced repetition is proven. Netflix integration is viral but requires licensing.",
+          "Summarize": "AI voice conversation + spaced repetition as core. Streak mechanic for retention. Skip Netflix for MVP."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Identifies habit formation as core problem, AI conversation as key differentiator, retention mechanics",
+        "good": "Multiple learning modalities, retention addressed",
+        "fair": "Standard Duolingo clone features",
+        "poor": "No retention thinking"
+      },
+      "keyPoints": ["Habit formation is the real problem", "AI conversation as differentiator", "Spaced repetition for retention", "2-week dropout problem"]
+    },
+    {
+      "id": "met001",
+      "category": "metrics",
+      "difficulty": "medium",
+      "framework": "DIGS",
+      "source": "Cracking the PM Interview",
+      "company": "Amazon",
+      "question": "You're the PM for Amazon Prime. How would you measure the success of the product?",
+      "sampleAnswer": {
+        "overview": "I'll use the DIGS framework: Define goal, Identify metrics, Guard against gaming, Segment.",
+        "steps": {
+          "Define goal": "Amazon Prime's goal is to increase customer lifetime value and purchase frequency through loyalty.",
+          "Identify metrics": "North star: Prime member retention rate (12-month). Supporting: purchase frequency (Prime vs. non-Prime), average order value, streaming hours/month, grocery delivery usage, new Prime signups.",
+          "Guard against gaming": "Avoid optimizing for sign-ups at cost of retention. Watch for members who sign up for free trial then cancel.",
+          "Segment": "By tenure (new vs. 2yr+), by usage (streaming heavy vs. shopping heavy), by geography."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Ties metrics to business goal, proposes north star + supporting metrics, guards against gaming, segments",
+        "good": "Multiple metrics with rationale, north star identified",
+        "fair": "Lists metrics without framework",
+        "poor": "One metric or vanity metrics only"
+      },
+      "keyPoints": ["North star: retention rate", "LTV and purchase frequency", "Free trial cancellation as gaming risk", "Segment by usage type"]
+    },
+    {
+      "id": "met002",
+      "category": "metrics",
+      "difficulty": "medium",
+      "framework": "DIGS",
+      "source": "Decode and Conquer",
+      "company": "Facebook",
+      "question": "How would you measure the success of Facebook Stories?",
+      "sampleAnswer": {
+        "overview": "Define the goal for Stories, then identify metrics using DIGS.",
+        "steps": {
+          "Define goal": "Stories goal: increase daily engagement and shift users toward ephemeral, authentic sharing vs. curated feed posts.",
+          "Identify metrics": "North star: daily story viewers / DAU. Supporting: stories created per day, story completion rate, reply rate, story-to-feed cannibalization rate.",
+          "Guard against gaming": "Don't optimize completion rate by making stories shorter — watch content quality. Story creation might cannibalize feed posts.",
+          "Segment": "Age (Gen Z vs. Millennial), creator vs. viewer, new user vs. power user."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Identifies cannibalization risk, completion rate nuance, creator vs. viewer segmentation",
+        "good": "Engagement metrics with rationale",
+        "fair": "Views and likes only",
+        "poor": "No framework, single metric"
+      },
+      "keyPoints": ["Cannibalization of feed as risk", "Story completion rate nuance", "Creator vs. viewer ratio", "Ephemeral vs. curated positioning"]
+    },
+    {
+      "id": "met003",
+      "category": "metrics",
+      "difficulty": "hard",
+      "framework": "DIGS",
+      "source": "The Product Manager Interview",
+      "company": "Spotify",
+      "question": "You just launched a new podcast discovery feature. What metrics do you track in the first 30 days?",
+      "sampleAnswer": {
+        "overview": "New feature launch requires both adoption and quality metrics.",
+        "steps": {
+          "Define goal": "Get users to discover and listen to new podcasts they wouldn't have found otherwise.",
+          "Identify metrics": "Adoption: feature click-through rate. Engagement: podcast plays initiated from discovery. Quality: episode completion rate, saves, subscriptions from discovery. 30-day retention of users who used feature.",
+          "Guard against gaming": "Don't optimize CTR alone — cheap recommendations inflate clicks. Watch that discovery doesn't just surface popular podcasts (already discoverable).",
+          "Segment": "New Spotify users vs. existing, podcast-naive vs. existing podcast listeners."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Distinguishes adoption vs. quality, completion rate as quality signal, novelty of recommendations",
+        "good": "Multiple metric types, 30-day framing",
+        "fair": "Clicks and plays only",
+        "poor": "Downloads only"
+      },
+      "keyPoints": ["Adoption vs. quality distinction", "Completion rate as quality signal", "Novelty of recommendations matters", "New vs. existing podcast listeners"]
+    },
+    {
+      "id": "met004",
+      "category": "metrics",
+      "difficulty": "medium",
+      "framework": "DIGS",
+      "source": "Swipe to Unlock",
+      "company": "Google",
+      "question": "How would you measure the success of Google Maps?",
+      "sampleAnswer": {
+        "overview": "Google Maps serves multiple goals — I'll clarify before selecting metrics.",
+        "steps": {
+          "Define goal": "Navigation accuracy and usage frequency. Secondary: local business discovery (monetization).",
+          "Identify metrics": "North star: navigations completed per DAU. Supporting: ETA accuracy (actual vs. predicted time), search-to-route conversion, business listing clicks, offline map usage.",
+          "Guard against gaming": "ETA accuracy can be gamed by padding estimates. Business click monetization can harm UX if over-optimized.",
+          "Segment": "Driving vs. transit vs. walking, urban vs. suburban, new user vs. power user."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "ETA accuracy as quality metric, business discovery monetization angle, mode of transport segmentation",
+        "good": "Navigation + discovery metrics",
+        "fair": "DAU and searches only",
+        "poor": "Downloads or ratings only"
+      },
+      "keyPoints": ["ETA accuracy as quality signal", "Business discovery = monetization", "Mode of transport segmentation", "Navigations completed as north star"]
+    },
+    {
+      "id": "met005",
+      "category": "metrics",
+      "difficulty": "hard",
+      "framework": "DIGS",
+      "source": "Cracking the PM Interview",
+      "company": "LinkedIn",
+      "question": "LinkedIn's DAU/MAU ratio dropped 10% last month. How do you investigate?",
+      "sampleAnswer": {
+        "overview": "This is a metric drop investigation. I'll diagnose before prescribing.",
+        "steps": {
+          "Define goal": "Understand root cause of DAU/MAU drop before taking action.",
+          "Identify metrics": "Check: is MAU stable or rising (making ratio drop)? Is DAU dropping? Segment by platform (iOS/Android/web), geography, user cohort, feature area.",
+          "Guard against gaming": "Ensure we're not comparing different definitions of 'active' if any definition changed.",
+          "Segment": "New vs. returning users, job seekers vs. professionals, mobile vs. desktop."
+        },
+        "investigationSteps": "1) Confirm data validity — logging bug? 2) Segment by platform. 3) Segment by user type. 4) Check external events (competitor launch, PR issue). 5) Correlate with feature releases."
+      },
+      "evaluationRubric": {
+        "excellent": "Checks data validity first, segments systematically, considers external factors, doesn't jump to solution",
+        "good": "Multiple hypotheses, systematic approach",
+        "fair": "Some segmentation but jumps to solution",
+        "poor": "Immediately suggests a fix without investigation"
+      },
+      "keyPoints": ["Data validity check first", "Segment before diagnosing", "External factors", "Don't conflate DAU drop with MAU rise"]
+    },
+    {
+      "id": "beh001",
+      "category": "behavioral",
+      "difficulty": "medium",
+      "framework": "STAR",
+      "source": "Cracking the PM Interview",
+      "company": "Google",
+      "question": "Tell me about a time when you had to make a decision with incomplete information.",
+      "sampleAnswer": {
+        "overview": "STAR format: Situation, Task, Action, Result.",
+        "steps": {
+          "Situation": "We were launching a new feature to 10% of users. Two days before launch, our analytics showed a potential drop in session length for the test group, but the sample size was only 500 users over 3 days.",
+          "Task": "Decide whether to delay the launch to get more data or proceed on schedule.",
+          "Action": "I made a tiered decision: proceed with launch but cap at 5% instead of 10%. Set a clear kill-switch metric (>5% session drop in 48hrs = rollback). Communicated the risk and contingency plan to stakeholders.",
+          "Result": "Launched successfully. Saw a 2% session drop (within acceptable range). Rolled out to full traffic 2 weeks later after confirming stability."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Specific situation, shows risk framework, quantified threshold, communicated to stakeholders, measured result",
+        "good": "Clear STAR structure, specific decision, outcome stated",
+        "fair": "Vague situation, unclear action",
+        "poor": "No structure, no quantification"
+      },
+      "keyPoints": ["Quantified decision threshold", "Kill-switch / contingency planning", "Stakeholder communication", "Measured outcome"]
+    },
+    {
+      "id": "beh002",
+      "category": "behavioral",
+      "difficulty": "medium",
+      "framework": "STAR",
+      "source": "Decode and Conquer",
+      "company": "Meta",
+      "question": "Describe a situation where you had to influence without authority.",
+      "sampleAnswer": {
+        "overview": "STAR for influence without authority.",
+        "steps": {
+          "Situation": "Engineering team owned a shared API that was causing latency for my product. They had their own roadmap and my feature wasn't a priority for them.",
+          "Task": "Get the API performance improvement on their roadmap without direct authority.",
+          "Action": "I built a business case with user impact data: showed 300ms latency was causing 8% cart abandonment. Aligned with their team's OKR on platform reliability. Proposed a joint sprint with my engineer helping on their backlog in exchange. Got their eng lead to champion it.",
+          "Result": "Fix was shipped in 6 weeks. Cart abandonment dropped to 3%. Established a cross-team collaboration pattern that became a template."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Data-driven persuasion, OKR alignment tactic, quid-pro-quo offer, systemic outcome",
+        "good": "Clear influence tactics, measurable result",
+        "fair": "Vague persuasion, no tactics named",
+        "poor": "Escalated to manager immediately"
+      },
+      "keyPoints": ["Data-driven business case", "Align with their OKRs", "Offer something in return", "Avoid escalation as first move"]
+    },
+    {
+      "id": "beh003",
+      "category": "behavioral",
+      "difficulty": "medium",
+      "framework": "STAR",
+      "source": "The Product Manager Interview",
+      "company": "Amazon",
+      "question": "Tell me about a time you failed and what you learned.",
+      "sampleAnswer": {
+        "overview": "Show genuine self-awareness and learning with STAR.",
+        "steps": {
+          "Situation": "I launched a new onboarding flow based on qualitative feedback from 8 user interviews without quantitative validation.",
+          "Task": "Own the results of the launch.",
+          "Action": "Shipped to 100% traffic without A/B test because I was confident from user research. New user activation dropped 12% in week one.",
+          "Result": "Rolled back within 72 hours. I learned to always A/B test even when qualitative data seems conclusive. Now I run every onboarding change through an experiment first. Activation is 6% above original baseline."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Real failure with real numbers, owns it without deflecting, specific learning applied, follow-up improvement",
+        "good": "Genuine failure, clear lesson",
+        "fair": "Minor failure, lesson is vague",
+        "poor": "Humble brag disguised as failure"
+      },
+      "keyPoints": ["Pick a real failure", "Own it completely", "Specific lesson with process change", "Follow-up showing improvement"]
+    },
+    {
+      "id": "beh004",
+      "category": "behavioral",
+      "difficulty": "medium",
+      "framework": "STAR",
+      "source": "Cracking the PM Interview",
+      "company": "Google",
+      "question": "Tell me about a product you launched that you're most proud of.",
+      "sampleAnswer": {
+        "overview": "Use STAR but focus on impact and PM judgment.",
+        "steps": {
+          "Situation": "Led launch of a real-time collaboration feature for a B2B SaaS product. Cross-functional team of 8.",
+          "Task": "Ship within 4 months to hit enterprise sales cycle.",
+          "Action": "Ran 3-week discovery sprint with top 5 enterprise customers. Cut scope by 40% to hit deadline. Built in beta with 3 design partners. Ran internal alpha for dogfooding.",
+          "Result": "Shipped on time. Became #1 reason cited in enterprise deals. Drove 22% expansion revenue in Q3. Went on to expand the feature into an entire product line."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Shows PM craft (discovery, scope decisions, beta), quantified impact, business outcome",
+        "good": "Clear story, impact measured",
+        "fair": "Feature described but impact vague",
+        "poor": "No PM judgment shown, just shipped a feature"
+      },
+      "keyPoints": ["Show PM craft not just shipping", "Scope trade-off decisions", "Customer co-development", "Business impact beyond feature metrics"]
+    },
+    {
+      "id": "beh005",
+      "category": "behavioral",
+      "difficulty": "hard",
+      "framework": "STAR",
+      "source": "Decode and Conquer",
+      "company": "Apple",
+      "question": "Describe a time you disagreed with your manager and how you handled it.",
+      "sampleAnswer": {
+        "overview": "Show professional disagreement that's data-driven and respects the relationship.",
+        "steps": {
+          "Situation": "Manager wanted to cut user research budget mid-quarter to hit cost targets. I believed the research was critical before a major redesign.",
+          "Task": "Make the case for keeping research without damaging the relationship.",
+          "Action": "I didn't push back emotionally. I prepared a risk analysis: what would we not know without research, and what could that cost in rework. Showed 3 examples of past launches that skipped research and needed expensive rework. Proposed a compromise: cut from 20 participants to 8 (still statistically useful).",
+          "Result": "Manager agreed to the compromise. Ran 8-person study. Found a critical usability issue that would have required 3-week rework. Saved estimated 60 eng-hours."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Data-driven disagreement, preserves relationship, offers compromise, quantified outcome",
+        "good": "Professional approach, clear disagreement, resolution",
+        "fair": "Vague disagreement, outcome unclear",
+        "poor": "Escalated or capitulated without advocating"
+      },
+      "keyPoints": ["Data over emotion", "Propose a compromise", "Preserve the relationship", "Show cost of not doing it your way"]
+    },
+    {
+      "id": "beh006",
+      "category": "behavioral",
+      "difficulty": "medium",
+      "framework": "STAR",
+      "source": "The Product Manager Interview",
+      "company": "Microsoft",
+      "question": "Tell me about a time you had to prioritize between multiple competing projects.",
+      "sampleAnswer": {
+        "overview": "Show a structured prioritization approach.",
+        "steps": {
+          "Situation": "Had 3 high-priority requests land in one week: a critical bug affecting 5% of users, a feature request from our top enterprise client, and an internal tooling improvement requested by engineering.",
+          "Task": "Decide sequencing with limited sprint capacity.",
+          "Action": "Applied a modified RICE score to each. Bug: high reach, high impact, high confidence = #1. Enterprise feature: medium reach but strategic revenue risk, direct sales ask = #2. Internal tooling: low urgency, no user impact = deferred to next sprint. Communicated the decision and rationale to each stakeholder proactively.",
+          "Result": "Bug fixed in 2 days. Enterprise feature shipped following sprint. Engineering team appreciated transparent communication. No stakeholder escalation."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Named framework, stakeholder communication, transparent trade-offs, no escalation",
+        "good": "Clear prioritization logic, multiple stakeholders handled",
+        "fair": "Decided but no framework",
+        "poor": "First-come-first-served or by loudest stakeholder"
+      },
+      "keyPoints": ["Named prioritization framework", "Proactive stakeholder communication", "Bug vs. feature vs. tech debt trade-off", "Transparent rationale"]
+    },
+    {
+      "id": "str001",
+      "category": "strategy",
+      "difficulty": "hard",
+      "framework": "SWOT",
+      "source": "Swipe to Unlock",
+      "company": "Apple",
+      "question": "Should Apple enter the search engine market?",
+      "sampleAnswer": {
+        "overview": "Frame this as a strategic make-vs-buy decision using market analysis.",
+        "steps": {
+          "Strengths": "Massive distribution through iOS/Safari. Deep hardware integration. Privacy as differentiator. Strong brand trust.",
+          "Weaknesses": "No search index. Huge infrastructure investment needed. Late to market. Google relationship at risk (Apple earns ~$18B/year from Google default deal).",
+          "Opportunities": "AI-native search is a category reset. Privacy-first search has growing demand. Siri could be the interface.",
+          "Threats": "Google's moat in web crawling and ad revenue. Microsoft/Bing + ChatGPT. User switching costs.",
+          "Recommendation": "Don't build a traditional search engine — pivot Siri into an AI-first answer engine. Compete on quality of answer, not index size. Start with on-device queries to protect privacy positioning."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Identifies the Google revenue risk, AI-native pivot insight, Siri integration, privacy differentiation",
+        "good": "SWOT balanced, recommendation with rationale",
+        "fair": "Basic SWOT, no recommendation",
+        "poor": "Yes/no answer without analysis"
+      },
+      "keyPoints": ["$18B Google deal risk", "AI-native search as category reset", "Siri as interface", "Privacy as differentiator"]
+    },
+    {
+      "id": "str002",
+      "category": "strategy",
+      "difficulty": "hard",
+      "framework": "SWOT",
+      "source": "Decode and Conquer",
+      "company": "Google",
+      "question": "Should Google build a smartphone?",
+      "sampleAnswer": {
+        "overview": "Strategic entry decision. Google already has Pixel — I'll reframe: should Google double down on hardware vs. remain software-first?",
+        "steps": {
+          "Strengths": "AI and ML leadership. Android OS control. Deep data from Google services. Brand trust in tech.",
+          "Weaknesses": "No manufacturing scale vs. Apple/Samsung. Carrier relationships are weak. Hardware margin is thin.",
+          "Opportunities": "AI-native phone category. Pixel as Tensor AI showcase. Vertical integration like Apple.",
+          "Threats": "Apple's ecosystem lock-in. Samsung's scale. Chinese manufacturers on price.",
+          "Recommendation": "Yes, but stay premium niche. Use Pixel as AI hardware showcase, not volume play. Focus on Tensor chip differentiation."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Reframes question (Pixel exists), AI showcase strategy, niche vs. volume insight",
+        "good": "Balanced analysis, clear recommendation",
+        "fair": "Generic SWOT",
+        "poor": "Ignores that Pixel already exists"
+      },
+      "keyPoints": ["Pixel already exists — reframe", "AI showcase strategy", "Niche premium vs. volume", "Tensor chip differentiation"]
+    },
+    {
+      "id": "str003",
+      "category": "strategy",
+      "difficulty": "hard",
+      "framework": "SWOT",
+      "source": "The Product Manager Interview",
+      "company": "Amazon",
+      "question": "Should Amazon enter the healthcare market?",
+      "sampleAnswer": {
+        "overview": "Amazon is already in healthcare (Amazon Care, PillPack, One Medical). I'll frame as: how should Amazon expand in healthcare?",
+        "steps": {
+          "Strengths": "Logistics and last-mile delivery. AWS for healthcare data. Trust with consumers. Prime relationship.",
+          "Weaknesses": "No clinical expertise. HIPAA compliance complexity. Physician workforce gap. Regulatory risk.",
+          "Opportunities": "Pharmacy delivery (PillPack). Primary care (One Medical). Insurance. Wearables + Alexa health.",
+          "Threats": "CVS/Aetna vertical integration. UnitedHealth scale. Patient trust concerns with data.",
+          "Recommendation": "Focus on logistics-adjacent: pharmacy delivery and home diagnostics. Avoid direct clinical care where trust and expertise gaps are largest."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Knows Amazon's existing healthcare plays, logistics angle, data trust concern, regulatory",
+        "good": "Balanced SWOT, specific opportunities",
+        "fair": "Generic healthcare analysis",
+        "poor": "Unaware Amazon is already in healthcare"
+      },
+      "keyPoints": ["Amazon already has PillPack and One Medical", "Logistics as core strength", "Data trust as risk", "Pharmacy vs. clinical care distinction"]
+    },
+    {
+      "id": "str004",
+      "category": "strategy",
+      "difficulty": "medium",
+      "framework": "SWOT",
+      "source": "Cracking the PM Interview",
+      "company": "Netflix",
+      "question": "How should Netflix respond to the growth of Disney+?",
+      "sampleAnswer": {
+        "overview": "Competitive response strategy for Netflix.",
+        "steps": {
+          "Strengths": "Original content library. Global reach. Personalization algorithm. Brand awareness.",
+          "Weaknesses": "No franchise IP (no Marvel/Star Wars). Content spend is high. Password sharing erodes revenue.",
+          "Opportunities": "Live events (sports, concerts). Gaming expansion. Ad-supported tier. International originals.",
+          "Threats": "Disney+, HBO Max, Apple TV+ — fragmentation. Content licensing costs rising. Streaming fatigue.",
+          "Recommendation": "Double down on global originals (India, Korea, Brazil) where Disney has no local moat. Expand into gaming for engagement. Introduce live events for appointment viewing."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Global originals as moat, gaming expansion insight, live events for appointment viewing, password sharing acknowledgment",
+        "good": "Differentiators identified, concrete response",
+        "fair": "Generic more-content strategy",
+        "poor": "Price war recommendation"
+      },
+      "keyPoints": ["Global originals as defensive moat", "Gaming for engagement", "Live events for appointment viewing", "No IP library is key weakness"]
+    },
+    {
+      "id": "str005",
+      "category": "strategy",
+      "difficulty": "hard",
+      "framework": "SWOT",
+      "source": "Swipe to Unlock",
+      "company": "Microsoft",
+      "question": "What should Microsoft do with its LinkedIn acquisition?",
+      "sampleAnswer": {
+        "overview": "LinkedIn + Microsoft integration strategy.",
+        "steps": {
+          "Strengths": "LinkedIn's professional network data. Microsoft's enterprise relationships. Office 365 distribution.",
+          "Weaknesses": "LinkedIn has low daily engagement vs. other social networks. LinkedIn Learning competes with Coursera/Udemy.",
+          "Opportunities": "LinkedIn data in Microsoft Copilot. Resume import into Teams. CRM integration with Dynamics. Recruiting in Teams workflow.",
+          "Threats": "Privacy concerns with data integration. User backlash if LinkedIn feels too Microsoft-heavy.",
+          "Recommendation": "Integrate LinkedIn's professional graph into Microsoft Copilot — hiring, networking, and professional development inside Teams. Keep LinkedIn brand separate to preserve user trust."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Copilot integration insight, professional graph as data asset, brand preservation, CRM angle",
+        "good": "Office + LinkedIn integration logic",
+        "fair": "Surface-level integration ideas",
+        "poor": "Just a summary of what LinkedIn does"
+      },
+      "keyPoints": ["Professional graph as AI training data", "Copilot integration", "Keep LinkedIn brand separate", "CRM + recruiting in Teams workflow"]
+    },
+    {
+      "id": "exe001",
+      "category": "execution",
+      "difficulty": "medium",
+      "framework": "RICE",
+      "source": "Cracking the PM Interview",
+      "company": "Microsoft",
+      "question": "You have three features to build but only capacity for one this quarter. How do you prioritize?",
+      "sampleAnswer": {
+        "overview": "Use RICE scoring to create objective prioritization.",
+        "steps": {
+          "Reach": "Estimate users affected per quarter for each feature.",
+          "Impact": "Rate 1-3: minimal, significant, massive impact on core metric.",
+          "Confidence": "% confidence in estimates (100% = proven, 50% = speculative).",
+          "Effort": "Weeks of engineering work.",
+          "Process": "Score = (Reach × Impact × Confidence) / Effort. Present scores transparently. Discuss assumptions with team. Get stakeholder buy-in on the framework before scoring."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "RICE formula articulated, confidence factor noted, stakeholder alignment process, not just math",
+        "good": "Scoring framework used, comparison made",
+        "fair": "Some prioritization logic, no framework",
+        "poor": "Picks by intuition or HiPPO"
+      },
+      "keyPoints": ["RICE formula: Reach × Impact × Confidence / Effort", "Confidence factor prevents overconfidence", "Get stakeholder buy-in on framework first", "Present assumptions transparently"]
+    },
+    {
+      "id": "exe002",
+      "category": "execution",
+      "difficulty": "medium",
+      "framework": "RICE",
+      "source": "Decode and Conquer",
+      "company": "Amazon",
+      "question": "Your team's sprint velocity dropped 30%. What do you do?",
+      "sampleAnswer": {
+        "overview": "Diagnose before prescribing.",
+        "steps": {
+          "Diagnose": "1) Data: is this one sprint or a trend? 2) Scope creep: did stories grow mid-sprint? 3) Dependencies: blocked on another team? 4) Morale: team events (PTO, attrition)? 5) Tech debt: testing/bugs eating capacity?",
+          "Hypotheses": "Most common: unplanned work (bugs, incidents), scope creep, or blocking dependencies.",
+          "Action": "Hold a retrospective focused on blockers. Quantify unplanned work as % of sprint. Negotiate with stakeholders to protect sprint capacity.",
+          "Prevention": "Add 20% buffer for unplanned work. Define sprint contract: no new items after planning."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Diagnoses before acting, multiple hypotheses, unplanned work quantification, process fix",
+        "good": "Retro approach, identifies common causes",
+        "fair": "Goes straight to team management",
+        "poor": "Blames team or adds more process immediately"
+      },
+      "keyPoints": ["Diagnose root cause first", "Unplanned work quantification", "Sprint contract / change freeze", "Retro as diagnostic tool"]
+    },
+    {
+      "id": "exe003",
+      "category": "execution",
+      "difficulty": "hard",
+      "framework": "RICE",
+      "source": "The Product Manager Interview",
+      "company": "Google",
+      "question": "A feature you launched has a bug affecting 5% of users. What do you do?",
+      "sampleAnswer": {
+        "overview": "Incident response framework.",
+        "steps": {
+          "Assess severity": "5% of users — how many is that in absolute terms? What's the user impact (data loss vs. UI glitch)? Is it growing?",
+          "Immediate actions": "If severe: rollback or kill-switch. If minor: hotfix. Notify customer support with FAQ. Update status page if external.",
+          "Communicate": "Internal: eng lead, support, stakeholders. External: only if user-visible.",
+          "Root cause": "Post-mortem within 48hrs. 5 Whys. Process fix to prevent recurrence."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Absolute vs. relative framing, rollback consideration, communication plan, post-mortem commitment",
+        "good": "Severity assessment, communication, fix",
+        "fair": "Fix first, communicate second",
+        "poor": "No severity assessment, no communication"
+      },
+      "keyPoints": ["Absolute user count matters", "Rollback consideration", "Communication plan (internal + external)", "Post-mortem and 5 Whys"]
+    },
+    {
+      "id": "exe004",
+      "category": "execution",
+      "difficulty": "medium",
+      "framework": "RICE",
+      "source": "Cracking the PM Interview",
+      "company": "Meta",
+      "question": "How do you write a product requirements document (PRD)?",
+      "sampleAnswer": {
+        "overview": "PRD structure for a PM interview context.",
+        "steps": {
+          "Problem statement": "What user problem are we solving? With evidence.",
+          "Goals and non-goals": "What success looks like. Explicit non-goals prevent scope creep.",
+          "User stories": "Who does what and why. Acceptance criteria.",
+          "Requirements": "Functional (what it does) and non-functional (performance, security, accessibility).",
+          "Metrics": "How we measure success. Leading and lagging indicators.",
+          "Open questions": "Unresolved decisions. Dependencies."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Non-goals explicit, acceptance criteria, leading + lagging metrics, open questions",
+        "good": "Core sections covered",
+        "fair": "Missing non-goals or metrics",
+        "poor": "Just feature list"
+      },
+      "keyPoints": ["Non-goals as important as goals", "Acceptance criteria in user stories", "Leading vs. lagging metrics", "Open questions prevent assumptions"]
+    },
+    {
+      "id": "tech001",
+      "category": "technical",
+      "difficulty": "medium",
+      "framework": "System Design",
+      "source": "Swipe to Unlock",
+      "company": "Google",
+      "question": "Explain how you would design the backend system for a URL shortener.",
+      "sampleAnswer": {
+        "overview": "System design for a URL shortener — scope clarification first.",
+        "steps": {
+          "Clarify": "Scale: how many URLs/day? Read-heavy or write-heavy? Custom aliases needed? Analytics?",
+          "Core components": "API (POST /shorten, GET /{code}). Database (URL → code mapping). Cache (Redis for hot URLs). ID generation (base62 encoding of auto-increment ID or hash).",
+          "Scale": "100M URLs/day = ~1160 writes/sec. Read-heavy: 10:1 read/write ratio. Use CDN for redirect.",
+          "Trade-offs": "Hash collision vs. sequential ID. Central ID generator vs. distributed. Cache TTL for popular URLs."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Clarifies scale, cache reasoning, hash vs. sequential trade-off, CDN for performance",
+        "good": "Core components, basic scale reasoning",
+        "fair": "Describes components without scale",
+        "poor": "No database or caching consideration"
+      },
+      "keyPoints": ["Clarify scale first", "Redis cache for hot URLs", "Base62 encoding", "Hash collision trade-off"]
+    },
+    {
+      "id": "tech002",
+      "category": "technical",
+      "difficulty": "medium",
+      "framework": "System Design",
+      "source": "Swipe to Unlock",
+      "company": "Amazon",
+      "question": "How does HTTPS work? Why does it matter for a PM?",
+      "sampleAnswer": {
+        "overview": "Explain TLS/SSL at a PM-appropriate depth.",
+        "steps": {
+          "How it works": "HTTPS = HTTP + TLS. Client and server do a TLS handshake: server presents certificate signed by CA. Both agree on encryption key. All traffic encrypted.",
+          "Why PM cares": "1) Trust signal — padlock icon affects conversion rates. 2) SEO — Google ranks HTTPS sites higher. 3) Data privacy — required for PII, payments, HIPAA. 4) Mixed content bugs can break features.",
+          "PM implications": "Require HTTPS from day one. Audit third-party resources for mixed content. Know that certificate expiry causes outages."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Conversion rate impact, SEO implication, PII/compliance angle, mixed content awareness",
+        "good": "How it works + PM relevance",
+        "fair": "Technical explanation only",
+        "poor": "Just says 'it's secure'"
+      },
+      "keyPoints": ["TLS handshake", "Padlock = trust = conversion", "SEO benefit", "Certificate expiry = outage risk"]
+    },
+    {
+      "id": "tech003",
+      "category": "technical",
+      "difficulty": "hard",
+      "framework": "System Design",
+      "source": "Swipe to Unlock",
+      "company": "Google",
+      "question": "What is A/B testing and what are common mistakes PMs make with it?",
+      "sampleAnswer": {
+        "overview": "A/B testing fundamentals plus pitfalls.",
+        "steps": {
+          "What it is": "Randomly assign users to control (A) or variant (B). Measure difference in a target metric. Use statistical significance to decide.",
+          "Key concepts": "Sample size (determined by minimum detectable effect), statistical significance (p<0.05), test duration (at least 1-2 weeks for seasonality).",
+          "Common mistakes": "1) Stopping test early when you see a positive result (peeking problem). 2) Testing too many variants at once. 3) Wrong metric — optimizing for clicks, not conversions. 4) Ignoring segment effects (treatment works for mobile, hurts desktop). 5) No SRM (sample ratio mismatch) check."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Peeking problem, SRM check, segment effects, metric selection issue",
+        "good": "Core concepts + 2-3 mistakes",
+        "fair": "Basic definition + one mistake",
+        "poor": "Just definition"
+      },
+      "keyPoints": ["Peeking problem", "Sample ratio mismatch (SRM)", "Test duration for seasonality", "Metric selection: clicks vs. conversions"]
+    },
+    {
+      "id": "tech004",
+      "category": "technical",
+      "difficulty": "medium",
+      "framework": "System Design",
+      "source": "Swipe to Unlock",
+      "company": "Microsoft",
+      "question": "Explain the difference between SQL and NoSQL databases. When would you use each?",
+      "sampleAnswer": {
+        "overview": "SQL vs. NoSQL trade-off for PM context.",
+        "steps": {
+          "SQL": "Structured data, fixed schema, ACID transactions. Best for: financial data, relational queries, reporting.",
+          "NoSQL": "Flexible schema, horizontal scale, eventual consistency. Types: document (MongoDB), key-value (Redis), columnar (Cassandra), graph (Neo4j).",
+          "When to use SQL": "User account data, orders, inventory — anything requiring strong consistency and joins.",
+          "When to use NoSQL": "Session data, activity feeds, product catalog with variable attributes, real-time analytics.",
+          "PM implication": "Schema changes in SQL require migrations (risk). NoSQL is faster to iterate but harder to query."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "ACID vs. eventual consistency, migration risk implication, specific NoSQL types, product examples",
+        "good": "Core trade-off, use cases",
+        "fair": "Basic difference only",
+        "poor": "Incorrect or no distinction"
+      },
+      "keyPoints": ["ACID vs. eventual consistency", "Migration risk in SQL", "Flexible schema = faster iteration", "Real-time analytics → NoSQL"]
+    },
+    {
+      "id": "est001",
+      "category": "estimation",
+      "difficulty": "medium",
+      "framework": "Fermi",
+      "source": "Cracking the PM Interview",
+      "company": "Google",
+      "question": "How many gas stations are in the United States?",
+      "sampleAnswer": {
+        "overview": "Fermi estimation — show your reasoning, not just the number.",
+        "steps": {
+          "Approach": "Bottom-up: how often does a car need gas, and how many cars per station?",
+          "Cars in US": "330M people. ~1.5 people per car household. ~220M cars.",
+          "Refueling frequency": "Car fills up once per week. Station serves customers 14 hours/day. One fill-up takes ~5min. 14×60/5 = 168 fills per pump per day. Typical station has 8 pumps = 1,344 fills/day.",
+          "Stations needed": "220M cars / 7 days = 31M fills/day. 31M / 1,344 = ~23,000 stations. (Real answer: ~150,000 — adjust for rural areas, lower utilization.)",
+          "Calibration": "My estimate of 23K seems low. Add 6x utilization factor for rural/variability = ~140K. Close to real."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Shows reasoning at each step, catches own error, calibrates, close to order of magnitude",
+        "good": "Structured approach, reasonable estimates",
+        "fair": "Some math but missing calibration",
+        "poor": "Guesses without reasoning"
+      },
+      "keyPoints": ["Show reasoning not just answer", "Bottom-up approach", "Calibrate at end", "Order of magnitude counts, not exact"]
+    },
+    {
+      "id": "est002",
+      "category": "estimation",
+      "difficulty": "medium",
+      "framework": "Fermi",
+      "source": "Decode and Conquer",
+      "company": "Google",
+      "question": "How much revenue does the Google Play Store generate per year?",
+      "sampleAnswer": {
+        "overview": "Estimate from top-down: Android users × avg spend.",
+        "steps": {
+          "Android users": "~3B Android devices. ~1B active Google Play users.",
+          "Avg spend": "Most users spend $0. Active spenders (~20%) spend ~$5/month. 200M × $5 × 12 = $12B gross app revenue.",
+          "Google's cut": "Google takes 30% (was 15% for first $1M). Average ~25%. $12B × 25% = $3B.",
+          "Subscriptions": "Growing share. Add 10% premium. ~$3.3B total.",
+          "Real": "Google Play was ~$11B in 2021 — my $3B is revenue to Google (not gross). Directionally correct."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Distinguishes gross vs. Google revenue, 30% cut knowledge, active vs. total user distinction",
+        "good": "Reasonable assumptions, step-by-step",
+        "fair": "Off by more than 10x, some structure",
+        "poor": "Random number"
+      },
+      "keyPoints": ["Total users vs. active spenders", "30% Google cut", "Gross vs. net revenue distinction", "Subscription shift"]
+    },
+    {
+      "id": "est003",
+      "category": "estimation",
+      "difficulty": "hard",
+      "framework": "Fermi",
+      "source": "The Product Manager Interview",
+      "company": "Amazon",
+      "question": "How many Amazon Prime members are there?",
+      "sampleAnswer": {
+        "overview": "Top-down from US households.",
+        "steps": {
+          "US households": "~130M US households. ~60% own a credit card (prerequisite). ~80M eligible.",
+          "Adoption rate": "Amazon is dominant e-commerce. ~50% of US households are Prime. 130M × 50% = 65M US Prime.",
+          "International": "UK, Germany, Japan, India. Total international ~40% of US base = 25M.",
+          "Total": "~90M. (Real: ~200M as of 2021 — my estimate is low, India is larger than expected.)",
+          "Calibration": "India alone has 50M+ Prime subscribers. Adjust upward significantly."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "US vs. international split, India as key market, calibrates at end",
+        "good": "Reasonable US estimate, considers international",
+        "fair": "US-only estimate",
+        "poor": "Guesses"
+      },
+      "keyPoints": ["US vs. international split", "India as large market", "Household adoption rate", "Self-calibration at end"]
+    },
+    {
+      "id": "pd009",
+      "category": "product-design",
+      "difficulty": "medium",
+      "framework": "CIRCLES",
+      "source": "Decode and Conquer",
+      "company": "Twitter",
+      "question": "Design a feature to reduce misinformation on Twitter.",
+      "sampleAnswer": {
+        "overview": "Content integrity design problem — CIRCLES with trust & safety focus.",
+        "steps": {
+          "Comprehend": "Goal: reduce spread of false claims, especially viral ones. Platform: Twitter feed and search.",
+          "Identify": "Casual readers, news consumers, political activists, bot operators, journalists.",
+          "Report needs": "Readers: know what's credible. Platform: protect brand and regulators. Journalists: verify sources.",
+          "Cut/Prioritize": "Viral misinformation > fringe misinformation. Focus on high-reach false claims.",
+          "List solutions": "1) Friction labels on unverified claims before sharing. 2) Source credibility score. 3) Community Notes (already exists — expand). 4) Slow virality: delay retweets of flagged content.",
+          "Evaluate": "Friction labels reduce shares but may create Streisand effect. Community Notes is crowd-sourced and scalable. Slow virality is high impact but controversial.",
+          "Summarize": "Expand Community Notes + friction share labels on automated flagged content. Avoid heavy-handed moderation to preserve free speech perception."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Mentions Community Notes, Streisand effect, virality vs. fringe distinction, regulatory angle",
+        "good": "Multiple interventions, trade-offs noted",
+        "fair": "Basic moderation suggestions",
+        "poor": "Just remove bad content"
+      },
+      "keyPoints": ["Community Notes already exists", "Viral vs. fringe distinction", "Streisand effect risk", "Friction before share > removal"]
+    },
+    {
+      "id": "pd010",
+      "category": "product-design",
+      "difficulty": "hard",
+      "framework": "CIRCLES",
+      "source": "The Product Manager Interview",
+      "company": "Spotify",
+      "question": "Design a social feature for Spotify.",
+      "sampleAnswer": {
+        "overview": "Social feature for music streaming — CIRCLES.",
+        "steps": {
+          "Comprehend": "Add social layer to Spotify without becoming a social network. Goal: increase session length and retention.",
+          "Identify": "Casual listeners, music enthusiasts, concert-goers, friends who share music, DJs.",
+          "Report needs": "Share discoveries with friends, listen together remotely, show off music taste, find concerts.",
+          "Cut/Prioritize": "Listening together (co-listening) and shared discovery have highest retention potential.",
+          "List solutions": "1) Jam sessions: sync listening with friends in real time. 2) Taste match: % music compatibility score with friends. 3) Listening activity feed (already existed — was removed). 4) Collaborative playlist with real-time reactions.",
+          "Evaluate": "Jam sessions is differentiated and drives shared sessions. Taste match is shareable/viral. Activity feed was removed due to privacy complaints — reintroduce with opt-in.",
+          "Summarize": "Launch Jam sessions + opt-in taste match. Measure: shared session frequency and 30-day retention."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Knows activity feed was removed, opt-in privacy lesson, Jam sessions as retention driver",
+        "good": "Social features with differentiation logic",
+        "fair": "Generic social features",
+        "poor": "Comments section on songs"
+      },
+      "keyPoints": ["Activity feed was removed for privacy", "Opt-in for privacy features", "Jam sessions for co-listening", "Taste match is viral/shareable"]
+    },
+    {
+      "id": "met006",
+      "category": "metrics",
+      "difficulty": "medium",
+      "framework": "DIGS",
+      "source": "Cracking the PM Interview",
+      "company": "Uber",
+      "question": "What metrics would you use to measure the health of Uber's marketplace?",
+      "sampleAnswer": {
+        "overview": "Two-sided marketplace metrics — supply and demand must both be healthy.",
+        "steps": {
+          "Define goal": "Efficient matching of riders and drivers at acceptable price and wait time.",
+          "Identify metrics": "Supply: driver utilization rate, driver satisfaction score, driver hours online. Demand: rides completed/day, ride request fulfillment rate, average wait time. Marketplace health: surge pricing frequency, cancellation rate.",
+          "Guard against gaming": "Optimizing driver utilization alone hurts driver earnings. Wait time SLA can be gamed by surge pricing.",
+          "Segment": "By city, time of day, ride type (Pool vs. X vs. Black)."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Both sides of marketplace, fulfillment rate, surge as health indicator, city segmentation",
+        "good": "Supply and demand metrics",
+        "fair": "Demand only",
+        "poor": "Revenue only"
+      },
+      "keyPoints": ["Two-sided marketplace needs supply AND demand metrics", "Ride fulfillment rate", "Surge frequency as marketplace stress signal", "Cancellation rate"]
+    },
+    {
+      "id": "beh007",
+      "category": "behavioral",
+      "difficulty": "medium",
+      "framework": "STAR",
+      "source": "Cracking the PM Interview",
+      "company": "Google",
+      "question": "Tell me about a time you used data to change someone's mind.",
+      "sampleAnswer": {
+        "overview": "STAR showing data-driven influence.",
+        "steps": {
+          "Situation": "Design team wanted to add a new onboarding modal based on gut feel it would improve activation.",
+          "Task": "I believed it would hurt activation (added friction) and needed to prove it before building.",
+          "Action": "Pulled historical data on our previous modal experiment. Showed it caused 15% drop in day-1 retention for new users. Ran a quick survey with 50 new users — 70% said they'd skip the modal. Presented findings in design review.",
+          "Result": "Team agreed to test the modal with 10% traffic first. Test confirmed: 12% drop in activation. Modal was redesigned with skip option and deployed to full traffic with 4% activation improvement."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Historical data + user research combo, proposed test instead of kill, outcome measured",
+        "good": "Clear data use, changed mind, measured",
+        "fair": "Used data but outcome vague",
+        "poor": "Opinion framed as data"
+      },
+      "keyPoints": ["Historical data + user survey combo", "Proposed test not kill", "Quantified change in minds", "Follow-up measurement"]
+    },
+    {
+      "id": "str006",
+      "category": "strategy",
+      "difficulty": "hard",
+      "framework": "SWOT",
+      "source": "Swipe to Unlock",
+      "company": "Google",
+      "question": "What should Google do with YouTube in the next 5 years?",
+      "sampleAnswer": {
+        "overview": "YouTube 5-year strategic vision.",
+        "steps": {
+          "Strengths": "2B+ MAU. Creator ecosystem. Ad revenue leader. Live streaming. Shorts growing.",
+          "Weaknesses": "Advertiser-hostile content (brand safety). Creator burnout and revenue complaints. No subscription killer app.",
+          "Opportunities": "Podcasts (moving from audio). Shopping integration (YouTube → buy). AI content tools for creators. Gaming/esports.",
+          "Threats": "TikTok taking short-form attention. Twitch for gaming. Spotify for podcasts. Regulatory scrutiny.",
+          "Recommendation": "Double down on Shorts + shopping integration (YouTube → commerce). Build AI creator tools to reduce production cost barrier. Expand podcast hosting to compete with Spotify."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Commerce integration, AI creator tools, podcast threat from Spotify, Shorts vs. TikTok competition",
+        "good": "Balanced analysis, forward-looking",
+        "fair": "Generic platform analysis",
+        "poor": "Just more content"
+      },
+      "keyPoints": ["YouTube Shopping integration", "AI creator tools", "Podcast competition with Spotify", "Shorts vs. TikTok"]
+    },
+    {
+      "id": "exe005",
+      "category": "execution",
+      "difficulty": "hard",
+      "framework": "RICE",
+      "source": "Decode and Conquer",
+      "company": "Google",
+      "question": "How do you manage a product roadmap with 10 stakeholders, all of whom have different priorities?",
+      "sampleAnswer": {
+        "overview": "Roadmap alignment with many stakeholders.",
+        "steps": {
+          "Framework": "1) Align on company OKRs first — everything flows from there. 2) Map each stakeholder request to an OKR. 3) RICE score requests. 4) Time-box stakeholder input sessions.",
+          "Process": "Quarterly roadmap review: 1-hour sessions with each stakeholder. Present RICE scores. Have them challenge assumptions, not override scores.",
+          "Conflict resolution": "When two OKRs conflict, escalate to leadership for prioritization. Don't resolve strategic conflicts at PM level.",
+          "Communication": "Publish roadmap with rationale. 'No' with reasoning is better than silence. Regular 30-day updates."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "OKR-first alignment, escalation protocol, 'no with reasoning', published rationale",
+        "good": "Process for input, transparent communication",
+        "fair": "Ad hoc stakeholder management",
+        "poor": "First-come-first-served"
+      },
+      "keyPoints": ["OKR-first alignment", "Map requests to OKRs before scoring", "Escalate strategic conflicts to leadership", "No with reasoning > silence"]
+    },
+    {
+      "id": "pd011",
+      "category": "product-design",
+      "difficulty": "medium",
+      "framework": "CIRCLES",
+      "source": "Cracking the PM Interview",
+      "company": "Google",
+      "question": "Design Google's next hardware product.",
+      "sampleAnswer": {
+        "overview": "Google hardware strategy — what gap exists in the ecosystem?",
+        "steps": {
+          "Comprehend": "What problem space? Google's hardware strengths: AI/ML, ambient computing, home automation.",
+          "Identify": "Smart home users, health-conscious consumers, remote workers, seniors.",
+          "Report needs": "Ambient health monitoring, smart home integration, AI accessibility for non-tech users.",
+          "Cut/Prioritize": "Biggest unserved: health monitoring without wearable fatigue.",
+          "List solutions": "1) Smart mirror with health analytics. 2) AI-powered hearing aid. 3) Ambient health sensor (non-wearable). 4) Smart glasses 2.0 with AI overlay.",
+          "Evaluate": "Smart glasses: AR opportunity but Google Glass failed on privacy. Ambient health sensor: no privacy issue, passive, meaningful data. Hearing aid: underserved segment with assistive + AI tie-in.",
+          "Summarize": "AI hearing aid — addresses accessibility, assistive tech market, AI assistant integration, premium price point."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Google Glass failure lesson, ambient vs. wearable distinction, accessibility angle, AI integration",
+        "good": "Creative hardware idea with rationale",
+        "fair": "Generic smart home suggestion",
+        "poor": "Another phone or watch"
+      },
+      "keyPoints": ["Google Glass failure = privacy lesson", "Ambient health monitoring", "Accessibility market underserved", "AI hearing aid as novel suggestion"]
+    },
+    {
+      "id": "beh008",
+      "category": "behavioral",
+      "difficulty": "medium",
+      "framework": "STAR",
+      "source": "Decode and Conquer",
+      "company": "Amazon",
+      "question": "Tell me about a time you had to deliver bad news to a stakeholder.",
+      "sampleAnswer": {
+        "overview": "STAR for delivering bad news.",
+        "steps": {
+          "Situation": "We had to delay a major feature launch by 6 weeks due to a security vulnerability found in code review.",
+          "Task": "Tell the VP of Sales who had committed the feature to enterprise customers.",
+          "Action": "Met in person (not email). Led with the reason and the plan, not the apology. Gave specific new date with confidence level. Offered to join sales calls to explain to affected customers. Came with two mitigation options (partial feature vs. delay).",
+          "Result": "VP appreciated the directness and plan. Chose partial feature release. One enterprise customer accepted, one asked for contract extension. No revenue lost."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "In person delivery, led with plan not apology, offered mitigation options, quantified outcome",
+        "good": "Direct communication, plan included",
+        "fair": "Apologized without plan",
+        "poor": "Delayed telling, or told via email"
+      },
+      "keyPoints": ["Deliver in person not via email", "Lead with plan not apology", "Bring mitigation options", "Offer to join customer calls"]
+    },
+    {
+      "id": "met007",
+      "category": "metrics",
+      "difficulty": "hard",
+      "framework": "DIGS",
+      "source": "The Product Manager Interview",
+      "company": "Airbnb",
+      "question": "How would you measure trust on the Airbnb platform?",
+      "sampleAnswer": {
+        "overview": "Trust is a latent metric — you have to measure it through proxies.",
+        "steps": {
+          "Define goal": "Trust = hosts trust guests, guests trust hosts, both trust Airbnb as a platform.",
+          "Identify metrics": "Guest side: booking conversion rate, review submission rate, repeat bookings. Host side: acceptance rate, superhost retention, listing accuracy complaints. Platform: dispute rate, ID verification completion, response time to issues.",
+          "Guard against gaming": "High review rates can be coerced. Dispute rate can be suppressed by settling quickly without fixing root cause.",
+          "Segment": "New host vs. experienced host. New guest vs. returning. Domestic vs. international. Long-stay vs. short-stay."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Both sides of marketplace, coercion risk in reviews, dispute suppression risk, segmentation",
+        "good": "Multi-sided trust metrics",
+        "fair": "Review score only",
+        "poor": "Rating = trust"
+      },
+      "keyPoints": ["Both sides of trust (host + guest)", "Review coercion risk", "Dispute rate as lagging indicator", "ID verification as trust signal"]
+    },
+    {
+      "id": "pd012",
+      "category": "product-design",
+      "difficulty": "hard",
+      "framework": "CIRCLES",
+      "source": "Cracking the PM Interview",
+      "company": "Google",
+      "question": "Design a product to improve the college application process.",
+      "sampleAnswer": {
+        "overview": "High-stakes design problem with multiple user types.",
+        "steps": {
+          "Comprehend": "Scope: application process for US colleges, 17-18 year olds.",
+          "Identify": "Students, parents, high school counselors, college admissions officers.",
+          "Report needs": "Students: organize applications, understand fit, reduce anxiety. Counselors: track students. Admissions: read apps efficiently.",
+          "Cut/Prioritize": "Students are primary users. Biggest pain: organization across 10+ schools, essay reuse, deadline tracking.",
+          "List solutions": "1) Dashboard: all applications, deadlines, status. 2) Essay builder with reuse across applications. 3) Fit score: student vs. school profile match. 4) College counselor portal.",
+          "Evaluate": "Dashboard + essay builder solve immediate pain. Fit score is differentiated but requires data partnerships. Counselor portal opens B2B revenue.",
+          "Summarize": "Launch with student dashboard + essay builder. Add counselor portal in phase 2 for institutional revenue."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "Multi-user design, essay reuse insight, counselor as B2B opportunity, fit score data challenge",
+        "good": "Student-centric, multiple pain points",
+        "fair": "Deadline tracker only",
+        "poor": "Single feature without user research"
+      },
+      "keyPoints": ["Essay reuse across applications", "Counselor as B2B opportunity", "Fit score needs data partnerships", "Multi-user design"]
+    },
+    {
+      "id": "str007",
+      "category": "strategy",
+      "difficulty": "hard",
+      "framework": "SWOT",
+      "source": "Decode and Conquer",
+      "company": "Apple",
+      "question": "How should Apple respond to ChatGPT and the rise of generative AI?",
+      "sampleAnswer": {
+        "overview": "Apple's AI strategy in the generative AI era.",
+        "steps": {
+          "Strengths": "On-device processing (privacy). A-series and M-series chips. Apple Silicon neural engine. Consumer trust. Siri installed base.",
+          "Weaknesses": "Siri is behind GPT-4 and Gemini. No cloud AI infrastructure like Azure/GCP. Slow to open AI to developers.",
+          "Opportunities": "On-device AI = private AI (regulatory tailwind). Apple Intelligence as a brand. AI in every app via APIs. Healthcare AI (Apple Watch data).",
+          "Threats": "Google Gemini on Android. Microsoft Copilot in enterprise. OpenAI partnerships with Samsung.",
+          "Recommendation": "Double down on on-device private AI as differentiator. Ship Apple Intelligence across all apps. Open to developers via a privacy-safe API. Don't compete on model size — compete on privacy and integration."
+        }
+      },
+      "evaluationRubric": {
+        "excellent": "On-device privacy angle, Apple Intelligence awareness, developer API, not competing on model size",
+        "good": "Privacy differentiation, concrete strategy",
+        "fair": "Generic AI strategy",
+        "poor": "Build a ChatGPT competitor"
+      },
+      "keyPoints": ["On-device AI = privacy differentiation", "Apple Intelligence brand", "Don't compete on model size", "Developer API for ecosystem"]
+    }
+  ],
+  "frameworks": {
+    "CIRCLES": {
+      "name": "CIRCLES Method",
+      "usage": "Product Design questions",
+      "steps": ["Comprehend the situation", "Identify the customer", "Report customer needs", "Cut through prioritization", "List solutions", "Evaluate tradeoffs", "Summarize recommendations"]
+    },
+    "STAR": {
+      "name": "STAR Method",
+      "usage": "Behavioral questions",
+      "steps": ["Situation", "Task", "Action", "Result"]
+    },
+    "RICE": {
+      "name": "RICE Framework",
+      "usage": "Feature prioritization",
+      "steps": ["Reach", "Impact", "Confidence", "Effort"],
+      "formula": "(Reach × Impact × Confidence) / Effort"
+    },
+    "DIGS": {
+      "name": "DIGS Framework",
+      "usage": "Metrics questions",
+      "steps": ["Define the goal", "Identify metrics", "Guard against gaming", "Segment"]
+    },
+    "SWOT": {
+      "name": "SWOT Analysis",
+      "usage": "Strategy questions",
+      "steps": ["Strengths", "Weaknesses", "Opportunities", "Threats"]
+    },
+    "Fermi": {
+      "name": "Fermi Estimation",
+      "usage": "Estimation questions",
+      "steps": ["Clarify scope", "Identify approach (top-down or bottom-up)", "Estimate each component", "Sanity check and calibrate"]
+    }
+  },
+  "categories": {
+    "product-design": {"name": "Product Design", "framework": "CIRCLES", "count": 12},
+    "metrics": {"name": "Metrics & Analytics", "framework": "DIGS", "count": 7},
+    "behavioral": {"name": "Behavioral", "framework": "STAR", "count": 8},
+    "strategy": {"name": "Product Strategy", "framework": "SWOT", "count": 7},
+    "execution": {"name": "Product Execution", "framework": "RICE", "count": 5},
+    "technical": {"name": "Technical PM", "framework": "System Design", "count": 4},
+    "estimation": {"name": "Estimation", "framework": "Fermi", "count": 3}
+  }
+}
