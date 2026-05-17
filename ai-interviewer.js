@@ -137,10 +137,12 @@ class AIInterviewer {
 
     const initialPrompt = `Start a ${interviewType} interview with ${candidateName}. Introduce yourself briefly (15-20 words max since this is voice), then ask this specific question: "${question ? question.question : `a ${interviewType} question`}". Be conversational since this is voice-only.`;
 
-    return await this.sendMessage(initialPrompt);
+    const result = await this.sendMessage(initialPrompt);
+    this.currentQuestionIndex++;
+    return result;
   }
 
-  async sendMessage(userMessage, isUserResponse = false) {
+  async sendMessage(userMessage) {
     this.conversationHistory.push({
       role: 'user',
       content: userMessage
@@ -150,20 +152,18 @@ class AIInterviewer {
       const response = await getClient().messages.create({
         model: 'claude-sonnet-4-6',
         max_tokens: 1024,
-        system: INTERVIEWER_SYSTEM_PROMPT,
+        system: [{ type: 'text', text: INTERVIEWER_SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
         messages: this.conversationHistory
       });
 
-      const assistantMessage = response.content[0].text;
+      const block = response.content[0];
+      if (block.type !== 'text') throw new Error(`Unexpected content type: ${block.type}`);
+      const assistantMessage = block.text;
 
       this.conversationHistory.push({
         role: 'assistant',
         content: assistantMessage
       });
-
-      if (!isUserResponse) {
-        this.currentQuestionIndex++;
-      }
 
       return {
         message: assistantMessage,
@@ -173,12 +173,12 @@ class AIInterviewer {
       };
     } catch (error) {
       console.error('Error calling Claude API:', error);
-      throw new Error('Failed to get response from AI interviewer');
+      throw new Error('Failed to get response from AI interviewer', { cause: error });
     }
   }
 
   async respondToCandidate(candidateResponse) {
-    return await this.sendMessage(candidateResponse, true);
+    return await this.sendMessage(candidateResponse);
   }
 
   async getFinalEvaluation() {
@@ -230,11 +230,13 @@ Analyze the candidate's response against the rubric and return JSON as specified
       const response = await getClient().messages.create({
         model: 'claude-sonnet-4-6',
         max_tokens: 1024,
-        system: ANALYSIS_SYSTEM_PROMPT,
+        system: [{ type: 'text', text: ANALYSIS_SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
         messages: [{ role: 'user', content: analysisPrompt }]
       });
 
-      const rawText = response.content[0].text.trim().replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+      const block = response.content[0];
+      if (block.type !== 'text') throw new Error(`Unexpected content type: ${block.type}`);
+      const rawText = block.text.trim().replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
       const analysis = JSON.parse(rawText);
 
       return {
@@ -251,7 +253,7 @@ Analyze the candidate's response against the rubric and return JSON as specified
       };
     } catch (error) {
       console.error('Error analyzing answer:', error);
-      throw new Error('Failed to analyze answer');
+      throw new Error('Failed to analyze answer', { cause: error });
     }
   }
 
