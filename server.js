@@ -61,6 +61,11 @@ function generateSessionId() {
 
 // ===== API ENDPOINTS =====
 
+// Root redirect
+app.get('/', (req, res) => {
+  res.redirect('/voice-interface.html');
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'AI PM Interview API is running' });
