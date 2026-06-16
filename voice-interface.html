@@ -305,7 +305,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎤 AI PM Interview Practice</h1>
+        <h1>AI PM Interview Practice</h1>
         <p class="subtitle">Voice-only practice with real big tech interview questions</p>
 
         <div id="error" class="error hidden"></div>
@@ -331,7 +331,7 @@
 
         <!-- Interview Interface (hidden initially) -->
         <div id="interview" class="hidden">
-            <button class="framework-toggle" onclick="toggleFramework()">📋 Show Framework Hints</button>
+            <button class="framework-toggle" onclick="toggleFramework()">Show Framework Hints</button>
             <div id="frameworkPanel" class="framework-panel hidden">
                 <h3 id="frameworkTitle">Framework</h3>
                 <div id="frameworkSteps" class="framework-steps"></div>
@@ -351,13 +351,13 @@
 
             <div class="controls">
                 <button class="speak-btn" id="speakBtn" onclick="toggleRecording()">
-                    🎤 Speak
+                    Speak
                 </button>
                 <button class="evaluation-btn" id="evalBtn" onclick="getEvaluation()">
-                    📊 Get Feedback
+                    Get Feedback
                 </button>
                 <button class="end-btn" onclick="endInterview()">
-                    ❌ End
+                    End
                 </button>
             </div>
         </div>
@@ -438,7 +438,7 @@
             const btn = document.querySelector('.framework-toggle');
             frameworkVisible = !frameworkVisible;
             panel.classList.toggle('hidden', !frameworkVisible);
-            btn.textContent = frameworkVisible ? '📋 Hide Framework Hints' : '📋 Show Framework Hints';
+            btn.textContent = frameworkVisible ? 'Hide Framework Hints' : 'Show Framework Hints';
         }
 
         function loadFrameworkHints(interviewType) {
@@ -540,6 +540,8 @@
 
                 document.getElementById('setup').classList.add('hidden');
                 document.getElementById('interview').classList.remove('hidden');
+                const conv = document.getElementById('conversation');
+                while (conv.firstChild) conv.removeChild(conv.firstChild);
                 loadFrameworkHints(interviewType);
 
                 addMessage('ai', data.message);
@@ -571,7 +573,7 @@
             isRecording = true;
             
             const speakBtn = document.getElementById('speakBtn');
-            speakBtn.textContent = '⏹️ Stop';
+            speakBtn.textContent = 'Stop';
             speakBtn.classList.add('recording');
             
             updateStatus('listening', 'Listening to your answer...');
@@ -582,7 +584,7 @@
             isRecording = false;
             
             const speakBtn = document.getElementById('speakBtn');
-            speakBtn.textContent = '🎤 Speak';
+            speakBtn.textContent = 'Speak';
             speakBtn.classList.remove('recording');
 
             if (currentTranscript.trim()) {
