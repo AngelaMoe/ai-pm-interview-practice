@@ -1198,6 +1198,305 @@
         "poor": "Build a ChatGPT competitor"
       },
       "keyPoints": ["On-device AI = privacy differentiation", "Apple Intelligence brand", "Don't compete on model size", "Developer API for ecosystem"]
+    },
+    {
+      "id": "ai-product-sense-001",
+      "category": "ai-product-sense",
+      "difficulty": "intermediate",
+      "framework": "AI-CUPS-PDM",
+      "source": "Exponent AI PM Interview Questions 2026",
+      "company": "Meta",
+      "question": "How would you improve Meta AI, Meta's AI assistant?",
+      "sampleAnswer": {
+        "overview": "Start by clarifying what Meta AI currently does (the AI layer), then segment users, identify the highest-pain problem for your chosen segment, propose 3+ solutions, prioritize with explicit criteria including safety, and define success metrics using SIGNAL.",
+        "steps": [
+          "Clarify: Meta AI is a general-purpose LLM assistant integrated across Facebook, Instagram, WhatsApp, and Messenger — it answers questions, generates content, and helps with tasks.",
+          "User segments: (1) casual social users who stumble on it, (2) small business owners using it for content creation, (3) creators building audiences, (4) users seeking information instead of search.",
+          "Pick small business owners — highest commercial intent, clearest ROI measurement, biggest gap between what they need and what generic LLMs provide.",
+          "Problems: (1) AI-generated posts sound generic and don't match their brand voice, (2) can't incorporate their actual business data (inventory, pricing, hours), (3) no continuity between sessions.",
+          "Solutions: (a) brand voice training from their existing posts, (b) business profile integration for inventory/pricing context, (c) persistent memory of their business.",
+          "Recommend: brand voice feature — highest value, feasible with RAG on their post history, no privacy risk since it's their own content.",
+          "AI failure path: generated post sounds off-brand. Show 'trained on your last 50 posts' with a 1-tap regenerate. Log user edits to improve the model.",
+          "Metrics (C-NABGT): North Star = posts generated and published without editing. Guardrail = user override rate must stay below 30%."
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "Clarifies the AI layer first, picks ONE user segment and justifies it, names why AI is better than non-AI for this problem, proposes an AI failure path without being asked, uses C-NABGT or SIGNAL for metrics.",
+        "good": "Has clear user segmentation and picks one, proposes reasonable solutions, mentions metrics — but skips failure path or doesn't justify why AI specifically.",
+        "fair": "Identifies users and problems but designs for multiple segments, or proposes a single solution without tradeoffs, or metrics are vague ('engagement').",
+        "poor": "Jumps to features without users or problem, no metrics, no consideration of AI failure modes."
+      },
+      "keyPoints": [
+        "Must clarify what the AI layer does before designing improvements",
+        "AI failure path is required — what does the UI show when the AI generates bad content?",
+        "North Star metric must be a count, not a ratio",
+        "User override rate is the honesty metric for AI trust"
+      ]
+    },
+    {
+      "id": "ai-product-sense-002",
+      "category": "ai-product-sense",
+      "difficulty": "advanced",
+      "framework": "10-Step-Design",
+      "source": "CrackPMInterview Complete AI PM Interview Guide 2026",
+      "company": "Anthropic",
+      "question": "Design an AI tool for small business owners who want to manage their customer relationships.",
+      "sampleAnswer": {
+        "overview": "Apply the 10-step design framework. The key differentiator from a standard CRM: the AI layer must handle probabilistic outputs (AI might misremember a customer), and the onboarding path is critical because small business owners are skeptical of AI accuracy.",
+        "steps": [
+          "Clarifying Questions: Mobile or desktop? US-focused? B2C or B2B small businesses? (Assume mobile-first, B2C, US, <10 employees.)",
+          "User Segments: (1) solo freelancers tracking clients, (2) restaurant owners with regulars, (3) retail shop owners with repeat customers, (4) service providers (plumbers, cleaners). Pick restaurant owners — high repeat purchase frequency, clear ROI for remembering preferences.",
+          "Problem: Owner can't remember which customers are regulars, their preferences, or when they last visited — relies on memory or expensive POS software.",
+          "Solution options: (a) AI that scans receipts and builds customer profiles automatically, (b) voice note to customer profile ('Sarah likes window table, no onions'), (c) AI suggests personalized follow-up messages.",
+          "Recommend voice note to profile — lowest friction for busy owners, no receipt scanning setup, clear AI value (transcription + structuring).",
+          "Core flows: Happy path: owner taps mic, says 'Mark always orders the salmon', AI transcribes and adds to Mark's profile. AI failure path: AI mishears 'salmon' as 'salami' — show transcription for quick correction before saving. Onboarding path: first-time user sees 3 example profiles pre-populated, with an explanation of how AI learned them.",
+          "Safety/risks: Customer data privacy — what happens if the device is lost? Mitigation: profiles encrypted, no PII visible on lock screen. Risk at scale: AI suggestions become generic as customer base grows — need refresh logic.",
+          "Metrics: North Star = customer profiles with at least one AI-generated note that the owner kept (didn't delete). Guardrail = transcription error rate below 5%."
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "Follows all 10 steps, explicitly designs the AI failure path AND the onboarding path, raises privacy risk proactively, ends with a compelling narrative and metrics.",
+        "good": "Strong user segmentation and solution design, mentions risks when asked, but only covers the happy path in core flows.",
+        "fair": "Reasonable problem statement and solution, but skips core flows entirely or gives only happy path, no metrics.",
+        "poor": "Jumps to features without users or problem, no flows, no metrics, no safety consideration."
+      },
+      "keyPoints": [
+        "AI failure path and onboarding path are as important as the happy path",
+        "Safety must be raised proactively — not when prompted",
+        "Compelling narrative: owner should be able to repeat the product in one sentence",
+        "The AI layer must be justified — why voice note to profile vs. just a notes app?"
+      ]
+    },
+    {
+      "id": "ai-product-sense-003",
+      "category": "ai-product-sense",
+      "difficulty": "intermediate",
+      "framework": "TROPIC",
+      "source": "Exponent AI PM Interview Questions 2026",
+      "company": "Google",
+      "question": "Your AI feature's user override rate has been rising for 3 weeks. Walk me through how you'd investigate.",
+      "sampleAnswer": {
+        "overview": "This is a metric drop question (use TROPIC + AI layer) disguised as a product question. User override rate rising means users are increasingly rejecting AI outputs — it's a trust signal, not just an accuracy metric.",
+        "steps": [
+          "Rule out data bugs first: is the override rate tracking correctly? Did we change the definition of 'override' recently?",
+          "T (Time): Sudden or gradual over the 3 weeks? A sudden jump points to a specific cause (model update, feature change). Gradual points to drift.",
+          "R (Region): All users, or specific geographies? Suggests localization issues.",
+          "O (Other launches): Did we change the prompt, update the model, or ship a UI change around the start of the trend?",
+          "P (Platform): iOS vs Android vs desktop? Suggests rendering or latency issues.",
+          "I (Industry): Are competitors' AI products showing similar user frustration signals? Suggests external cause.",
+          "C (Cannibalization): Did we add another AI feature that handles the same use case better?",
+          "AI layer (most likely cause): Silent model update or prompt change degraded output quality. Check: did hallucination rate rise at the same time? Did task completion rate fall?",
+          "Hypothesis: Model update changed output style — users expected X, got Y. Run A/B test comparing old vs. new model behavior on the same input set.",
+          "Recommendation: If model update is confirmed, roll back to previous version while diagnosing. Add override reason logging so future drops are diagnosable faster."
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "Uses TROPIC explicitly, adds the AI-specific layer without prompting, distinguishes diagnosis from prescription, makes a clear rollback recommendation with conditions.",
+        "good": "Systematically investigates causes, mentions model updates, makes a recommendation — but doesn't use TROPIC structure or conflates diagnosis with prescription.",
+        "fair": "Lists some investigation steps but jumps to a fix early, misses the AI-specific layer (model update, hallucination rate).",
+        "poor": "Treats rising override rate as a UI problem without investigating AI layer, no structured diagnostic process."
+      },
+      "keyPoints": [
+        "User override rate = trust signal, not just accuracy metric",
+        "TROPIC applies to any metric drop including AI-specific ones",
+        "Always add the AI layer: model update? drift? hallucination rate change?",
+        "Rule out data bugs before assuming a product problem"
+      ]
+    },
+    {
+      "id": "ai-safety-001",
+      "category": "ai-safety",
+      "difficulty": "intermediate",
+      "framework": "P-PRIME",
+      "source": "Exponent Anthropic PM Interview Questions 2026",
+      "company": "Anthropic",
+      "question": "How do you approach safety in a consumer AI product?",
+      "sampleAnswer": {
+        "overview": "Use P-PRIME: start with product context, enumerate the specific risk categories that apply, design mitigations, implement guardrails, monitor, and iterate. Safety must be designed in from the start — not added as a final checklist.",
+        "steps": [
+          "P (Product context): What is the product, who are the users, what scale? A coding assistant for developers has different risk profile than a health information chatbot for general consumers.",
+          "P (Potential risks): (1) Harmful content generation (self-harm instructions, dangerous how-tos), (2) Bias in outputs affecting specific groups differently, (3) Data privacy (model trained on user data, PII leakage), (4) Adversarial misuse (jailbreaks, prompt injection).",
+          "R (Risk mitigation): Content classifiers on output before display, confidence thresholds that trigger human review for high-stakes queries, opt-in rather than opt-out for sensitive contexts.",
+          "I (Implementation guardrails): Rate limiting to limit abuse at scale, structured output formats that constrain model freedom, clear disclosure that outputs are AI-generated.",
+          "M (Monitoring and metrics): Harmful output rate (human rated sample weekly), abuse report rate per 1K users, bias metrics across demographic segments.",
+          "E (Evolution): Red-team testing quarterly, user feedback loops for reporting harmful outputs, model version rollback capability when safety regressions detected."
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "Names all four risk categories, designs safety into the product flow (not as an afterthought), defines specific monitoring metrics with measurement cadence.",
+        "good": "Covers most risk categories, proposes reasonable mitigations, mentions monitoring — but monitoring is vague ('we'd track harmful outputs' without specifics).",
+        "fair": "Mentions 1-2 risk categories, proposes content filtering as the only mitigation, no monitoring plan.",
+        "poor": "Treats safety as a single concern ('just add a content filter'), no risk enumeration, no monitoring."
+      },
+      "keyPoints": [
+        "Four risk categories: harmful content, bias, privacy, adversarial misuse",
+        "Safety designed in from step 1 — not a final checklist",
+        "Monitoring plan must specify measurement method AND cadence",
+        "Red-team testing is a product responsibility, not just an ML team responsibility"
+      ]
+    },
+    {
+      "id": "ai-safety-002",
+      "category": "ai-safety",
+      "difficulty": "advanced",
+      "framework": "P-PRIME",
+      "source": "CrackPMInterview Complete AI PM Interview Guide 2026",
+      "company": "OpenAI",
+      "question": "Your AI gave harmful advice to a vulnerable user. Walk me through your incident response.",
+      "sampleAnswer": {
+        "overview": "This is an operational decision question. The structure: contain immediately, investigate root cause, communicate transparently, fix and verify, build prevention into the system.",
+        "steps": [
+          "Immediate containment: Disable or limit the specific capability that caused the harm if it can be isolated. Log the full conversation for investigation. Do not delete — it's evidence.",
+          "User triage: Does the affected user need immediate support resources? If the harm is ongoing (e.g., self-harm advice), surface crisis resources immediately.",
+          "Root cause: Was this a model failure (hallucination, misaligned output), a prompt injection attack, or a gap in content classifiers? Reproduce the failure in a sandbox.",
+          "Communication: Notify legal and trust & safety within 1 hour. If reportable under applicable regulations (GDPR, state AI laws), begin that process. Communicate honestly with the affected user if possible.",
+          "Fix: Update content classifiers for this category. Add this case to the red-team test suite. Tighten system prompt guardrails. If root cause is model-level, escalate to ML team with evidence.",
+          "Prevention: Add this failure mode to the formal safety monitoring dashboard. Run a broader audit: how many similar conversations exist in logs?"
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "Leads with user safety (not company protection), distinguishes model failure from prompt injection, includes regulatory communication step, adds the case to ongoing monitoring.",
+        "good": "Has a reasonable incident response structure, mentions root cause investigation and fix — but misses user welfare step or regulatory communication.",
+        "fair": "Focuses on technical fix only, skips affected user welfare, no prevention or monitoring.",
+        "poor": "Treats as a PR problem, no root cause investigation, no monitoring update."
+      },
+      "keyPoints": [
+        "Lead with user safety — not company liability protection",
+        "Distinguish model failure from prompt injection: different root causes, different fixes",
+        "Add the case to red-team suite immediately — this is a prevention action",
+        "Regulatory reporting is a product responsibility PM must know about"
+      ]
+    },
+    {
+      "id": "ai-safety-003",
+      "category": "ai-safety",
+      "difficulty": "intermediate",
+      "framework": "P-PRIME",
+      "source": "Exponent AI PM Interview Questions 2026",
+      "company": "Google",
+      "question": "How would you prevent harmful outputs from a deployed chatbot at scale?",
+      "sampleAnswer": {
+        "overview": "Prevention is a layered system, not a single control. The layers: pre-deployment (red-team, eval suite), deployment (classifiers, rate limits, structured outputs), monitoring (sampling + automated evals), and iteration (feedback loops).",
+        "steps": [
+          "Pre-deployment: Red-team testing with adversarial prompts targeting each risk category. Define an eval suite: what harmful output rate is acceptable before launch? (e.g., <0.1% on a standardized test set.)",
+          "Input layer: Classify user inputs for intent before sending to the model. High-risk intent queries go to restricted response templates or human review queue.",
+          "Output layer: Classifier on model outputs before display. Flag outputs above harm threshold. Uncertain cases trigger safe fallback response + option to speak with human.",
+          "Structural controls: System prompt guardrails, structured output format that constrains model freedom, refusal templates for specific harm categories.",
+          "Scale controls: Rate limiting to limit how much any single user can extract, anomaly detection for prompt injection patterns.",
+          "Monitoring: Weekly human-rated sample (1% of flagged outputs), automated eval suite run on every model update, bias metrics across demographic groups.",
+          "Iteration: Public disclosure policy for safety incidents, red-team quarterly updates as attack vectors evolve."
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "Covers all three prevention layers (pre-deployment, deployment, monitoring), names specific metrics with thresholds, mentions bias monitoring across groups.",
+        "good": "Has input and output classifiers, mentions monitoring — but monitoring is vague, no pre-deployment red-team, no bias consideration.",
+        "fair": "Mentions a content filter as the main control, some monitoring — but single-layer prevention.",
+        "poor": "Content filter only, no monitoring plan, no pre-deployment testing."
+      },
+      "keyPoints": [
+        "Prevention is layered: pre-deployment + deployment + monitoring + iteration",
+        "Define acceptable harm rate threshold BEFORE launch",
+        "Bias monitoring is part of safety monitoring, not a separate concern",
+        "Rate limiting is a safety control, not just a cost control"
+      ]
+    },
+    {
+      "id": "ai-metrics-001",
+      "category": "ai-metrics",
+      "difficulty": "intermediate",
+      "framework": "C-NABGT",
+      "source": "Exponent AI PM Interview Questions 2026",
+      "company": "OpenAI",
+      "question": "How would you measure the success of ChatGPT as a product?",
+      "sampleAnswer": {
+        "overview": "Use C-NABGT. The key insight: accuracy metrics alone are insufficient for an AI product — you need user behavior signals that reveal actual trust and value delivery.",
+        "steps": [
+          "C (Clarify): ChatGPT for consumers, not API users. Time window: 6-month lagging indicators + leading weekly metrics.",
+          "N (North Star): Weekly active users who complete at least one multi-turn conversation (not just a single query) — this measures habitual value delivery, not one-time curiosity.",
+          "A (Actionable secondary metrics): (1) Task completion rate (user got what they came for — measured by session ending without re-query on same topic), (2) User override rate (user corrected or dismissed output — the honesty metric for AI trust), (3) Conversation depth (average turns per session — proxy for value delivered).",
+          "B (Business metrics): DAU/MAU ratio (stickiness), revenue per user, churn rate by user segment.",
+          "G (Guardrails): Harmful output rate must stay below 0.1% (human-rated sample). Hallucination rate on factual queries below 5%. TTFT (time to first token) below 500ms p95.",
+          "T (Tracking plan): Task completion rate = session ends without follow-up query on same topic within 10 minutes (automated). User override rate = explicit edit/copy-without-edit behavior (instrumented in UI). Harmful output rate = weekly human-rated random sample of 1,000 flagged conversations."
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "North Star is an absolute count (not ratio), includes user override rate as AI-specific trust metric, defines tracking plan with specific measurement method for each metric, guardrails include AI-specific thresholds (hallucination rate, TTFT).",
+        "good": "Reasonable North Star and secondary metrics, mentions AI-specific metrics — but tracking plan is vague ('we'd instrument the UI'), or guardrails are generic.",
+        "fair": "DAU or revenue as North Star (not wrong but not differentiated for an AI product), secondary metrics are generic engagement metrics, no AI-specific guardrails.",
+        "poor": "Vague metrics like 'engagement' or 'satisfaction' with no definition of how to measure them, no tracking plan."
+      },
+      "keyPoints": [
+        "North Star must be an absolute count, not an average or ratio",
+        "User override rate is the AI trust signal — always include it",
+        "The T (Tracking plan) in C-NABGT separates strong from weak answers",
+        "AI guardrails: hallucination rate + TTFT are product metrics, not just ML metrics"
+      ]
+    },
+    {
+      "id": "ai-metrics-002",
+      "category": "ai-metrics",
+      "difficulty": "advanced",
+      "framework": "SIGNAL",
+      "source": "Exponent AI PM Interview Questions 2026",
+      "company": "Snap",
+      "question": "Snap is deploying an LLM-powered feature. What metrics would you track to evaluate its performance?",
+      "sampleAnswer": {
+        "overview": "Use SIGNAL. Snap's context matters: a young, mobile-first user base with low tolerance for latency and high sensitivity to privacy. The metrics must reflect the probabilistic nature of LLM outputs AND Snap's specific product context.",
+        "steps": [
+          "S (Scope): LLM feature within Snap's messaging/stories context. Users: 13-25 primarily. Time window: first 90 days post-launch for leading indicators.",
+          "I (Identify goal): Users adopt the AI feature into their regular Snap usage — it becomes a habitual part of how they communicate or discover content.",
+          "G (Generate candidate metrics): Task completion rate, re-query rate (user rephrased and tried again = AI failed), latency (TTFT for mobile), override rate, feature retention at D7/D30, content quality reports.",
+          "N (Negative guardrails): Re-query rate must stay below 25% (high re-query = AI not understanding intent). TTFT must stay below 800ms on mobile 4G. Content policy violation rate below 0.05%.",
+          "A (Anchor on North Star): D7 feature retention — percentage of users who used the feature in week 1 and returned in week 2. This is more honest than DAU because it measures habitual value, not just novelty.",
+          "L (Layer breakdowns): By platform (iOS vs Android — latency differs), by age segment (13-17 vs 18-25 — usage patterns differ), by query type (informational vs. creative vs. social)."
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "Uses SIGNAL explicitly, anchors North Star on retention (not novelty), includes Snap-specific context (mobile, young users, latency sensitivity), defines guardrail thresholds, includes L (breakdowns).",
+        "good": "Reasonable metrics with AI-specific considerations, mentions retention — but guardrails are generic or missing thresholds, no breakdowns.",
+        "fair": "DAU or activation rate as North Star without retention signal, some AI metrics — but no context-awareness of Snap's constraints.",
+        "poor": "Generic app metrics (downloads, DAU), no AI-specific metrics, no guardrails."
+      },
+      "keyPoints": [
+        "North Star should be retention-based, not activation-based (novelty does not equal value)",
+        "Mobile latency is a guardrail, not just an engineering concern",
+        "SIGNAL's L (breakdowns) is what makes the analysis actionable",
+        "Re-query rate = intent understanding failure — more honest than accuracy"
+      ]
+    },
+    {
+      "id": "ai-metrics-003",
+      "category": "ai-metrics",
+      "difficulty": "intermediate",
+      "framework": "TROPIC",
+      "source": "Exponent AI PM Interview Questions 2026",
+      "company": "Meta",
+      "question": "The hallucination rate for your AI feature doubled after last week's model update. What do you do?",
+      "sampleAnswer": {
+        "overview": "This is a metric drop question — use TROPIC + AI layer. A doubled hallucination rate after a model update is almost certainly caused by the model update, but you still need to follow the diagnostic process to be sure.",
+        "steps": [
+          "T (Time): Was the doubling sudden on the day of the model update, or gradual since? Sudden = model update is the cause. Gradual = other factors.",
+          "R (Region): All users or specific geographies/languages? If only in non-English markets, the new model may have worse multilingual performance.",
+          "O (Other launches): Did we also change the prompt, the retrieval system (if RAG), or any UI that affects what users query at the same time as the model update?",
+          "P (Platform): iOS vs Android vs desktop? If hallucination rate is higher on mobile, it could be a context window truncation issue.",
+          "I (Industry): Are other products using the same model reporting similar issues? Check the model provider's status page and developer forums.",
+          "C (Cannibalization): Not applicable here.",
+          "AI Layer: Most likely cause — the new model version has lower factual accuracy on our specific use case. Confirm: (1) Run our eval suite on old vs. new model, (2) Check if the model provider's release notes mention accuracy tradeoffs.",
+          "Recommendation: If eval suite confirms regression, roll back to previous model version immediately. File a report with the model provider. Run the eval suite on every future model update before deploying to production (add this as a deployment gate)."
+        ]
+      },
+      "evaluationRubric": {
+        "excellent": "Uses TROPIC explicitly, adds the AI-specific layer without prompting, recommends rollback with clear condition, adds eval suite as a permanent deployment gate.",
+        "good": "Systematically investigates, checks model update as primary cause, recommends rollback — but doesn't use TROPIC structure, or doesn't add eval suite as future prevention.",
+        "fair": "Identifies model update as likely cause, recommends rollback — but no systematic investigation, no prevention step.",
+        "poor": "Assumes it's a model problem without investigation, recommends asking engineers to 'fix the model' without a structured response."
+      },
+      "keyPoints": [
+        "TROPIC applies to AI-specific metric drops too",
+        "Model update is the first AI-layer hypothesis — confirm with eval suite, don't assume",
+        "Rollback is a valid product decision — have the capability ready",
+        "Eval suite before deployment is the prevention lesson from this incident"
+      ]
     }
   ],
   "frameworks": {
@@ -1231,6 +1530,31 @@
       "name": "Fermi Estimation",
       "usage": "Estimation questions",
       "steps": ["Clarify scope", "Identify approach (top-down or bottom-up)", "Estimate each component", "Sanity check and calibrate"]
+    },
+    "STAR+M": {
+      "name": "STAR+M",
+      "description": "Behavioral interview framework with mandatory Metric step",
+      "steps": ["Situation", "Task", "Action", "Result", "Metric"]
+    },
+    "TROPIC": {
+      "name": "TROPIC",
+      "description": "Metric drop diagnosis framework",
+      "steps": ["Time", "Region", "Other launches", "Platform", "Industry", "Cannibalization", "AI layer (model update / drift / hallucination)"]
+    },
+    "SIGNAL": {
+      "name": "SIGNAL",
+      "description": "AI product metrics definition framework",
+      "steps": ["Scope", "Identify the goal", "Generate candidate metrics", "Negative guardrails", "Anchor on North Star", "Layer breakdowns"]
+    },
+    "C-NABGT": {
+      "name": "C-NABGT",
+      "description": "Full AI metrics answer structure",
+      "steps": ["Clarify scope", "North Star metric", "Actionable secondary metrics", "Business metrics", "Guardrails", "Tracking plan"]
+    },
+    "10-Step-Design": {
+      "name": "10-Step-Design",
+      "description": "AI product design interview framework",
+      "steps": ["Clarifying Questions", "User Segmentation", "Problem Identification", "Problem Prioritization", "Solution Generation", "Prioritize with Criteria", "Combine & Design", "Core Flows (happy + AI failure + onboarding)", "Mission + Risks", "Compelling Narrative"]
     }
   },
   "categories": {
