@@ -105,7 +105,8 @@ app.post('/api/interview/start', async (req, res) => {
       sessionId,
       interviewType,
       message: response.message,
-      questionNumber: response.questionNumber
+      questionNumber: response.questionNumber,
+      currentQuestionId: response.currentQuestionId || null
     });
 
   } catch (error) {
@@ -138,7 +139,8 @@ app.post('/api/interview/respond', async (req, res) => {
     res.json({
       message: aiResponse.message,
       questionNumber: aiResponse.questionNumber,
-      messageCount: session.messageCount
+      messageCount: session.messageCount,
+      currentQuestionId: aiResponse.currentQuestionId || null
     });
 
   } catch (error) {
@@ -258,6 +260,27 @@ app.post('/api/interview/analyze-answer', async (req, res) => {
       return res.status(404).json({ error: error.message });
     }
     res.status(500).json({ error: 'Failed to analyze answer' });
+  }
+});
+
+// Get sample answer for a specific question (shown after candidate has responded)
+app.get('/api/interview/question/:id/sample', (req, res) => {
+  try {
+    const interviewer = new AIInterviewer();
+    const question = interviewer.getQuestionById(req.params.id);
+    if (!question) {
+      return res.status(404).json({ error: 'Question not found' });
+    }
+    res.json({
+      questionId: question.id,
+      question: question.question,
+      keyPoints: question.keyPoints,
+      sampleAnswer: question.sampleAnswer,
+      evaluationRubric: question.evaluationRubric
+    });
+  } catch (error) {
+    console.error('Error getting sample answer:', error);
+    res.status(500).json({ error: 'Failed to get sample answer' });
   }
 });
 

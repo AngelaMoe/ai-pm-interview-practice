@@ -330,6 +330,83 @@
             line-height: 1.4;
             padding-top: 2px;
         }
+
+        .sample-answer-panel {
+            background: #f0fdf4;
+            border: 1.5px solid #86efac;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            font-size: 13px;
+        }
+
+        .sample-answer-panel h3 {
+            color: #15803d;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+        }
+
+        .sample-key-points {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .sample-key-points li {
+            color: #166534;
+            line-height: 1.4;
+            padding-left: 4px;
+            list-style: none;
+            display: flex;
+            gap: 7px;
+        }
+
+        .sample-key-points li::before {
+            content: '✓';
+            color: #16a34a;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .sample-walkthrough {
+            border-top: 1px solid #bbf7d0;
+            padding-top: 10px;
+            margin-top: 4px;
+        }
+
+        .sample-walkthrough-toggle {
+            background: none;
+            border: none;
+            color: #15803d;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+            flex: none;
+            width: auto;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .sample-walkthrough-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .sample-step {
+            color: #166534;
+            line-height: 1.5;
+            font-size: 13px;
+            padding-left: 4px;
+            border-left: 2px solid #86efac;
+            padding-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -376,7 +453,10 @@
             <div class="question-actions">
                 <button id="repeatBtn" onclick="repeatQuestion()" disabled>Repeat question</button>
                 <button id="nextBtn" onclick="nextQuestion()" disabled>Next question</button>
+                <button id="sampleBtn" onclick="showSampleAnswer()" disabled>One strong approach</button>
             </div>
+
+            <div id="samplePanel" class="sample-answer-panel hidden"></div>
 
             <div class="transcript">
                 <strong>Your response:</strong>
@@ -496,6 +576,8 @@
         let currentTranscript = '';
         let accumulatedTranscript = ''; // Track all finalized speech across pauses
         let lastAiMessage = ''; // Track last AI message for repeat
+        let currentQuestionId = null; // Track current question for sample answer
+        let hasResponded = false; // Gate: only show sample after candidate has answered once
 
         // Initialize Speech Recognition
         function initSpeechRecognition() {
@@ -572,6 +654,8 @@
 
                 const data = await response.json();
                 sessionId = data.sessionId;
+                currentQuestionId = data.currentQuestionId || null;
+                hasResponded = false;
 
                 document.getElementById('setup').classList.add('hidden');
                 document.getElementById('interview').classList.remove('hidden');
@@ -639,6 +723,10 @@
                     const data = await response.json();
                     addMessage('ai', data.message);
                     speak(data.message);
+                    hasResponded = true;
+                    if (currentQuestionId) {
+                        document.getElementById('sampleBtn').disabled = false;
+                    }
 
                 } catch (error) {
                     showError('Failed to send response: ' + error.message);
@@ -687,6 +775,92 @@
                     location.reload();
                 }
             }
+        }
+
+        async function showSampleAnswer() {
+            if (!currentQuestionId) return;
+            const panel = document.getElementById('samplePanel');
+            // Toggle off if already showing
+            if (!panel.classList.contains('hidden')) {
+                panel.classList.add('hidden');
+                while (panel.firstChild) panel.removeChild(panel.firstChild);
+                document.getElementById('sampleBtn').textContent = 'One strong approach';
+                return;
+            }
+            document.getElementById('sampleBtn').disabled = true;
+            document.getElementById('sampleBtn').textContent = 'Loading...';
+            try {
+                const res = await fetch(`${API_URL}/interview/question/${currentQuestionId}/sample`);
+                const data = await res.json();
+                renderSamplePanel(panel, data);
+                panel.classList.remove('hidden');
+                document.getElementById('sampleBtn').textContent = 'Hide sample';
+                document.getElementById('sampleBtn').disabled = false;
+            } catch (err) {
+                showError('Failed to load sample answer.');
+                document.getElementById('sampleBtn').textContent = 'One strong approach';
+                document.getElementById('sampleBtn').disabled = false;
+            }
+        }
+
+        function renderSamplePanel(panel, data) {
+            while (panel.firstChild) panel.removeChild(panel.firstChild);
+
+            const heading = document.createElement('h3');
+            heading.textContent = 'One strong approach';
+            panel.appendChild(heading);
+
+            const subhead = document.createElement('p');
+            subhead.style.cssText = 'color:#166534;font-size:12px;margin-bottom:10px;font-style:italic;';
+            subhead.textContent = 'This is one path — not the only one. Your context may produce an equally strong answer.';
+            panel.appendChild(subhead);
+
+            // Key points
+            const kpLabel = document.createElement('p');
+            kpLabel.style.cssText = 'font-weight:700;color:#15803d;font-size:12px;margin-bottom:6px;';
+            kpLabel.textContent = 'Key points to hit:';
+            panel.appendChild(kpLabel);
+
+            const ul = document.createElement('ul');
+            ul.className = 'sample-key-points';
+            data.keyPoints.forEach(pt => {
+                const li = document.createElement('li');
+                li.textContent = pt;
+                ul.appendChild(li);
+            });
+            panel.appendChild(ul);
+
+            // Walkthrough toggle
+            const walkthroughDiv = document.createElement('div');
+            walkthroughDiv.className = 'sample-walkthrough';
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'sample-walkthrough-toggle';
+            toggleBtn.textContent = 'See full walkthrough ↓';
+            let open = false;
+            const stepsDiv = document.createElement('div');
+            stepsDiv.className = 'sample-walkthrough-steps hidden';
+            const overview = document.createElement('p');
+            overview.style.cssText = 'color:#166534;margin-bottom:10px;font-size:13px;';
+            overview.textContent = data.sampleAnswer.overview;
+            stepsDiv.appendChild(overview);
+            data.sampleAnswer.steps.forEach((step, i) => {
+                const s = document.createElement('div');
+                s.className = 'sample-step';
+                const num = document.createElement('span');
+                num.style.cssText = 'font-weight:700;margin-right:6px;';
+                num.textContent = (i + 1) + '.';
+                s.appendChild(num);
+                s.appendChild(document.createTextNode(step));
+                stepsDiv.appendChild(s);
+            });
+            toggleBtn.addEventListener('click', () => {
+                open = !open;
+                stepsDiv.classList.toggle('hidden', !open);
+                toggleBtn.textContent = open ? 'Hide walkthrough ↑' : 'See full walkthrough ↓';
+            });
+            walkthroughDiv.appendChild(toggleBtn);
+            walkthroughDiv.appendChild(stepsDiv);
+            panel.appendChild(walkthroughDiv);
         }
 
         // Text-to-Speech
@@ -739,6 +913,11 @@
             if (!sessionId) return;
             document.getElementById('nextBtn').disabled = true;
             document.getElementById('repeatBtn').disabled = true;
+            document.getElementById('sampleBtn').disabled = true;
+            const samplePanel = document.getElementById('samplePanel');
+            samplePanel.classList.add('hidden');
+            while (samplePanel.firstChild) samplePanel.removeChild(samplePanel.firstChild);
+            hasResponded = false;
             updateStatus('processing', 'Getting next question...');
             try {
                 const response = await fetch(`${API_URL}/interview/respond`, {
@@ -747,6 +926,7 @@
                     body: JSON.stringify({ sessionId, response: "Please move on to the next question." })
                 });
                 const data = await response.json();
+                if (data.currentQuestionId) currentQuestionId = data.currentQuestionId;
                 addMessage('ai', data.message);
                 speak(data.message);
             } catch (error) {
