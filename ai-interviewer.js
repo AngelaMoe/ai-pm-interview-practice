@@ -110,7 +110,11 @@ class AIInterviewer {
       'product-strategy': 'strategy',
       'execution': 'execution',
       'technical': 'technical',
-      'estimation': 'estimation'
+      'estimation': 'estimation',
+      // AI-specific interview types (from wiki question bank)
+      'ai-product-sense': 'ai-product-sense',
+      'ai-safety': 'ai-safety',
+      'ai-metrics': 'ai-metrics'
     };
     const category = categoryMap[interviewType] || interviewType;
     return db.questions.filter(q => q.category === category);
