@@ -142,6 +142,35 @@
             text-transform: uppercase;
         }
 
+        .question-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .question-actions button {
+            flex: 1;
+            padding: 9px 14px;
+            border: 1.5px solid #c4b5fd;
+            border-radius: 7px;
+            background: white;
+            color: #5b21b6;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .question-actions button:hover:not(:disabled) {
+            background: #f5f3ff;
+            border-color: #7c3aed;
+        }
+
+        .question-actions button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
         .controls {
             display: flex;
             gap: 10px;
@@ -344,6 +373,11 @@
 
             <div id="conversation" class="conversation"></div>
 
+            <div class="question-actions">
+                <button id="repeatBtn" onclick="repeatQuestion()" disabled>Repeat question</button>
+                <button id="nextBtn" onclick="nextQuestion()" disabled>Next question</button>
+            </div>
+
             <div class="transcript">
                 <strong>Your response:</strong>
                 <div id="transcript">Click "Speak" to answer...</div>
@@ -461,6 +495,7 @@
         let isRecording = false;
         let currentTranscript = '';
         let accumulatedTranscript = ''; // Track all finalized speech across pauses
+        let lastAiMessage = ''; // Track last AI message for repeat
 
         // Initialize Speech Recognition
         function initSpeechRecognition() {
@@ -679,12 +714,45 @@
             const conversation = document.getElementById('conversation');
             const message = document.createElement('div');
             message.className = `message ${role}`;
-            message.innerHTML = `
-                <div class="role">${role === 'ai' ? 'AI Interviewer' : 'You'}</div>
-                <div>${text}</div>
-            `;
+            const roleLabel = document.createElement('div');
+            roleLabel.className = 'role';
+            roleLabel.textContent = role === 'ai' ? 'AI Interviewer' : 'You';
+            const body = document.createElement('div');
+            body.textContent = text;
+            message.appendChild(roleLabel);
+            message.appendChild(body);
             conversation.appendChild(message);
             conversation.scrollTop = conversation.scrollHeight;
+
+            if (role === 'ai') {
+                lastAiMessage = text;
+                document.getElementById('repeatBtn').disabled = false;
+                document.getElementById('nextBtn').disabled = false;
+            }
+        }
+
+        function repeatQuestion() {
+            if (lastAiMessage) speak(lastAiMessage);
+        }
+
+        async function nextQuestion() {
+            if (!sessionId) return;
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('repeatBtn').disabled = true;
+            updateStatus('processing', 'Getting next question...');
+            try {
+                const response = await fetch(`${API_URL}/interview/respond`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sessionId, response: "Please move on to the next question." })
+                });
+                const data = await response.json();
+                addMessage('ai', data.message);
+                speak(data.message);
+            } catch (error) {
+                showError('Failed to get next question: ' + error.message);
+                updateStatus('idle', 'Error');
+            }
         }
 
         function updateStatus(state, text) {
