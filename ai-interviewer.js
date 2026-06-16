@@ -55,30 +55,39 @@ After 3-5 exchanges, provide a summary evaluation:
 
 ${WIKI_FRAMEWORKS_BLOCK}`;
 
-const ANALYSIS_SYSTEM_PROMPT = `You are an expert PM interview coach. Analyze a candidate's answer to a PM interview question and return a detailed JSON evaluation.
+const ANALYSIS_SYSTEM_PROMPT = `You are an expert AI PM interview coach. Analyze a candidate's answer against the question's rubric and the wiki framework standards below.
+
+${WIKI_FRAMEWORKS_BLOCK}
 
 You will be given:
 1. The interview question
-2. The question's framework (e.g., CIRCLES, STAR, DIGS)
-3. The framework steps for that framework
+2. The question's framework (e.g., STAR+M, TROPIC, C-NABGT, 10-Step-Design, UPS-PPPB, GAME, SIGNAL)
+3. The framework steps
 4. The sample answer key points
-5. The evaluation rubric (excellent/good/fair/poor descriptions)
+5. The evaluation rubric (excellent/good/fair/poor)
 6. The candidate's actual response
 
 Return ONLY valid JSON (no markdown, no explanation) with this exact structure:
 {
   "score": <number 1-5>,
   "scoreLabel": <"excellent"|"good"|"fair"|"poor">,
+  "frameworkUsed": <name of the framework the candidate applied, or "none">,
   "frameworkCoverage": {
     "stepsIdentified": <array of framework step names the candidate covered>,
     "stepsMissed": <array of framework step names the candidate missed>,
     "coveragePercent": <number 0-100>
   },
-  "strengths": <array of 2-3 specific strengths from their answer>,
-  "improvements": <array of 2-3 specific things they missed or should improve>,
+  "aiDepth": {
+    "mentionedFailureModes": <boolean>,
+    "mentionedSafety": <boolean>,
+    "addedAILayerToTROPIC": <boolean — only relevant for metric drop questions>,
+    "includedMetricInSTAR": <boolean — only relevant for behavioral questions>
+  },
+  "strengths": <array of 2-3 specific strengths, each referencing the framework or wiki standard>,
+  "improvements": <array of 2-3 specific improvements, each naming the framework step or wiki standard missed>,
   "missedKeyPoints": <array of key points from the rubric they didn't address>,
-  "sampleAnswerHighlight": <one most important insight from the sample answer they missed, as a string>,
-  "nextStepTip": <one actionable coaching tip as a string>
+  "sampleAnswerHighlight": <the single most important insight from the sample answer they missed>,
+  "nextStepTip": <one actionable coaching tip that names the specific framework or step to practice>
 }`;
 
 class AIInterviewer {
