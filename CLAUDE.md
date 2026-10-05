@@ -12,6 +12,22 @@ ESM project (`"type": "module"`). Uses `@anthropic-ai/sdk`. Requires `ANTHROPIC_
 
 ---
 
+## Product direction — two modes
+
+| Mode | What it is | Status |
+|------|-----------|--------|
+| **Practice** | The existing voice mock interview (guided coaching + full simulation). | Built. **Do not change** while building Learn mode. |
+| **Learn** | Duolingo-style lessons that teach PM interview knowledge. Built on top of the existing Study Frameworks cards and Question Deconstruction quiz, reusing their content rather than replacing them. | Planned. Work happens on branch `feature/learn-mode`. PRD and UI spec not written yet. |
+
+**Stack:** Node/Express, same as the rest of the app. No new framework for Learn mode.
+
+**Ground rules for Learn mode work:**
+- Keep changes small. Add to existing files rather than restructuring them.
+- Practice mode endpoints (`/api/interview/*`) and their behavior stay as they are.
+- Every changed file gets a short explanation of why it was touched.
+
+---
+
 ## What is built
 
 ### App structure
@@ -81,7 +97,10 @@ When `ANTHROPIC_API_KEY` is not set, demo mode activates — 2 free uses per IP,
 
 **All features working:** Landing 3-step flow, Study framework cards (8 rounds), Question Deconstruction (6 questions), Guided voice mode with progress tracker, Full simulation mode, Sample answer panel, Repeat/Next question buttons.
 
+**Since then (2026-10-05):** Committed the above to `main`, created `feature/learn-mode`, and added `mode` validation to `/api/interview/start` (only `guided` or `mock`, otherwise 400).
+
 **Next steps (suggested):**
+- Write the Learn mode PRD and UI spec (see Product direction above) before any Learn mode code
 - Add Vibe Coding as an interview type in the dropdown + deconstruction question
 - Build Obsidian vault file-watcher so new clipped notes auto-sync into the app
 - Push to GitHub and deploy to Vercel (currently running local only)
