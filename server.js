@@ -53,6 +53,7 @@ function checkDemoLimit(req, res) {
 
 // Store active interview sessions (in production, use Redis or database)
 const activeSessions = new Map();
+const VALID_MODES = ['guided', 'mock'];
 
 // Generate unique session ID
 function generateSessionId() {
@@ -80,6 +81,11 @@ app.post('/api/interview/start', async (req, res) => {
       return res.status(400).json({ error: 'Interview type is required' });
     }
 
+    const interviewMode = mode ?? 'mock';
+    if (!VALID_MODES.includes(interviewMode)) {
+      return res.status(400).json({ error: "Mode must be 'guided' or 'mock'" });
+    }
+
     if (!checkDemoLimit(req, res)) return;
 
     // Create new interviewer instance
@@ -90,7 +96,7 @@ app.post('/api/interview/start', async (req, res) => {
     const response = await interviewer.startInterview(
       interviewType,
       candidateName || 'the candidate',
-      mode || 'mock'
+      interviewMode
     );
 
     // Store session
@@ -105,7 +111,7 @@ app.post('/api/interview/start', async (req, res) => {
     res.json({
       sessionId,
       interviewType,
-      mode: mode || 'mock',
+      mode: interviewMode,
       guidedFramework: interviewer.guidedFramework || null,
       message: response.message,
       questionNumber: response.questionNumber,
