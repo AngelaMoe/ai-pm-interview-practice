@@ -26,6 +26,60 @@ function getQuestionsDb() {
   return questionsDb;
 }
 
+const FRAMEWORK_STEPS_MAP = {
+  'Metrics & Analytics': {
+    name: 'TROPIC',
+    steps: [['T','Timeframe'],['R','Region/segment'],['O','Other metrics'],['P','Product changes'],['I','Internal factors'],['C','External factors']]
+  },
+  'Behavioral': {
+    name: 'STAR+M',
+    steps: [['S','Situation'],['T','Task'],['A','Action'],['R','Result'],['+M','Meta-reflection']]
+  },
+  'Product Design': {
+    name: '10-Step Design',
+    steps: [['1','Clarify'],['2-3','Mission + users'],['4-5','Journey + pain points'],['6-7','Solutions + prioritize'],['8','AI layer'],['9-10','Metrics + tradeoffs']]
+  },
+  'Product Strategy': {
+    name: 'SIGNAL',
+    steps: [['S','Strengths'],['I','Industry trends'],['G','Goals'],['N','Needs'],['A','Actions'],['L','Land on recommendation']]
+  },
+  'Product Execution': {
+    name: 'TROPIC',
+    steps: [['T','Timeframe'],['R','Root cause'],['O','Options'],['P','Prioritize'],['I','Implement'],['C','Close the loop']]
+  },
+  'Technical PM': {
+    name: 'System Design',
+    steps: [['1','Clarify scale'],['2','Define components'],['3','Data model'],['4','Bottlenecks'],['5','Tradeoffs']]
+  },
+  'Product Sense': {
+    name: 'AI-CUPS-PDM',
+    steps: [['C','Context — what problem does this AI solve?'],['U','Users — who benefits and who is at risk?'],['P','Product critique — what works and what doesn\'t?'],['S','Signals — what metrics prove it\'s working?'],['P','Priority — what\'s the highest-leverage improvement?'],['D','Differentiation — why is the AI layer essential here?'],['M','Measure — how do you know the improvement worked?']]
+  },
+  'AI Safety': {
+    name: 'AI-CUPS-PDM',
+    steps: [['C','Context — what harm scenarios exist?'],['U','Users at risk — who is most vulnerable?'],['P','Prevention — model-level vs product-level controls'],['S','Signals — metrics that detect harm early'],['P','Policy — override and escalation path'],['D','Disclosure — what must users know?'],['M','Metrics — safety vs utility tradeoff']]
+  },
+};
+
+function getGuidedSystemPrompt(interviewType) {
+  const fw = FRAMEWORK_STEPS_MAP[interviewType] || FRAMEWORK_STEPS_MAP['Metrics & Analytics'];
+  const stepsText = fw.steps.map(([l, d]) => `  ${l}: ${d}`).join('\n');
+  return `You are an AI PM interview coach running a guided practice session. Your role is to coach the candidate step by step through the ${fw.name} framework.
+
+Active framework: ${fw.name}
+Steps:
+${stepsText}
+
+Rules:
+- Ask one real interview question to start, then coach step by step
+- After each candidate response: (1) briefly acknowledge what they covered (2) prompt the next uncovered step by its exact letter
+- If they cover a step unprompted, acknowledge it: "You already covered [letter], good. Now [next step]."
+- If they jump to solutions before diagnosing, redirect: "Hold on — we haven't covered [missing step] yet."
+- Keep every response under 80 words — this is voice
+- ALWAYS start your response with [STEP:X] where X is the current step letter (e.g. [STEP:T] or [STEP:done]) — the UI parses this
+- Be encouraging but direct. Name the framework step explicitly.`;
+}
+
 const INTERVIEWER_SYSTEM_PROMPT = `You are an experienced AI Product Manager interviewer from a top tech company (Google, Meta, Amazon, Anthropic, OpenAI). You are conducting a practice interview to help candidates prepare for AI PM roles.
 
 Your role:
@@ -105,13 +159,20 @@ class AIInterviewer {
     // Map interview type IDs to category names in the database
     const categoryMap = {
       'product-design': 'product-design',
+      'Product Design': 'product-design',
       'metrics': 'metrics',
+      'Metrics & Analytics': 'metrics',
       'behavioral': 'behavioral',
+      'Behavioral': 'behavioral',
       'product-strategy': 'strategy',
+      'Product Strategy': 'strategy',
       'execution': 'execution',
+      'Product Execution': 'execution',
       'technical': 'technical',
+      'Technical PM': 'technical',
       'estimation': 'estimation',
-      // AI-specific interview types (from wiki question bank)
+      'Product Sense': 'ai-product-sense',
+      'AI Safety': 'ai-safety',
       'ai-product-sense': 'ai-product-sense',
       'ai-safety': 'ai-safety',
       'ai-metrics': 'ai-metrics'
@@ -134,8 +195,11 @@ class AIInterviewer {
     return db.frameworks[frameworkName] || null;
   }
 
-  async startInterview(interviewType, candidateName = 'the candidate') {
+  async startInterview(interviewType, candidateName = 'the candidate', mode = 'mock') {
     this.interviewType = interviewType;
+    this.mode = mode;
+    this.activeSystemPrompt = mode === 'guided' ? getGuidedSystemPrompt(interviewType) : INTERVIEWER_SYSTEM_PROMPT;
+    this.guidedFramework = mode === 'guided' ? (FRAMEWORK_STEPS_MAP[interviewType] || FRAMEWORK_STEPS_MAP['Metrics & Analytics']) : null;
     this.conversationHistory = [];
     this.currentQuestionIndex = 0;
     this.questionsAsked = [];
@@ -164,7 +228,7 @@ class AIInterviewer {
       const response = await getClient().messages.create({
         model: 'claude-sonnet-4-6',
         max_tokens: 1024,
-        system: [{ type: 'text', text: INTERVIEWER_SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
+        system: [{ type: 'text', text: this.activeSystemPrompt || INTERVIEWER_SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
         messages: this.conversationHistory
       });
 

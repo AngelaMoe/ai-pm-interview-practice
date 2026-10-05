@@ -407,6 +407,496 @@
             border-left: 2px solid #86efac;
             padding-left: 10px;
         }
+
+        /* ── Landing screen ── */
+        .landing-options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .landing-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            text-align: left;
+            width: 100%;
+        }
+
+        .landing-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 14px rgba(102,126,234,0.15);
+        }
+
+        .landing-card.primary {
+            border-color: #667eea;
+            background: #f5f3ff;
+        }
+
+        .landing-card h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        .landing-card p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .landing-card .card-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .tag-start { background: #ede9fe; color: #5b21b6; }
+        .tag-practice { background: #dcfce7; color: #15803d; }
+
+        /* ── Study screen ── */
+        .study-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: none;
+            border: 1.5px solid #d1d5db;
+            color: #555;
+            padding: 7px 14px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: none;
+            width: auto;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .study-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+            margin: 0;
+        }
+
+        .round-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .round-card {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .round-card.open {
+            border-color: #a78bfa;
+        }
+
+        .round-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 16px;
+            cursor: pointer;
+            background: white;
+            transition: background 0.15s;
+        }
+
+        .round-card-header:hover {
+            background: #fafafa;
+        }
+
+        .round-card.open .round-card-header {
+            background: #f5f3ff;
+        }
+
+        .round-card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .round-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .round-card-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .round-card-framework {
+            font-size: 11px;
+            color: #888;
+            font-weight: 500;
+            margin-top: 1px;
+        }
+
+        .round-chevron {
+            font-size: 12px;
+            color: #aaa;
+            transition: transform 0.2s;
+        }
+
+        .round-card.open .round-chevron {
+            transform: rotate(180deg);
+        }
+
+        .round-card-body {
+            display: none;
+            padding: 0 16px 16px;
+            background: #fdfcff;
+            border-top: 1px solid #ede9fe;
+        }
+
+        .round-card.open .round-card-body {
+            display: block;
+        }
+
+        .round-section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #7c3aed;
+            margin: 14px 0 7px;
+        }
+
+        .round-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .round-step {
+            display: flex;
+            gap: 9px;
+            align-items: flex-start;
+        }
+
+        .round-step-badge {
+            background: #7c3aed;
+            color: white;
+            border-radius: 4px;
+            min-width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 800;
+            flex-shrink: 0;
+            padding: 0 3px;
+        }
+
+        .round-step-text {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.5;
+            padding-top: 3px;
+        }
+
+        .antipatterns {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .antipattern {
+            font-size: 13px;
+            color: #b91c1c;
+            display: flex;
+            gap: 7px;
+            line-height: 1.4;
+        }
+
+        .antipattern::before {
+            content: '✗';
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .study-cta {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .study-cta:hover {
+            background: #5568d3;
+        }
+
+        /* ── Deconstruction quiz ── */
+        .dq-question {
+            background: var(--bg-secondary, #f3f4f6);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.5;
+            margin-bottom: 18px;
+            border-left: 3px solid #7c3aed;
+        }
+
+        .dq-progress {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .dq-dot {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: #e5e7eb;
+            transition: background 0.3s;
+        }
+
+        .dq-dot.active { background: #7c3aed; }
+        .dq-dot.done { background: #16a34a; }
+
+        .dq-stage-prompt {
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+
+        .dq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .dq-option {
+            padding: 11px 14px;
+            border-radius: 8px;
+            border: 1.5px solid #e5e7eb;
+            background: white;
+            font-size: 13px;
+            color: #374151;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s;
+            line-height: 1.4;
+        }
+
+        .dq-option:hover:not(:disabled) {
+            border-color: #7c3aed;
+            background: #f5f3ff;
+        }
+
+        .dq-option.correct {
+            border-color: #16a34a;
+            background: #f0fdf4;
+            color: #15803d;
+            font-weight: 600;
+        }
+
+        .dq-option.wrong {
+            border-color: #e5e7eb;
+            background: #f9fafb;
+            color: #9ca3af;
+            text-decoration: line-through;
+        }
+
+        .dq-option:disabled { cursor: default; }
+
+        .dq-reveal {
+            background: #f5f3ff;
+            border-radius: 8px;
+            padding: 11px 13px;
+            font-size: 12px;
+            color: #4c1d95;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            border-left: 3px solid #7c3aed;
+        }
+
+        .dq-next-btn {
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .dq-next-btn:hover { background: #6d28d9; }
+
+        .dq-opening {
+            background: #ede9fe;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 16px;
+        }
+
+        .dq-opening-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #7c3aed;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 6px;
+        }
+
+        .dq-opening-text {
+            font-size: 13px;
+            color: #4c1d95;
+            line-height: 1.55;
+            font-style: italic;
+        }
+
+        .dq-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .dq-nav button {
+            flex: 1;
+            padding: 11px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dq-nav .dq-retry {
+            background: white;
+            border: 1.5px solid #e5e7eb;
+            color: #374151;
+        }
+
+        .dq-nav .dq-next-q {
+            background: #7c3aed;
+            border: none;
+            color: white;
+        }
+
+        /* ── Mode toggle in setup ── */
+        .mode-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border-radius: 8px;
+            border: 1.5px solid #e5e7eb;
+            background: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #374151;
+            transition: all 0.15s;
+        }
+
+        .mode-btn.active {
+            border-color: #7c3aed;
+            background: #f5f3ff;
+            color: #5b21b6;
+        }
+
+        /* ── Guided progress tracker ── */
+        .progress-tracker {
+            background: #f5f3ff;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+        }
+
+        .progress-tracker-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #7c3aed;
+            margin-bottom: 10px;
+        }
+
+        .pt-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .pt-step {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .pt-badge {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .pt-badge.done { background: #dcfce7; color: #15803d; }
+        .pt-badge.current { background: #7c3aed; color: white; }
+        .pt-badge.pending { background: #e5e7eb; color: #9ca3af; }
+
+        .pt-text {
+            font-size: 12px;
+            color: #374151;
+        }
+
+        .pt-text.done { color: #9ca3af; text-decoration: line-through; }
+        .pt-text.current { font-weight: 700; color: #5b21b6; }
     </style>
 </head>
 <body>
@@ -416,27 +906,80 @@
 
         <div id="error" class="error hidden"></div>
 
-        <!-- Interview Setup (shown initially) -->
-        <div id="setup" class="interview-setup">
+        <!-- Landing screen -->
+        <div id="landing">
+            <div class="landing-options">
+                <button class="landing-card" onclick="showStudy()">
+                    <div class="card-tag tag-start">Step 1</div>
+                    <h2>Study Frameworks</h2>
+                    <p>Learn the 7 round types, frameworks, and anti-patterns. Takes 5–10 min.</p>
+                </button>
+                <button class="landing-card" onclick="showDeconstruct()">
+                    <div class="card-tag" style="background:#dcfce7;color:#15803d;">Step 2 — New</div>
+                    <h2>Question Deconstruction</h2>
+                    <p>Practice reading questions — recognize type, pick framework, spot the hidden test.</p>
+                </button>
+                <button class="landing-card" onclick="showSetup()">
+                    <div class="card-tag tag-practice">Step 3</div>
+                    <h2>Mock Interview</h2>
+                    <p>Voice-only practice with AI feedback. Choose guided coaching or full simulation.</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Study screen -->
+        <div id="study" class="hidden">
+            <div class="study-header">
+                <button class="back-btn" onclick="showLanding()">Back</button>
+                <h2>AI PM Interview Rounds</h2>
+            </div>
+            <div class="round-cards" id="roundCards"></div>
+            <button class="study-cta" onclick="showDeconstruct()">Practice deconstruction</button>
+        </div>
+
+        <!-- Deconstruction screen -->
+        <div id="deconstruct" class="hidden">
+            <div class="study-header">
+                <button class="back-btn" onclick="showLanding()">Back</button>
+                <h2>Question Deconstruction</h2>
+            </div>
+            <div id="deconstructCard"></div>
+        </div>
+
+        <!-- Interview Setup -->
+        <div id="setup" class="interview-setup hidden">
+            <label>Practice mode:</label>
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="modeGuided" onclick="setMode('guided')">Guided coaching</button>
+                <button class="mode-btn" id="modeMock" onclick="setMode('mock')">Full simulation</button>
+            </div>
+
             <label for="interviewType">Select Interview Type:</label>
             <select id="interviewType">
                 <option value="">Choose interview type...</option>
+                <option value="Product Sense">Product Sense</option>
                 <option value="Product Design">Product Design</option>
                 <option value="Product Strategy">Product Strategy</option>
                 <option value="Metrics & Analytics">Metrics & Analytics</option>
                 <option value="Behavioral">Behavioral</option>
                 <option value="Product Execution">Product Execution</option>
                 <option value="Technical PM">Technical PM</option>
+                <option value="AI Safety">AI Safety</option>
             </select>
 
             <label for="candidateName">Your Name (optional):</label>
             <input type="text" id="candidateName" placeholder="Enter your name">
 
             <button class="start-btn" onclick="startInterview()">Start Interview</button>
+            <button class="back-btn" style="margin-top:8px;width:100%;text-align:center;" onclick="showLanding()">Back</button>
         </div>
 
         <!-- Interview Interface (hidden initially) -->
         <div id="interview" class="hidden">
+            <div id="progressTracker" class="progress-tracker hidden">
+                <div class="progress-tracker-label">Framework progress</div>
+                <div class="pt-steps" id="ptSteps"></div>
+            </div>
             <button class="framework-toggle" onclick="toggleFramework()">Show Framework Hints</button>
             <div id="frameworkPanel" class="framework-panel hidden">
                 <h3 id="frameworkTitle">Framework</h3>
@@ -481,7 +1024,685 @@
         // Configuration
         const API_URL = 'http://localhost:3000/api';
 
-        // Framework hints data keyed by interview type value
+        // ── Screen navigation ──
+        const SCREENS = ['landing','study','deconstruct','setup','interview'];
+        function showScreen(id) {
+            SCREENS.forEach(s => document.getElementById(s).classList.toggle('hidden', s !== id));
+        }
+        function showLanding() { showScreen('landing'); }
+        function showStudy() { showScreen('study'); buildRoundCards(); }
+        function showSetup() { showScreen('setup'); }
+        function showDeconstruct(roundType) {
+            showScreen('deconstruct');
+            startDeconstruct(roundType || null);
+        }
+
+        // ── Mode toggle ──
+        let selectedMode = 'guided';
+        function setMode(m) {
+            selectedMode = m;
+            document.getElementById('modeGuided').classList.toggle('active', m === 'guided');
+            document.getElementById('modeMock').classList.toggle('active', m === 'mock');
+        }
+
+        // ── Deconstruction quiz data ──
+        const DECONSTRUCT_QUESTIONS = [
+            {
+                question: "ChatGPT's daily active users dropped 12% last week. Walk me through how you'd investigate.",
+                roundType: 'metrics',
+                stages: [
+                    {
+                        prompt: 'What type of question is this?',
+                        options: [
+                            { text: 'Metrics & analytics', correct: true },
+                            { text: 'Product sense', correct: false },
+                            { text: 'Behavioral', correct: false },
+                            { text: 'Strategy', correct: false }
+                        ],
+                        reveal: "Correct. 'Dropped' + 'investigate' = metrics question. You're diagnosing a data anomaly, not designing a product or telling a story."
+                    },
+                    {
+                        prompt: 'Which framework fits best?',
+                        options: [
+                            { text: 'STAR+M — behavioral story', correct: false },
+                            { text: 'TROPIC — metric drop investigation', correct: true },
+                            { text: '10-Step Design — product design', correct: false },
+                            { text: 'SIGNAL — strategic options', correct: false }
+                        ],
+                        reveal: "TROPIC: Timeframe → Region → Other metrics → Product changes → Internal factors → External factors. Always diagnose before prescribing."
+                    },
+                    {
+                        prompt: "What is the interviewer really testing?",
+                        options: [
+                            { text: 'Your SQL and data analysis skills', correct: false },
+                            { text: 'Whether you panic and jump to solutions', correct: false },
+                            { text: 'Structured thinking — diagnose before prescribing', correct: true }
+                        ],
+                        reveal: "The trap is jumping to 'we should run an experiment' before ruling out a tracking bug or instrumentation error. Slow down and diagnose first."
+                    }
+                ],
+                openingLine: '"Before I dive in — can you confirm this is daily active users, not sessions? And is the drop global or isolated to a specific region?"'
+            },
+            {
+                question: "Tell me about a time you made a high-stakes decision with incomplete data.",
+                roundType: 'behavioral',
+                stages: [
+                    {
+                        prompt: 'What type of question is this?',
+                        options: [
+                            { text: 'Metrics & analytics', correct: false },
+                            { text: 'Behavioral', correct: true },
+                            { text: 'Product execution', correct: false },
+                            { text: 'Product sense', correct: false }
+                        ],
+                        reveal: "'Tell me about a time' is the behavioral signal. It's asking for a specific past story from your own experience."
+                    },
+                    {
+                        prompt: 'Which framework fits best?',
+                        options: [
+                            { text: 'STAR+M — story with meta-reflection', correct: true },
+                            { text: 'TROPIC — metric investigation', correct: false },
+                            { text: 'SIGNAL — strategic analysis', correct: false },
+                            { text: 'GAME — goal and metric definition', correct: false }
+                        ],
+                        reveal: "STAR+M: Situation → Task → Action → Result → Meta-reflection. The +M is critical — it shows self-awareness, which is what this question probes."
+                    },
+                    {
+                        prompt: "What is the interviewer really testing?",
+                        options: [
+                            { text: "Whether you've worked on important projects", correct: false },
+                            { text: 'How you reason and reflect under uncertainty', correct: true },
+                            { text: 'How well you recall past experiences', correct: false }
+                        ],
+                        reveal: "They want to see your reasoning process, not just what you decided. The +M reflection ('here's what I'd do differently') separates strong candidates."
+                    }
+                ],
+                openingLine: '"I\'ll use STAR to structure this. Situation: [context in one sentence]. My task was to decide [specific decision] by [deadline] with only [what data you had]."'
+            },
+            {
+                question: "Design an AI-powered feature for Google Docs that helps PMs write better PRDs.",
+                roundType: 'product-design',
+                stages: [
+                    {
+                        prompt: 'What type of question is this?',
+                        options: [
+                            { text: 'Product sense', correct: false },
+                            { text: 'Product design', correct: true },
+                            { text: 'Technical PM', correct: false },
+                            { text: 'Strategy', correct: false }
+                        ],
+                        reveal: "'Design a feature' is product design — you're building from scratch. Product sense is about critiquing and improving something that already exists."
+                    },
+                    {
+                        prompt: 'Which framework fits best?',
+                        options: [
+                            { text: 'STAR+M — behavioral story', correct: false },
+                            { text: 'TROPIC — metric investigation', correct: false },
+                            { text: '10-Step Design with AI layer', correct: true },
+                            { text: 'C-NABGT — north star metric', correct: false }
+                        ],
+                        reveal: "10-Step Design forces you to name users and map pain points before proposing anything. Step 8 (AI layer) is mandatory — you're applying for an AI PM role."
+                    },
+                    {
+                        prompt: "What is the interviewer really testing?",
+                        options: [
+                            { text: 'Your knowledge of AI/ML technology', correct: false },
+                            { text: 'Whether you add a real AI layer or just list generic features', correct: true },
+                            { text: 'How creative your feature ideas are', correct: false }
+                        ],
+                        reveal: "Generic: 'AI will suggest improvements.' Strong: 'An LLM trained on approved PRDs flags missing sections and suggests user stories based on what you've typed so far.'"
+                    }
+                ],
+                openingLine: '"Before I design — are we helping PMs write from scratch, or improving existing drafts? And are we targeting desktop, or also mobile editors?"'
+            },
+            {
+                question: "Should OpenAI build consumer hardware — a dedicated AI device — or stay software-only?",
+                roundType: 'strategy',
+                stages: [
+                    {
+                        prompt: 'What type of question is this?',
+                        options: [
+                            { text: 'Product design', correct: false },
+                            { text: 'Product sense', correct: false },
+                            { text: 'Product strategy', correct: true },
+                            { text: 'Product execution', correct: false }
+                        ],
+                        reveal: "'Should [company] build X' is strategy — you're weighing build vs. buy, competitive dynamics, and making a recommendation. Product sense would ask you to critique an existing product."
+                    },
+                    {
+                        prompt: 'Which framework fits best?',
+                        options: [
+                            { text: '10-Step Design — product design', correct: false },
+                            { text: 'STAR+M — behavioral story', correct: false },
+                            { text: 'SIGNAL — strategic analysis with recommendation', correct: true },
+                            { text: 'TROPIC — metric investigation', correct: false }
+                        ],
+                        reveal: "SIGNAL: Strengths → Industry trends → Goals → Needs → Actions → Land on a recommendation. The L is critical — don't present options without choosing one."
+                    },
+                    {
+                        prompt: "What is the interviewer really testing?",
+                        options: [
+                            { text: "Your personal opinion on hardware", correct: false },
+                            { text: 'Whether you make a clear recommendation vs. just listing pros and cons', correct: true },
+                            { text: "Your knowledge of OpenAI's financials", correct: false }
+                        ],
+                        reveal: "Weak: 'On one hand hardware creates a moat, on the other it's expensive...' Strong: 'I'd stay software-only for 18 months because [reason], then revisit if [condition].' Make the call."
+                    }
+                ],
+                openingLine: '"To frame this: I\'ll look at OpenAI\'s current strengths, where the market is heading, and their core goal — then give you my recommendation with reasoning."'
+            },
+            {
+                question: "How would you improve Notion AI? Walk me through your thinking.",
+                roundType: 'product-sense',
+                stages: [
+                    {
+                        prompt: 'What type of question is this?',
+                        options: [
+                            { text: 'Product design', correct: false },
+                            { text: 'Product sense', correct: true },
+                            { text: 'Product strategy', correct: false },
+                            { text: 'AI safety', correct: false }
+                        ],
+                        reveal: "'How would you improve X' is product sense — critiquing something that exists. Product design is building from scratch. The key difference: existing product vs. blank slate."
+                    },
+                    {
+                        prompt: 'Which framework fits best?',
+                        options: [
+                            { text: '10-Step Design — build from scratch', correct: false },
+                            { text: 'STAR+M — behavioral story', correct: false },
+                            { text: 'AI-CUPS-PDM — critique and improve an AI product', correct: true },
+                            { text: 'SIGNAL — strategic analysis', correct: false }
+                        ],
+                        reveal: "AI-CUPS-PDM: Context → Users → Product critique → Signals → Priority → Differentiation → Measure. It forces you to evaluate the AI layer specifically, not just the UX."
+                    },
+                    {
+                        prompt: "What is the interviewer really testing?",
+                        options: [
+                            { text: 'Whether you use Notion AI regularly', correct: false },
+                            { text: 'Whether your improvement is AI-specific, not just generic UX polish', correct: true },
+                            { text: 'How many features you can list', correct: false }
+                        ],
+                        reveal: "Generic: 'I'd improve the UI.' Strong: 'Notion AI\'s suggestions lack context from linked pages — I'd give the model access to the whole workspace graph so suggestions are specific to your project, not generic.'"
+                    }
+                ],
+                openingLine: '"Before I critique — can I clarify which user segment? A solo writer and an ops team use Notion AI very differently. I\'ll focus on knowledge workers writing docs and SOPs."'
+            },
+            {
+                question: "You're the PM for a medical AI that answers health questions. Users are getting confident but wrong answers. How do you respond?",
+                roundType: 'ai-safety',
+                stages: [
+                    {
+                        prompt: 'What type of question is this?',
+                        options: [
+                            { text: 'Metrics & analytics', correct: false },
+                            { text: 'Product execution', correct: false },
+                            { text: 'Product sense', correct: false },
+                            { text: 'AI safety', correct: true }
+                        ],
+                        reveal: "'Confident but wrong answers causing harm' is AI safety — it involves hallucinations, trust calibration, and harm prevention. Product execution would be about a missed deadline or prioritization call."
+                    },
+                    {
+                        prompt: 'Which framework fits best?',
+                        options: [
+                            { text: 'TROPIC — metric investigation', correct: false },
+                            { text: 'AI-CUPS-PDM — safety-first product response', correct: true },
+                            { text: 'SIGNAL — strategic options', correct: false },
+                            { text: 'STAR+M — behavioral story', correct: false }
+                        ],
+                        reveal: "AI-CUPS-PDM: Context → Users at risk → Prevention → Signals → Policy → Disclosure → Metrics. You need to think about harm vectors, not just product fixes."
+                    },
+                    {
+                        prompt: "What is the interviewer really testing?",
+                        options: [
+                            { text: "Whether you'd shut the product down immediately", correct: false },
+                            { text: 'Your knowledge of LLM hallucination techniques', correct: false },
+                            { text: 'Whether you treat safety as a design constraint, not an obstacle', correct: true }
+                        ],
+                        reveal: "Strong candidates don't jump to 'add a disclaimer.' They ask: who is most at risk, what's the severity, what signals detect harm, and how do we measure the safety vs. utility tradeoff."
+                    }
+                ],
+                openingLine: '"First — I\'d want to know severity. Are users making actual medical decisions from these answers? If yes, I\'d consider a temporary scope restriction while we investigate the failure mode."'
+            }
+        ];
+
+        let dqIndex = 0;
+        let dqStage = 0;
+        let dqSelected = false;
+
+        function startDeconstruct(roundType) {
+            if (roundType) {
+                const idx = DECONSTRUCT_QUESTIONS.findIndex(q => q.roundType === roundType);
+                dqIndex = idx >= 0 ? idx : 0;
+            } else {
+                dqIndex = 0;
+            }
+            dqStage = 0;
+            dqSelected = false;
+            renderDeconstructCard();
+        }
+
+        function renderDeconstructCard() {
+            const q = DECONSTRUCT_QUESTIONS[dqIndex];
+            const container = document.getElementById('deconstructCard');
+            while (container.firstChild) container.removeChild(container.firstChild);
+
+            const dots = document.createElement('div');
+            dots.className = 'dq-progress';
+            DECONSTRUCT_QUESTIONS.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.className = 'dq-dot' + (i < dqIndex ? ' done' : i === dqIndex ? ' active' : '');
+                dots.appendChild(d);
+            });
+            container.appendChild(dots);
+
+            const qEl = document.createElement('div');
+            qEl.className = 'dq-question';
+            qEl.textContent = q.question;
+            container.appendChild(qEl);
+
+            for (let i = 0; i < dqStage; i++) {
+                const s = q.stages[i];
+                const correct = s.options.find(o => o.correct);
+                const summary = document.createElement('div');
+                summary.style.cssText = 'font-size:12px;color:#16a34a;margin-bottom:8px;display:flex;gap:6px;align-items:flex-start;';
+                const check = document.createElement('span');
+                check.textContent = '✓';
+                check.style.fontWeight = '700';
+                const txt = document.createElement('span');
+                txt.textContent = correct.text;
+                summary.appendChild(check);
+                summary.appendChild(txt);
+                container.appendChild(summary);
+            }
+
+            if (dqStage < q.stages.length) {
+                renderStage(q, dqStage, container);
+            } else {
+                renderReveal(q, container);
+            }
+        }
+
+        function renderStage(q, stageIdx, container) {
+            const stage = q.stages[stageIdx];
+            const prompt = document.createElement('div');
+            prompt.className = 'dq-stage-prompt';
+            prompt.textContent = stage.prompt;
+            container.appendChild(prompt);
+
+            const opts = document.createElement('div');
+            opts.className = 'dq-options';
+            stage.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'dq-option';
+                btn.textContent = opt.text;
+                btn.onclick = () => selectOption(btn, opt.correct, stage, opts, container);
+                opts.appendChild(btn);
+            });
+            container.appendChild(opts);
+        }
+
+        function selectOption(btn, isCorrect, stage, optsContainer, card) {
+            if (dqSelected) return;
+            dqSelected = true;
+            Array.from(optsContainer.children).forEach(b => {
+                b.disabled = true;
+                const isThisCorrect = stage.options.find(o => o.text === b.textContent).correct;
+                if (isThisCorrect) b.classList.add('correct');
+                else if (b === btn && !isCorrect) b.classList.add('wrong');
+            });
+            const reveal = document.createElement('div');
+            reveal.className = 'dq-reveal';
+            reveal.textContent = stage.reveal;
+            card.appendChild(reveal);
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'dq-next-btn';
+            const isLastStage = dqStage >= DECONSTRUCT_QUESTIONS[dqIndex].stages.length - 1;
+            nextBtn.textContent = isLastStage ? 'See how to open this answer' : 'Next';
+            nextBtn.onclick = () => { dqStage++; dqSelected = false; renderDeconstructCard(); };
+            card.appendChild(nextBtn);
+        }
+
+        function renderReveal(q, container) {
+            const opening = document.createElement('div');
+            opening.className = 'dq-opening';
+            const lbl = document.createElement('div');
+            lbl.className = 'dq-opening-label';
+            lbl.textContent = 'How to open this answer';
+            const txt = document.createElement('div');
+            txt.className = 'dq-opening-text';
+            txt.textContent = q.openingLine;
+            opening.appendChild(lbl);
+            opening.appendChild(txt);
+            container.appendChild(opening);
+
+            const nav = document.createElement('div');
+            nav.className = 'dq-nav';
+            const retry = document.createElement('button');
+            retry.className = 'dq-retry';
+            retry.textContent = 'Retry';
+            retry.onclick = () => { dqStage = 0; dqSelected = false; renderDeconstructCard(); };
+            const nextQ = document.createElement('button');
+            nextQ.className = 'dq-next-q';
+            const isLast = dqIndex >= DECONSTRUCT_QUESTIONS.length - 1;
+            nextQ.textContent = isLast ? 'Start mock interview' : 'Next question';
+            nextQ.onclick = () => {
+                if (isLast) showSetup();
+                else { dqIndex++; dqStage = 0; dqSelected = false; renderDeconstructCard(); }
+            };
+            nav.appendChild(retry);
+            nav.appendChild(nextQ);
+            container.appendChild(nav);
+        }
+
+        // ── Guided progress tracker ──
+        let guidedFramework = null;
+
+        function initProgressTracker(framework) {
+            guidedFramework = framework;
+            const tracker = document.getElementById('progressTracker');
+            const stepsEl = document.getElementById('ptSteps');
+            while (stepsEl.firstChild) stepsEl.removeChild(stepsEl.firstChild);
+            tracker.classList.remove('hidden');
+            framework.steps.forEach(([letter, desc], i) => {
+                const row = document.createElement('div');
+                row.className = 'pt-step';
+                row.id = 'pt-step-' + i;
+                const badge = document.createElement('div');
+                badge.className = 'pt-badge ' + (i === 0 ? 'current' : 'pending');
+                badge.textContent = i === 0 ? letter : (i + 1).toString();
+                const text = document.createElement('div');
+                text.className = 'pt-text ' + (i === 0 ? 'current' : '');
+                text.textContent = letter + ' — ' + desc;
+                row.appendChild(badge);
+                row.appendChild(text);
+                stepsEl.appendChild(row);
+            });
+        }
+
+        function updateProgressTracker(stepLetter) {
+            if (!guidedFramework) return;
+            const idx = guidedFramework.steps.findIndex(([l]) => l === stepLetter);
+            if (idx < 0) return;
+            guidedFramework.steps.forEach(([letter], i) => {
+                const row = document.getElementById('pt-step-' + i);
+                if (!row) return;
+                const badge = row.querySelector('.pt-badge');
+                const text = row.querySelector('.pt-text');
+                badge.className = 'pt-badge ' + (i < idx ? 'done' : i === idx ? 'current' : 'pending');
+                text.className = 'pt-text ' + (i < idx ? 'done' : i === idx ? 'current' : '');
+                badge.textContent = i < idx ? '✓' : i === idx ? letter : (i + 1).toString();
+            });
+        }
+
+        function parseStepFromResponse(text) {
+            const match = text.match(/^\[STEP:([^\]]+)\]/);
+            return match ? match[1] : null;
+        }
+
+        function stripStepMarker(text) {
+            return text.replace(/^\[STEP:[^\]]+\]\s*/, '');
+        }
+
+        // ── Round card data ──
+        const ROUND_DATA = [
+            {
+                icon: '🗣',
+                color: '#ede9fe',
+                name: 'Behavioral',
+                framework: 'STAR+M',
+                steps: [
+                    ['S', 'Situation — set the scene in 1–2 sentences'],
+                    ['T', 'Task — what were YOU responsible for?'],
+                    ['A', 'Action — 3 specific things you did (use "I", not "we")'],
+                    ['R', 'Result — quantify the outcome'],
+                    ['+M', 'Meta-reflection — what would you do differently?'],
+                ],
+                antipatterns: [
+                    'Saying "we" throughout — interviewer can\'t tell what you did',
+                    'No numbers in the result ("improved performance" → by how much?)',
+                    'Skipping the meta-reflection — it shows self-awareness',
+                ]
+            },
+            {
+                icon: '🎨',
+                color: '#fce7f3',
+                name: 'Product Design',
+                framework: '10-Step Design',
+                steps: [
+                    ['1', 'Clarify — goal, constraints, platform, users'],
+                    ['2', 'Mission — company mission in one sentence'],
+                    ['3', 'Users — list 3–4 segments, pick one'],
+                    ['4', 'User journey — map key moments'],
+                    ['5', 'Pain points — top 3 from the journey'],
+                    ['6', 'Solutions — 2–3 ideas per pain point'],
+                    ['7', 'Prioritize — pick one solution, explain why'],
+                    ['8', 'AI layer — how does AI make this 10× better?'],
+                    ['9', 'Success metrics — leading + lagging indicators'],
+                    ['10', 'Tradeoffs — risks, constraints, what you\'d defer'],
+                ],
+                antipatterns: [
+                    'Jumping to solutions before naming the user segment',
+                    'No AI differentiation — you\'re applying for an AI PM role',
+                    'Metrics that are all lagging (revenue, retention) with no leading signals',
+                ]
+            },
+            {
+                icon: '🔍',
+                color: '#e0f2fe',
+                name: 'Product Sense',
+                framework: 'AI-CUPS-PDM',
+                steps: [
+                    ['C', 'Context — what problem does this AI product solve?'],
+                    ['U', 'Users — who benefits and who is at risk?'],
+                    ['P', 'Product critique — what works and what doesn\'t?'],
+                    ['S', 'Signals — what metrics prove it\'s working?'],
+                    ['P', 'Priority — what\'s the highest-leverage improvement?'],
+                    ['D', 'Differentiation — why is the AI layer essential here?'],
+                    ['M', 'Measure — how do you know the improvement worked?'],
+                ],
+                antipatterns: [
+                    'Critiquing UX without evaluating the AI layer specifically',
+                    'Improvements that could apply to any product — not AI-specific',
+                    'No metrics to prove your suggested improvement actually worked',
+                ]
+            },
+            {
+                icon: '📊',
+                color: '#dcfce7',
+                name: 'Metrics & Analytics',
+                framework: 'GAME + TROPIC + C-NABGT',
+                steps: [
+                    ['GAME', 'Goal → Actions → Metrics → Evaluate (metric definition)'],
+                    ['T', 'Timeframe — when did the drop start?'],
+                    ['R', 'Region / segment — is it everywhere or one cohort?'],
+                    ['O', 'Other metrics — did related metrics move too?'],
+                    ['P', 'Product changes — any recent deploys or experiments?'],
+                    ['I', 'Internal factors — data pipeline, instrumentation'],
+                    ['C', 'External factors — competitor, seasonality, macro'],
+                    ['C-NABGT', 'Confirm → Narrow → Analyze → Build → Go → Track (north star)'],
+                ],
+                antipatterns: [
+                    'Jumping to a root cause without ruling out instrumentation errors first',
+                    'Only checking lagging metrics (DAU, revenue) without leading signals',
+                    'Forgetting to check if a recent A/B test affected the metric',
+                ]
+            },
+            {
+                icon: '♟',
+                color: '#fef9c3',
+                name: 'Product Strategy',
+                framework: 'SIGNAL',
+                steps: [
+                    ['S', 'Strengths — what do we do better than anyone?'],
+                    ['I', 'Industry trends — what tailwinds/headwinds exist?'],
+                    ['G', 'Goals — company OKRs this maps to'],
+                    ['N', 'Needs — specific user/customer pain we\'re solving'],
+                    ['A', 'Actions — 3 strategic options, with tradeoffs'],
+                    ['L', 'Land on a recommendation — state it clearly'],
+                ],
+                antipatterns: [
+                    'Presenting options without making a clear recommendation',
+                    'Ignoring build vs. buy vs. partner tradeoffs',
+                    'No connection to company mission or OKRs',
+                ]
+            },
+            {
+                icon: '⚙️',
+                color: '#e0f2fe',
+                name: 'Execution',
+                framework: 'TROPIC + Prioritization',
+                steps: [
+                    ['T', 'Timeframe — scope the time window precisely'],
+                    ['R', 'Root cause — narrow before you solve'],
+                    ['O', 'Options — list at least 3 responses'],
+                    ['P', 'Prioritize — RICE or effort/impact matrix'],
+                    ['I', 'Implement — milestones and owners'],
+                    ['C', 'Close the loop — how will you know it worked?'],
+                ],
+                antipatterns: [
+                    'Solving before diagnosing (skipping root cause)',
+                    'Prioritizing by intuition instead of a framework (RICE, effort/impact)',
+                    'No definition of success for the fix',
+                ]
+            },
+            {
+                icon: '💻',
+                color: '#fff7ed',
+                name: 'Vibe Coding',
+                framework: 'UPS-PPPB',
+                steps: [
+                    ['U', 'Understand — restate the problem out loud'],
+                    ['P', 'Plan — describe what you\'ll build before touching the keyboard'],
+                    ['S', 'Start simple — working prototype > perfect code'],
+                    ['P', 'Prompt clearly — treat the AI like a junior engineer'],
+                    ['P', 'Probe the output — test edge cases immediately'],
+                    ['B', 'Brief the interviewer — narrate your reasoning'],
+                ],
+                antipatterns: [
+                    'Silent coding — narrate everything, it\'s an interview not a hackathon',
+                    'Over-engineering the first pass — ship something working, then iterate',
+                    'Accepting AI output without testing it',
+                ]
+            },
+            {
+                icon: '🛡',
+                color: '#fef2f2',
+                name: 'AI Safety & Ethics',
+                framework: 'AI-CUPS-PDM',
+                steps: [
+                    ['C', 'Context — what harm scenarios are we preventing?'],
+                    ['U', 'Users at risk — who is most vulnerable?'],
+                    ['P', 'Prevention — model-level vs. product-level controls'],
+                    ['S', 'Signals — what metrics detect harm early?'],
+                    ['P', 'Policy — what\'s the override/escalation path?'],
+                    ['D', 'Disclosure — what must we tell users?'],
+                    ['M', 'Metrics — how do we measure safety vs. utility tradeoff?'],
+                ],
+                antipatterns: [
+                    'Only naming obvious harms — show you\'ve thought about edge cases',
+                    'No metrics for safety — "we\'ll monitor it" isn\'t a plan',
+                    'Treating safety as a blocker instead of a design constraint',
+                ]
+            },
+        ];
+
+        function buildRoundCards() {
+            const container = document.getElementById('roundCards');
+            if (container.childElementCount > 0) return; // already built
+            ROUND_DATA.forEach((round, i) => {
+                const card = document.createElement('div');
+                card.className = 'round-card';
+
+                // Header
+                const header = document.createElement('div');
+                header.className = 'round-card-header';
+                header.onclick = () => card.classList.toggle('open');
+
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'round-icon';
+                iconDiv.style.background = round.color;
+                iconDiv.textContent = round.icon;
+
+                const titleDiv = document.createElement('div');
+                const nameEl = document.createElement('div');
+                nameEl.className = 'round-card-name';
+                nameEl.textContent = round.name;
+                const fwEl = document.createElement('div');
+                fwEl.className = 'round-card-framework';
+                fwEl.textContent = round.framework;
+                titleDiv.appendChild(nameEl);
+                titleDiv.appendChild(fwEl);
+
+                const chevron = document.createElement('div');
+                chevron.className = 'round-chevron';
+                chevron.textContent = '▼';
+
+                const titleRow = document.createElement('div');
+                titleRow.className = 'round-card-title';
+                titleRow.appendChild(iconDiv);
+                titleRow.appendChild(titleDiv);
+
+                header.appendChild(titleRow);
+                header.appendChild(chevron);
+
+                // Body
+                const body = document.createElement('div');
+                body.className = 'round-card-body';
+
+                const stepsLabel = document.createElement('div');
+                stepsLabel.className = 'round-section-label';
+                stepsLabel.textContent = 'Framework steps';
+                body.appendChild(stepsLabel);
+
+                const stepsDiv = document.createElement('div');
+                stepsDiv.className = 'round-steps';
+                round.steps.forEach(([letter, desc]) => {
+                    const step = document.createElement('div');
+                    step.className = 'round-step';
+                    const badge = document.createElement('div');
+                    badge.className = 'round-step-badge';
+                    badge.textContent = letter;
+                    const text = document.createElement('div');
+                    text.className = 'round-step-text';
+                    text.textContent = desc;
+                    step.appendChild(badge);
+                    step.appendChild(text);
+                    stepsDiv.appendChild(step);
+                });
+                body.appendChild(stepsDiv);
+
+                const apLabel = document.createElement('div');
+                apLabel.className = 'round-section-label';
+                apLabel.textContent = 'Anti-patterns to avoid';
+                body.appendChild(apLabel);
+
+                const apDiv = document.createElement('div');
+                apDiv.className = 'antipatterns';
+                round.antipatterns.forEach(ap => {
+                    const el = document.createElement('div');
+                    el.className = 'antipattern';
+                    el.textContent = ap;
+                    apDiv.appendChild(el);
+                });
+                body.appendChild(apDiv);
+
+                const tryBtn = document.createElement('button');
+                tryBtn.style.cssText = 'margin-top:14px;width:100%;padding:9px;border-radius:8px;border:1.5px solid #7c3aed;background:white;color:#7c3aed;font-size:12px;font-weight:700;cursor:pointer;';
+                tryBtn.textContent = 'Try a question';
+                const rt = round.name.toLowerCase().replace(/[^a-z]/g, '-').replace(/-+/g, '-');
+                const rtMap = {'behavioral':'behavioral','product-design':'product-design','product-sense':'product-sense','metrics--analytics':'metrics','product-strategy':'strategy','execution':'execution','vibe-coding':'vibe-coding','ai-safety--ethics':'ai-safety','ai-safety':'ai-safety'};
+                const mapped = rtMap[rt] || rt;
+                tryBtn.onclick = () => showDeconstruct(mapped);
+                body.appendChild(tryBtn);
+
+                card.appendChild(header);
+                card.appendChild(body);
+                container.appendChild(card);
+            });
+        }
+
+        // ── Framework hints data keyed by interview type value ──
         const FRAMEWORKS = {
             'Product Design': {
                 name: 'CIRCLES Method',
@@ -541,6 +1762,30 @@
                     ['3', 'Data model — what entities and relationships?'],
                     ['4', 'Scale bottlenecks — where does it break under load?'],
                     ['5', 'Trade-offs — consistency vs. availability, SQL vs. NoSQL'],
+                ]
+            },
+            'Product Sense': {
+                name: 'AI-CUPS-PDM',
+                steps: [
+                    ['C', 'Context — what problem does this AI product solve?'],
+                    ['U', 'Users — who benefits and who is at risk?'],
+                    ['P', 'Product critique — what works and what doesn\'t?'],
+                    ['S', 'Signals — what metrics prove it\'s working?'],
+                    ['P', 'Priority — highest-leverage improvement'],
+                    ['D', 'Differentiation — why is the AI layer essential?'],
+                    ['M', 'Measure — how do you know the improvement worked?'],
+                ]
+            },
+            'AI Safety': {
+                name: 'AI-CUPS-PDM',
+                steps: [
+                    ['C', 'Context — what harm scenarios exist?'],
+                    ['U', 'Users at risk — who is most vulnerable?'],
+                    ['P', 'Prevention — model-level vs product-level controls'],
+                    ['S', 'Signals — metrics that detect harm early'],
+                    ['P', 'Policy — override and escalation path'],
+                    ['D', 'Disclosure — what must users know?'],
+                    ['M', 'Metrics — safety vs utility tradeoff'],
                 ]
             },
         };
@@ -649,7 +1894,7 @@
                 const response = await fetch(`${API_URL}/interview/start`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ interviewType, candidateName })
+                    body: JSON.stringify({ interviewType, candidateName, mode: selectedMode })
                 });
 
                 const data = await response.json();
@@ -657,14 +1902,25 @@
                 currentQuestionId = data.currentQuestionId || null;
                 hasResponded = false;
 
-                document.getElementById('setup').classList.add('hidden');
-                document.getElementById('interview').classList.remove('hidden');
+                showScreen('interview');
                 const conv = document.getElementById('conversation');
                 while (conv.firstChild) conv.removeChild(conv.firstChild);
                 loadFrameworkHints(interviewType);
 
-                addMessage('ai', data.message);
-                speak(data.message);
+                if (selectedMode === 'guided' && data.guidedFramework) {
+                    initProgressTracker(data.guidedFramework);
+                } else {
+                    document.getElementById('progressTracker').classList.add('hidden');
+                    guidedFramework = null;
+                }
+
+                const aiText = selectedMode === 'guided' ? stripStepMarker(data.message) : data.message;
+                if (selectedMode === 'guided') {
+                    const step = parseStepFromResponse(data.message);
+                    if (step && step !== 'done') updateProgressTracker(step);
+                }
+                addMessage('ai', aiText);
+                speak(aiText);
 
                 updateStatus('idle', 'Waiting for your response');
 
@@ -721,8 +1977,14 @@
                     });
 
                     const data = await response.json();
-                    addMessage('ai', data.message);
-                    speak(data.message);
+                    if (data.currentQuestionId) currentQuestionId = data.currentQuestionId;
+                    const aiText = guidedFramework ? stripStepMarker(data.message) : data.message;
+                    if (guidedFramework) {
+                        const step = parseStepFromResponse(data.message);
+                        if (step && step !== 'done') updateProgressTracker(step);
+                    }
+                    addMessage('ai', aiText);
+                    speak(aiText);
                     hasResponded = true;
                     if (currentQuestionId) {
                         document.getElementById('sampleBtn').disabled = false;

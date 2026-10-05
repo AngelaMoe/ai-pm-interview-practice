@@ -74,7 +74,7 @@ app.get('/health', (req, res) => {
 // Start a new interview session
 app.post('/api/interview/start', async (req, res) => {
   try {
-    const { interviewType, candidateName } = req.body;
+    const { interviewType, candidateName, mode } = req.body;
 
     if (!interviewType) {
       return res.status(400).json({ error: 'Interview type is required' });
@@ -89,7 +89,8 @@ app.post('/api/interview/start', async (req, res) => {
     // Start the interview
     const response = await interviewer.startInterview(
       interviewType,
-      candidateName || 'the candidate'
+      candidateName || 'the candidate',
+      mode || 'mock'
     );
 
     // Store session
@@ -104,6 +105,8 @@ app.post('/api/interview/start', async (req, res) => {
     res.json({
       sessionId,
       interviewType,
+      mode: mode || 'mock',
+      guidedFramework: interviewer.guidedFramework || null,
       message: response.message,
       questionNumber: response.questionNumber,
       currentQuestionId: response.currentQuestionId || null
