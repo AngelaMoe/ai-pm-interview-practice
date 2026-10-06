@@ -24,7 +24,7 @@ PM candidates preparing for interviews, especially AI PM roles. Typical user: kn
 |---|---|---|
 | **Unit completion rate** | Anonymous users who complete all 5 lessons ÷ anonymous users who start lesson 1 | ≥ 30% |
 | Lesson 1 drop-off (diagnostic) | Users who start lesson 1 but don't finish it | Tracked, no target. Used to find where the lesson loses people. |
-| **Practice score improvement** | Practice score after the lessons vs. before | **Deferred to v2.** Practice mode doesn't store a structured score today, and v1 doesn't change Practice. |
+| **Practice score improvement** | Practice score after the lessons vs. before | **Deferred to v2** (see v2 direction). Practice mode doesn't store a structured score today, and v1 doesn't change Practice. |
 
 All metrics come from the Supabase `lesson_progress` table (see Data model). There is no separate analytics tool in v1.
 
@@ -94,10 +94,11 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 
 **Mastery model (per concept, 0–100):**
 - Each graded item tagged with a concept updates that concept's score:
-  - Quiz: correct +20, wrong +0
+  - Quiz: correct +20, wrong −10 (score never goes below 0)
   - Fix-the-answer checklist item: met +25
   - Voice answer key point covered: +25
 - Capped at 100. A concept is **mastered** at ≥ 70.
+- **Applied-skill gate on mastery:** a concept can only reach 70 or above once the user has met it in the fix step or the voice step (a met checklist item or a covered key point for that concept). Until then its score is capped at 69, however many quiz answers are correct. Recognizing the right answer isn't the same as producing one.
 - A lesson is **complete** when the user finishes all 4 steps. Completion doesn't depend on mastery (no gates).
 - The lesson map shows mastery so users can see their weak concepts. Nothing is locked.
 
@@ -131,6 +132,8 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 **Rate limiting:** both grading routes are limited per IP and per `anonId` (proposed: 20 grading calls per hour per anonymous ID, 40 per hour per IP). **No rate limiter exists in the app today.** The only limit is the demo-mode counter, so this is new work. Demo mode applies the same way as in Practice when `ANTHROPIC_API_KEY` is missing.
 
 **Errors:** all `/api/learn/*` routes use a new `safeError()` helper (none exists yet). Status codes: 400 validation, 404 unknown lesson, 429 rate limit, 500 generic. If Supabase is unreachable, lessons still work and progress shows a "not saved" warning. Grading failures let the user retry or skip the step.
+
+**Before deploy: Practice routes need the same protection.** The existing `/api/interview/*` routes that call Claude (`start`, `respond`, `evaluate`, `analyze-answer`) have no rate limiter, `safeError()` or sanitizer either. The same three helpers built for Learn mode must be applied to those routes before the app is deployed. This is a protection-only change: it doesn't alter Practice behavior for normal use, so it's compatible with the "no Practice changes" non-goal.
 
 **Model and cost:**
 - Fix-a-weak-answer uses `claude-haiku-4-5-20251001` (short checklist, high volume).
@@ -172,6 +175,17 @@ Each phase ends with the server starting cleanly and the phase verified in the b
 - **Lesson content quality is the product.** Authoring 5 lessons of cards, quiz items and weak answers is the largest piece of work, and it needs a review pass before Phase 3.
 - **Speech recognition** uses the Web Speech API (Chrome and Edge only), the same limitation as Practice. Learn shows a text fallback for step 4 in unsupported browsers.
 - **Anonymous ID loss:** clearing site data resets progress. This is accepted and stated in the UI.
+- **Practice routes are unprotected:** see "Before deploy" under Architecture. This blocks deployment, not the Learn mode build.
+
+### v2 direction (not in MVP)
+
+v2 connects Practice and Learn so each one feeds the other:
+
+1. **Practice stores structured scores per concept.** Practice answers are graded into the same concept IDs Learn uses (for example `guardrail-metrics`, `rule-out-boring-causes`) and saved in Supabase against the anonymous ID. This needs a structured score from Practice in place of today's free-text "score out of 5".
+2. **A planner recommends Learn lessons from weak Practice answers.** When a Practice answer scores low on a concept, the planner points the user to the lesson that teaches it, for example "Your guardrails were thin. Try lesson 2: North Star and guardrails."
+3. **Score improvement is tracked.** Per-concept Practice scores before and after the related lesson give success metric 2, "Practice scores improve after a lesson", which v1 defers.
+
+Before building, v2 needs its own PRD, since it changes Practice mode behavior, which v1 rules out.
 
 ---
 
