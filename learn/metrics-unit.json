@@ -14,7 +14,10 @@
     { "id": "tracking-plan", "lessonId": "metrics-3", "name": "Say exactly how each metric is collected" },
     { "id": "rule-out-boring-causes", "lessonId": "metrics-4", "name": "Rule out boring causes before a product theory" },
     { "id": "segment-the-drop", "lessonId": "metrics-4", "name": "Split the drop by region and platform" },
-    { "id": "cannibalization", "lessonId": "metrics-4", "name": "Check whether your own product absorbed the traffic" }
+    { "id": "cannibalization", "lessonId": "metrics-4", "name": "Check whether your own product absorbed the traffic" },
+    { "id": "ai-layer-in-tropic", "lessonId": "metrics-5", "name": "Add the AI layer and separate model from application causes" },
+    { "id": "ai-quality-metrics", "lessonId": "metrics-5", "name": "Use AI quality signals to narrow the cause" },
+    { "id": "cost-and-latency", "lessonId": "metrics-5", "name": "Treat speed and cost as product metrics" }
   ],
   "lessons": [
     {
@@ -733,6 +736,190 @@
           { "conceptId": "rule-out-boring-causes", "criterion": "Rules out boring causes (data, timing, other launches or industry) before any product theory" },
           { "conceptId": "segment-the-drop", "criterion": "Splits the drop by region or platform" },
           { "conceptId": "cannibalization", "criterion": "Checks whether another of the company's own products absorbed the usage" }
+        ]
+      }
+    },
+    {
+      "id": "metrics-5",
+      "number": 5,
+      "title": "The AI layer",
+      "framework": "TROPIC + AI metrics",
+      "conceptIds": ["ai-layer-in-tropic", "ai-quality-metrics", "cost-and-latency"],
+      "cards": [
+        {
+          "id": "m5-card-1",
+          "conceptId": "ai-layer-in-tropic",
+          "title": "Model layer or application layer?",
+          "body": "Strong answers separate the model layer from the application layer. The model layer is the model itself: a new version, a silent provider update. The application layer is what you built around it: prompts, retrieval, UI. Each needs a different fix.",
+          "example": "Answers got worse after a prompt change, same model: roll back the prompt, not the model.",
+          "source": "wiki: TROPIC AI layer; evaluation criterion 4 and strong-candidate list (distinguish model and application layer). Beyond the wiki: prompts, retrieval and UI as application-layer examples"
+        },
+        {
+          "id": "m5-card-2",
+          "conceptId": "ai-layer-in-tropic",
+          "title": "Confirm, don't assume",
+          "body": "A model update is the first AI-layer suspect, but confirm it. Run the same test prompts on the old and new model and compare. Then decide: roll back, or fix forward.",
+          "example": "Last month's 500 test prompts fail twice as often on the new version: you've found the cause.",
+          "source": "wiki: TROPIC AI layer (did the model update silently?); C-NABGT T (automated evals). Beyond the wiki: old-vs-new comparison on a fixed test set, and the roll back or fix forward decision"
+        },
+        {
+          "id": "m5-card-3",
+          "conceptId": "ai-quality-metrics",
+          "title": "Quality signals from behavior",
+          "body": "Some AI quality metrics come from what users do. Task completion rate: did they get what they came for? Re-query rate: did they have to ask again because the first answer missed? A rising re-query rate is an early sign quality is slipping.",
+          "example": "Re-queries on the same topic jump from 12% to 20% after an update.",
+          "source": "wiki: key AI metrics (task completion rate, re-query rate). Beyond the wiki: the definitions of both, and re-query rate as an early warning"
+        },
+        {
+          "id": "m5-card-4",
+          "conceptId": "ai-quality-metrics",
+          "title": "Hallucination rate needs a check",
+          "body": "Hallucination rate is how often the AI states something false. Logs can't tell you that. Measure it with automated evals or a human-rated sample, and split it by query type to see where it's worst.",
+          "example": "2% on general questions, 9% on pricing questions: fix pricing first.",
+          "source": "wiki: key AI metrics (hallucination rate); C-NABGT T (human raters, automated evals); SIGNAL L (layer breakdowns by query type)"
+        },
+        {
+          "id": "m5-card-5",
+          "conceptId": "cost-and-latency",
+          "title": "Speed and cost are product metrics",
+          "body": "Time-to-first-token is how long before the first word appears. It's a big part of whether an AI feels fast. Cost per query decides whether the feature pays. A slower or pricier model can lose users or money, even if answers improve.",
+          "example": "A bigger model cuts hallucinations by a third but doubles cost per query.",
+          "source": "wiki: key AI metrics (time-to-first-token, cost-per-query); TROPIC AI layer (latency spike); C-NABGT B (cost, unit economics). Beyond the wiki: the definition of time-to-first-token and the quality-vs-cost tradeoff example"
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m5-q1",
+          "type": "multiple-choice",
+          "conceptId": "ai-layer-in-tropic",
+          "prompt": "Answer quality dropped the same day your team changed the system prompt. The model version didn't change. Where is the likely cause?",
+          "options": [
+            "The model layer",
+            "The application layer: the prompt change",
+            "The industry",
+            "Seasonality"
+          ],
+          "answerIndex": 1,
+          "explanation": "The model stayed the same, so look at what you built around it. Roll back the prompt, not the model."
+        },
+        {
+          "id": "m5-q2",
+          "type": "true-false",
+          "conceptId": "ai-layer-in-tropic",
+          "statement": "If a metric drops right after a model update, you can skip the other TROPIC checks.",
+          "answer": false,
+          "explanation": "Something else may have shipped the same day, or the data may be wrong. Confirm before you act."
+        },
+        {
+          "id": "m5-q3",
+          "type": "multiple-choice",
+          "conceptId": "ai-layer-in-tropic",
+          "prompt": "How do you confirm that a model update caused a quality drop?",
+          "options": [
+            "Assume it did, since the timing matches",
+            "Run the same test prompts on the old and new model and compare",
+            "Wait for user complaints",
+            "Check the app store rating"
+          ],
+          "answerIndex": 1,
+          "explanation": "A side-by-side comparison on the same prompts isolates the model as the only thing that changed."
+        },
+        {
+          "id": "m5-q4",
+          "type": "matching",
+          "conceptId": "ai-quality-metrics",
+          "prompt": "Match each AI quality metric to the question it answers.",
+          "pairs": [
+            { "left": "Task completion rate", "right": "Did users get what they came for?" },
+            { "left": "Re-query rate", "right": "Did users have to ask again?" },
+            { "left": "Hallucination rate", "right": "How often does the AI state something false?" }
+          ],
+          "explanation": "Each one shows a different way quality can slip."
+        },
+        {
+          "id": "m5-q5",
+          "type": "multiple-choice",
+          "conceptId": "ai-quality-metrics",
+          "prompt": "Which of these can't be measured from app logs alone?",
+          "options": [
+            "Re-query rate",
+            "Hallucination rate",
+            "Time-to-first-token",
+            "Queries per user"
+          ],
+          "answerIndex": 1,
+          "explanation": "Logs show what users did, not whether an answer was true. Hallucination rate needs evals or human raters."
+        },
+        {
+          "id": "m5-q6",
+          "type": "true-false",
+          "conceptId": "ai-quality-metrics",
+          "statement": "A rising re-query rate can be an early sign that answer quality is slipping.",
+          "answer": true,
+          "explanation": "Users asking again usually means the first answer missed."
+        },
+        {
+          "id": "m5-q7",
+          "type": "multiple-choice",
+          "conceptId": "cost-and-latency",
+          "prompt": "Which metric best shows how fast an AI feature feels to users?",
+          "options": [
+            "Time-to-first-token",
+            "Cost per query",
+            "Hallucination rate",
+            "Number of model parameters"
+          ],
+          "answerIndex": 0,
+          "explanation": "It measures the wait before anything appears, which is what users feel first."
+        },
+        {
+          "id": "m5-q8",
+          "type": "true-false",
+          "conceptId": "cost-and-latency",
+          "statement": "Cost per query is an engineering concern, not something a PM needs in a metrics answer.",
+          "answer": false,
+          "explanation": "It's unit economics. A feature users love can still lose money on every query."
+        }
+      ],
+      "fixWeakAnswer": {
+        "id": "m5-fix",
+        "question": "Weekly users of an AI coding assistant dropped 12% the week after the team switched to a new model. How would you investigate?",
+        "weakAnswer": "The new model must be worse, so I'd ask engineering to fix it and keep an eye on user satisfaction scores.",
+        "weakParts": [
+          { "text": "The new model must be worse", "label": "Assumes the model is the cause without confirming it" },
+          { "text": "so I'd ask engineering to fix it", "label": "No split between model and application layer, and no clear decision" },
+          { "text": "and keep an eye on user satisfaction scores.", "label": "No AI quality, speed or cost metrics" }
+        ],
+        "instructions": "Rewrite this answer using the AI layer. Confirm the cause, separate model from application, and name the AI metrics you'd check.",
+        "maxChars": 600,
+        "checklist": [
+          { "id": "m5-fix-confirm", "conceptId": "ai-layer-in-tropic", "criterion": "Confirms the model is the cause before acting, such as by comparing old and new model on the same test prompts" },
+          { "id": "m5-fix-layer", "conceptId": "ai-layer-in-tropic", "criterion": "Separates model-layer from application-layer causes, such as a prompt or integration change shipped with the switch" },
+          { "id": "m5-fix-quality", "conceptId": "ai-quality-metrics", "criterion": "Names at least one AI quality metric to check, such as task completion, re-query or hallucination rate" },
+          { "id": "m5-fix-speed-cost", "conceptId": "cost-and-latency", "criterion": "Checks speed or cost, such as time-to-first-token or cost per query, since a new model can be slower" }
+        ]
+      },
+      "voice": {
+        "questionId": null,
+        "question": "Task completion rate for your AI customer-support chatbot fell from 70% to 58% this month. How would you investigate?",
+        "timeLimitSec": 60,
+        "evaluationRubric": {
+          "excellent": "Rules out boring causes with TROPIC, adds the AI layer without being prompted, separates model-layer from application-layer causes, confirms with a before-and-after comparison, and checks quality, latency and cost signals",
+          "good": "Adds the AI layer and checks quality signals, but doesn't separate model from application layer, or skips latency and cost",
+          "fair": "Standard TROPIC checks only, with no AI layer",
+          "poor": "Jumps to a fix, such as retraining or replacing the model, with no investigation"
+        },
+        "keyPoints": [
+          "Boring causes first: the data, timing, region and platform",
+          "The AI layer without being prompted: a silent model update, or a prompt or retrieval change",
+          "Model layer vs. application layer, confirmed by comparing before and after on the same test conversations",
+          "Other quality signals split by query type, such as re-query or hallucination rate. A harder mix of incoming questions can lower the rate on its own",
+          "Latency and cost: a slower time-to-first-token, or a switch to a cheaper model that answers worse"
+        ],
+        "conceptChecks": [
+          { "conceptId": "ai-layer-in-tropic", "criterion": "Adds the AI layer without being prompted, and separates model-layer from application-layer causes" },
+          { "conceptId": "ai-quality-metrics", "criterion": "Uses at least one other AI quality signal to narrow the cause, such as re-query or hallucination rate, or a split by query type" },
+          { "conceptId": "cost-and-latency", "criterion": "Checks latency, such as time-to-first-token, or a cost-driven change, such as a switch to a cheaper model" }
         ]
       }
     }

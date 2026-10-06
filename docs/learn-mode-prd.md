@@ -78,7 +78,7 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 | 2 | North Star and guardrails | SIGNAL | `north-star-absolute-count`, `guardrail-metrics`, `override-rate-trust` | Lesson-specific: AI email-thread summaries (`ai-metrics-002` was dropped, see open items) |
 | 3 | The full metrics answer | C-NABGT | `clarify-scope`, `secondary-vs-business`, `tracking-plan` | Lesson-specific: AI trip planner success (`ai-metrics-001` was dropped, see open items) |
 | 4 | Diagnose a metric drop | TROPIC | `rule-out-boring-causes`, `segment-the-drop`, `cannibalization` | Lesson-specific: music streaming DAU drop (`met005` was dropped, see open items) |
-| 5 | The AI layer | TROPIC + AI metrics | `ai-layer-in-tropic`, `ai-quality-metrics`, `cost-and-latency` | `ai-metrics-003`: hallucination rate doubled |
+| 5 | The AI layer | TROPIC + AI metrics | `ai-layer-in-tropic`, `ai-quality-metrics`, `cost-and-latency` | Lesson-specific: AI support chatbot task completion drop (`ai-metrics-003` was dropped, see open items) |
 
 15 concepts in total. Lesson content (cards, quiz items, weak answers) is authored as static JSON, not generated at runtime, so content is reviewable and costs nothing per view.
 
@@ -218,6 +218,11 @@ Each phase ends with the server starting cleanly and the phase verified in the b
 
   Fixing these is a Practice content change (the sample answer and rubric are used in Practice grading), so it's tracked here, not done in v1.
 - **`met005` (LinkedIn DAU/MAU drop) is graded as DIGS.** It was dropped as lesson 4's voice question, which now uses its own question. Its rubric is framework-neutral and fits TROPIC (data first, segment, external factors). But the question is tagged `DIGS`, so `analyzeAnswer` tells the grader the expected framework is DIGS and sends the DIGS steps and a DIGS-structured sample answer. A TROPIC answer would be reported as missing DIGS steps. This is one instance of the DIGS vs. TROPIC/C-NABGT open item under v2.
+- **`ai-metrics-003` (hallucination rate doubled) conflicts with lesson 4.** It was dropped as lesson 5's voice question, which now uses its own question. It's correctly tagged TROPIC and uses the wiki step names. The problems:
+  - **No data check:** the sample answer opens with "almost certainly caused by the model update" and never asks whether the hallucination measurement itself changed. Lesson 4 teaches confirming the data first.
+  - **"Sudden = model update is the cause"** is stated as certain, which contradicts the sample's own O step (a prompt or retrieval change the same day). Lesson 4 says sudden *often* points to a release.
+
+  It also fits lesson 5 poorly as a test: the question names the model update, so it can't show whether a learner adds the AI layer unprompted, and it doesn't cover cost or latency. These are Practice content fixes, tracked here and not done in v1.
 
   Practice users who open the "One strong approach" panel on these questions see a ratio North Star with no caveat. Adding a count or a one-line caveat to those sample answers is a Practice content change, so it's tracked here, not done in v1.
 
