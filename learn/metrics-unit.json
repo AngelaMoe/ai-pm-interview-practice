@@ -11,7 +11,10 @@
     { "id": "override-rate-trust", "lessonId": "metrics-2", "name": "Use override rate as the trust signal" },
     { "id": "clarify-scope", "lessonId": "metrics-3", "name": "Clarify scope before choosing metrics" },
     { "id": "secondary-vs-business", "lessonId": "metrics-3", "name": "Separate secondary metrics from business metrics" },
-    { "id": "tracking-plan", "lessonId": "metrics-3", "name": "Say exactly how each metric is collected" }
+    { "id": "tracking-plan", "lessonId": "metrics-3", "name": "Say exactly how each metric is collected" },
+    { "id": "rule-out-boring-causes", "lessonId": "metrics-4", "name": "Rule out boring causes before a product theory" },
+    { "id": "segment-the-drop", "lessonId": "metrics-4", "name": "Split the drop by region and platform" },
+    { "id": "cannibalization", "lessonId": "metrics-4", "name": "Check whether your own product absorbed the traffic" }
   ],
   "lessons": [
     {
@@ -545,6 +548,191 @@
           { "conceptId": "clarify-scope", "criterion": "Clarifies which users, product and time window before naming metrics" },
           { "conceptId": "secondary-vs-business", "criterion": "Names secondary and business metrics separately, with at least one of each" },
           { "conceptId": "tracking-plan", "criterion": "Says how at least one key metric is collected and how often" }
+        ]
+      }
+    },
+    {
+      "id": "metrics-4",
+      "number": 4,
+      "title": "Diagnose a metric drop",
+      "framework": "TROPIC",
+      "conceptIds": ["rule-out-boring-causes", "segment-the-drop", "cannibalization"],
+      "cards": [
+        {
+          "id": "m4-card-1",
+          "conceptId": "rule-out-boring-causes",
+          "title": "Boring causes first",
+          "body": "When a metric drops, don't jump to a product theory. First confirm the data: a logging bug or a seasonal dip can look like a real drop. Then work through TROPIC: Time, Region, Other launches, Platform, Industry, Cannibalization.",
+          "example": "Bookings fell 8% on Monday. Did the tracking change, or was it a holiday week?",
+          "source": "wiki: TROPIC (rule out boring causes first; anti-pattern: skipping data pipeline errors or seasonal effects)"
+        },
+        {
+          "id": "m4-card-2",
+          "conceptId": "rule-out-boring-causes",
+          "title": "Time, other launches, industry",
+          "body": "T: was the drop sudden or gradual? Sudden often points to a release or a bug. O: did something else ship at the same time? I: are competitors seeing it too? If so, the cause probably isn't your product.",
+          "example": "Overnight drop on release day: check the release. Slow decline across the industry: look at the market.",
+          "source": "wiki: TROPIC (T, O, I)"
+        },
+        {
+          "id": "m4-card-3",
+          "conceptId": "segment-the-drop",
+          "title": "Region and platform",
+          "body": "R and P split the drop. Is it global, or one market? Every platform, or just iOS? A drop confined to one segment points straight at what changed there.",
+          "example": "Drop only on Android in Brazil: check the latest Android build and anything that changed in that market.",
+          "source": "wiki: TROPIC (R, P)"
+        },
+        {
+          "id": "m4-card-4",
+          "conceptId": "cannibalization",
+          "title": "Cannibalization",
+          "body": "C is Cannibalization: did one of your own products absorb the traffic? A drop in one place can be a shift, not a loss. Check whether a related product grew by about the same amount.",
+          "example": "Feed posts drop 10% the month Stories launches, while story posts rise. Users moved, they didn't leave.",
+          "source": "wiki: TROPIC (C)"
+        },
+        {
+          "id": "m4-card-5",
+          "conceptId": "rule-out-boring-causes",
+          "title": "Add the AI layer",
+          "body": "For AI products, always add one more check: did the model update silently? Did response time spike? Did the hallucination or error rate rise and push users away? Lesson 5 goes deeper.",
+          "example": "AI assistant usage drops the day after a model swap: compare quality and speed before and after.",
+          "source": "wiki: TROPIC (AI-specific layer, always add this)"
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m4-q1",
+          "type": "multiple-choice",
+          "conceptId": "rule-out-boring-causes",
+          "prompt": "Daily orders dropped 15% yesterday. What's your first move?",
+          "options": [
+            "Launch a win-back campaign",
+            "Check whether the data is right, such as a logging or pipeline change",
+            "Interview users who stopped ordering",
+            "Roll back the latest feature"
+          ],
+          "answerIndex": 1,
+          "explanation": "Rule out boring causes first. A broken pipeline can look exactly like a real drop."
+        },
+        {
+          "id": "m4-q2",
+          "type": "true-false",
+          "conceptId": "rule-out-boring-causes",
+          "statement": "If competitors saw the same drop in the same week, the cause is probably outside your product.",
+          "answer": true,
+          "explanation": "That's the I in TROPIC: an industry-wide drop points to the market, not your product."
+        },
+        {
+          "id": "m4-q3",
+          "type": "matching",
+          "conceptId": "rule-out-boring-causes",
+          "prompt": "Match each check to the question it asks.",
+          "pairs": [
+            { "left": "T: Time", "right": "Sudden drop or gradual decline?" },
+            { "left": "O: Other launches", "right": "Did something else ship at the same time?" },
+            { "left": "I: Industry", "right": "Are competitors seeing it too?" },
+            { "left": "AI layer", "right": "Did the model update silently?" }
+          ],
+          "explanation": "Each check rules out one boring cause before you reach for a product theory."
+        },
+        {
+          "id": "m4-q4",
+          "type": "multiple-choice",
+          "conceptId": "segment-the-drop",
+          "prompt": "Signups dropped 12%. Split by platform: iOS is down 40%, Android and web are flat. What's your next step?",
+          "options": [
+            "Redesign the signup flow on every platform",
+            "Look at what changed on iOS, such as a new app release or an OS update",
+            "Assume it's seasonal",
+            "Check competitor signups"
+          ],
+          "answerIndex": 1,
+          "explanation": "The segment tells you where to look. Something changed on iOS."
+        },
+        {
+          "id": "m4-q5",
+          "type": "true-false",
+          "conceptId": "segment-the-drop",
+          "statement": "Splitting the drop by region and platform is only worth doing once you've decided on the cause.",
+          "answer": false,
+          "explanation": "Segment first. Where the drop is tells you what to investigate."
+        },
+        {
+          "id": "m4-q6",
+          "type": "multiple-choice",
+          "conceptId": "cannibalization",
+          "prompt": "Web visits fell 10% the month your new mobile app launched, and app sessions rose by about the same amount. What's the most likely explanation?",
+          "options": [
+            "The website has a bug",
+            "Users moved from web to the app",
+            "Users are leaving the product",
+            "A competitor launched"
+          ],
+          "answerIndex": 1,
+          "explanation": "That's cannibalization: the traffic shifted between your own products."
+        },
+        {
+          "id": "m4-q7",
+          "type": "true-false",
+          "conceptId": "cannibalization",
+          "statement": "A drop caused by cannibalization always means the business is losing users.",
+          "answer": false,
+          "explanation": "Users may have just moved to another of your products. Check the total across both."
+        },
+        {
+          "id": "m4-q8",
+          "type": "multiple-choice",
+          "conceptId": "rule-out-boring-causes",
+          "prompt": "Weekly users of an AI assistant fell 9% right after a model update. Which check belongs to the AI layer?",
+          "options": [
+            "Check whether competitors saw the same drop",
+            "Compare hallucination rate and response time before and after the update",
+            "Split the drop by region",
+            "Send a re-engagement email"
+          ],
+          "answerIndex": 1,
+          "explanation": "The AI layer asks whether the model itself got worse. The other checks are useful, but they belong to other TROPIC steps or aren't checks at all."
+        }
+      ],
+      "fixWeakAnswer": {
+        "id": "m4-fix",
+        "question": "Weekly active users of a food-delivery app dropped 10% last week. How would you investigate?",
+        "weakAnswer": "The new checkout redesign shipped two weeks ago, so that's probably the cause. I'd roll it back everywhere and survey users about what they dislike. Our new grocery app launched last week too, but that's a separate product.",
+        "weakParts": [
+          { "text": "The new checkout redesign shipped two weeks ago, so that's probably the cause.", "label": "Jumps to a product theory without ruling out boring causes" },
+          { "text": "I'd roll it back everywhere", "label": "Acts before finding which region or platform dropped" },
+          { "text": "Our new grocery app launched last week too, but that's a separate product.", "label": "Ignores possible cannibalization" }
+        ],
+        "instructions": "Rewrite this answer using TROPIC. Rule out boring causes, split the drop, and check whether your own product absorbed the traffic.",
+        "maxChars": 600,
+        "checklist": [
+          { "id": "m4-fix-data", "conceptId": "rule-out-boring-causes", "criterion": "Checks the data and boring causes first: tracking changes, seasonality, or whether competitors dropped too" },
+          { "id": "m4-fix-timing", "conceptId": "rule-out-boring-causes", "criterion": "Checks whether the drop's timing matches a release (the redesign shipped a week before the drop)" },
+          { "id": "m4-fix-segment", "conceptId": "segment-the-drop", "criterion": "Splits the drop by region or platform before acting" },
+          { "id": "m4-fix-cannibal", "conceptId": "cannibalization", "criterion": "Checks whether the new grocery app absorbed the traffic" }
+        ]
+      },
+      "voice": {
+        "questionId": null,
+        "question": "Daily active users of a music streaming app dropped 8% last week. How would you investigate?",
+        "timeLimitSec": 60,
+        "evaluationRubric": {
+          "excellent": "Confirms the data first, rules out boring causes (timing, other launches, industry), splits the drop by region and platform, checks cannibalization, and only then forms a product theory",
+          "good": "Systematic and splits the drop, but skips the data check or cannibalization",
+          "fair": "Some checks, but jumps to a product theory early",
+          "poor": "Proposes a fix right away with no investigation"
+        },
+        "keyPoints": [
+          "Confirm the data: tracking or pipeline changes, seasonality",
+          "Timing: sudden or gradual, and whether it lines up with a release or another launch",
+          "Split by region and platform",
+          "Industry: are competitors down too?",
+          "Cannibalization: did another of the company's products, such as a podcast app, absorb the listening?"
+        ],
+        "conceptChecks": [
+          { "conceptId": "rule-out-boring-causes", "criterion": "Rules out boring causes (data, timing, other launches or industry) before any product theory" },
+          { "conceptId": "segment-the-drop", "criterion": "Splits the drop by region or platform" },
+          { "conceptId": "cannibalization", "criterion": "Checks whether another of the company's own products absorbed the usage" }
         ]
       }
     }

@@ -77,7 +77,7 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 | 1 | Define success | GAME | `goals-before-metrics`, `actions-to-metrics`, `evaluate-and-pick` | Lesson-specific: Spotify Discover Weekly success (`met002` was dropped, see open items) |
 | 2 | North Star and guardrails | SIGNAL | `north-star-absolute-count`, `guardrail-metrics`, `override-rate-trust` | Lesson-specific: AI email-thread summaries (`ai-metrics-002` was dropped, see open items) |
 | 3 | The full metrics answer | C-NABGT | `clarify-scope`, `secondary-vs-business`, `tracking-plan` | Lesson-specific: AI trip planner success (`ai-metrics-001` was dropped, see open items) |
-| 4 | Diagnose a metric drop | TROPIC | `rule-out-boring-causes`, `segment-the-drop`, `cannibalization` | `met005`: LinkedIn DAU/MAU drop |
+| 4 | Diagnose a metric drop | TROPIC | `rule-out-boring-causes`, `segment-the-drop`, `cannibalization` | Lesson-specific: music streaming DAU drop (`met005` was dropped, see open items) |
 | 5 | The AI layer | TROPIC + AI metrics | `ai-layer-in-tropic`, `ai-quality-metrics`, `cost-and-latency` | `ai-metrics-003`: hallucination rate doubled |
 
 15 concepts in total. Lesson content (cards, quiz items, weak answers) is authored as static JSON, not generated at runtime, so content is reviewable and costs nothing per view.
@@ -91,6 +91,8 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 **Step 3, Fix a weak answer (1 item):** the user sees a flawed answer, for example a metrics answer with no guardrail. They rewrite the weak part in a text box (at most 600 characters). Claude Haiku grades it against a 3–4 item checklist for the lesson's concepts. The weak parts are **not marked before the first attempt**: spotting what's wrong is part of the exercise. The markers appear with the first grading result.
 
 **Step 4, 60-second voice answer:** the user answers the lesson's voice question aloud. The timer is a soft limit: recording stops at 60 seconds. The transcript is graded by Claude Sonnet using the existing `analyzeAnswer` rubric flow. The rubric comes from the question bank when `voice.questionId` is set, or from the lesson's own `evaluationRubric` and `keyPoints` when it's `null`. Mastery comes from the lesson's `conceptChecks`, not from the rubric's key points, because question-bank key points aren't written against Learn concepts.
+
+*Implementation note:* `analyzeAnswer(questionId, userResponse)` in `ai-interviewer.js` only accepts a question-bank ID. It also sends the grader the question's `framework`, that framework's steps, and the sample answer. All of the lesson-specific voice questions so far have `questionId: null`, so Learn needs a grading variant that takes the lesson's `framework`, `evaluationRubric`, `keyPoints` and `conceptChecks` directly, with no sample answer. Build it alongside `analyzeAnswer` without changing it, so Practice grading is unaffected.
 
 **Mastery model (per concept, 0–100):**
 - Each graded item tagged with a concept updates that concept's score:
@@ -215,6 +217,7 @@ Each phase ends with the server starting cleanly and the phase verified in the b
   - **No stated goal:** the Clarify step covers users and time window, but not what ChatGPT is trying to achieve, which lesson 1 puts first.
 
   Fixing these is a Practice content change (the sample answer and rubric are used in Practice grading), so it's tracked here, not done in v1.
+- **`met005` (LinkedIn DAU/MAU drop) is graded as DIGS.** It was dropped as lesson 4's voice question, which now uses its own question. Its rubric is framework-neutral and fits TROPIC (data first, segment, external factors). But the question is tagged `DIGS`, so `analyzeAnswer` tells the grader the expected framework is DIGS and sends the DIGS steps and a DIGS-structured sample answer. A TROPIC answer would be reported as missing DIGS steps. This is one instance of the DIGS vs. TROPIC/C-NABGT open item under v2.
 
   Practice users who open the "One strong approach" panel on these questions see a ratio North Star with no caveat. Adding a count or a one-line caveat to those sample answers is a Practice content change, so it's tracked here, not done in v1.
 
