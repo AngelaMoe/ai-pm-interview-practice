@@ -75,7 +75,7 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 | # | Lesson | Framework | Core concepts (mastery tracked per concept) | Voice question (from the question bank) |
 |---|---|---|---|---|
 | 1 | Define success | GAME | `goals-before-metrics`, `actions-to-metrics`, `evaluate-and-pick` | Lesson-specific: Spotify Discover Weekly success (`met002` was dropped, see open items) |
-| 2 | North Star and guardrails | SIGNAL | `north-star-absolute-count`, `guardrail-metrics`, `override-rate-trust` | `ai-metrics-002`: Snap LLM feature |
+| 2 | North Star and guardrails | SIGNAL | `north-star-absolute-count`, `guardrail-metrics`, `override-rate-trust` | Lesson-specific: AI email-thread summaries (`ai-metrics-002` was dropped, see open items) |
 | 3 | The full metrics answer | C-NABGT | `clarify-scope`, `secondary-vs-business`, `tracking-plan` | `ai-metrics-001`: ChatGPT success |
 | 4 | Diagnose a metric drop | TROPIC | `rule-out-boring-causes`, `segment-the-drop`, `cannibalization` | `met005`: LinkedIn DAU/MAU drop |
 | 5 | The AI layer | TROPIC + AI metrics | `ai-layer-in-tropic`, `ai-quality-metrics`, `cost-and-latency` | `ai-metrics-003`: hallucination rate doubled |
@@ -204,12 +204,13 @@ Each phase ends with the server starting cleanly and the phase verified in the b
 - **Speech recognition** uses the Web Speech API (Chrome and Edge only), the same limitation as Practice. Learn shows a text fallback for step 4 in unsupported browsers.
 - **Anonymous ID loss:** clearing site data resets progress. This is accepted and stated in the UI.
 - **Practice routes are unprotected:** see "Before deploy" under Architecture. This blocks deployment, not the Learn mode build.
-- **Question bank North Stars conflict with lesson 2:** lesson 2 teaches that a North Star must be an absolute count, never a ratio or average alone (from the wiki). Several question-bank sample answers break that rule:
-  - `met002` (Facebook Stories): "daily story viewers / DAU" (a ratio). It was dropped as lesson 1's voice question for this reason, and lesson 1 now uses its own question.
-  - `met001` (Amazon Prime): "12-month retention rate". `met004` (Google Maps): "navigations completed per DAU". Both are ratios.
-  - `ai-metrics-002` (Snap LLM feature), **currently lesson 2's voice question**: "D7 feature retention, the percentage of users who…" (a percentage). Lesson 2 will need its own question or a fixed sample answer before its content is written.
+- **Question bank North Stars are weaker than what lesson 2 teaches:** lesson 2 teaches "prefer a count for the North Star, because a ratio can rise when its denominator shrinks (for example, users leaving)". It also says ratios are fine as supporting metrics. Several question-bank sample answers use a ratio North Star **with no count alongside it and no caveat**. That makes them weaker answers than lesson 2 teaches, not wrong ones:
+  - `met002` (Facebook Stories): "daily story viewers / DAU". It was dropped as lesson 1's voice question, which now uses its own question.
+  - `met001` (Amazon Prime): "12-month retention rate".
+  - `met004` (Google Maps): "navigations completed per DAU".
+  - `ai-metrics-002` (Snap LLM feature): "D7 feature retention, the percentage of users who…". It was dropped as lesson 2's voice question, which now uses its own question.
 
-  Practice users who open the "One strong approach" panel on these questions see a North Star the wiki rejects. Fixing the sample answers is a Practice content change, so it's tracked here, not done in v1.
+  Practice users who open the "One strong approach" panel on these questions see a ratio North Star with no caveat. Adding a count or a one-line caveat to those sample answers is a Practice content change, so it's tracked here, not done in v1.
 
 ### v2 direction (not in MVP)
 

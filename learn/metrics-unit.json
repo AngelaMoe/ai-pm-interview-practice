@@ -5,7 +5,10 @@
   "concepts": [
     { "id": "goals-before-metrics", "lessonId": "metrics-1", "name": "State the goal before any metric" },
     { "id": "actions-to-metrics", "lessonId": "metrics-1", "name": "Tie each metric to a user action" },
-    { "id": "evaluate-and-pick", "lessonId": "metrics-1", "name": "Pick what matters most and say why" }
+    { "id": "evaluate-and-pick", "lessonId": "metrics-1", "name": "Pick what matters most and say why" },
+    { "id": "north-star-absolute-count", "lessonId": "metrics-2", "name": "Prefer a count for the North Star" },
+    { "id": "guardrail-metrics", "lessonId": "metrics-2", "name": "Set guardrails that must not fall" },
+    { "id": "override-rate-trust", "lessonId": "metrics-2", "name": "Use override rate as the trust signal" }
   ],
   "lessons": [
     {
@@ -179,6 +182,181 @@
           { "conceptId": "goals-before-metrics", "criterion": "States what Discover Weekly is trying to accomplish before naming metrics" },
           { "conceptId": "actions-to-metrics", "criterion": "Names specific user actions (opening the playlist, playing, saving tracks) with a countable metric for each" },
           { "conceptId": "evaluate-and-pick", "criterion": "Picks the most important metric and explains why" }
+        ]
+      }
+    },
+    {
+      "id": "metrics-2",
+      "number": 2,
+      "title": "North Star and guardrails",
+      "framework": "SIGNAL",
+      "conceptIds": ["north-star-absolute-count", "guardrail-metrics", "override-rate-trust"],
+      "cards": [
+        {
+          "id": "m2-card-1",
+          "conceptId": "north-star-absolute-count",
+          "title": "Anchor on one North Star",
+          "body": "SIGNAL extends GAME for AI products: Scope, Identify the goal, Generate metrics, Negative guardrails, Anchor on a North Star, Layer breakdowns. The North Star is the one number that shows users are getting real value.",
+          "example": "An AI writing assistant: weekly active users who complete a task with it.",
+          "source": "wiki: SIGNAL (all steps, A); North Star example"
+        },
+        {
+          "id": "m2-card-2",
+          "conceptId": "north-star-absolute-count",
+          "title": "Prefer a count",
+          "body": "Prefer a count for your North Star. A ratio can rise when its denominator shrinks: if users who aren't getting value leave, the rate climbs while the product shrinks. Ratios still work as supporting metrics.",
+          "example": "300 of 1,000 users complete a task: 30%. Then 500 who never did leave: 300 of 500 is 60%. The count stayed at 300.",
+          "source": "wiki: SIGNAL, North Star must be an absolute count, never a ratio alone"
+        },
+        {
+          "id": "m2-card-3",
+          "conceptId": "guardrail-metrics",
+          "title": "Set guardrails",
+          "body": "N is Negative guardrails: metrics that must not get worse while you push the North Star. They catch wins that quietly cost something else, like quality, speed or money.",
+          "example": "Pushing AI answers to more questions? Guard hallucination rate, time-to-first-token and cost per query.",
+          "source": "wiki: SIGNAL (N); key AI metrics list"
+        },
+        {
+          "id": "m2-card-4",
+          "conceptId": "override-rate-trust",
+          "title": "Watch what users override",
+          "body": "User override rate is how often users correct or dismiss the AI's output. It's a more honest trust signal than accuracy, because it measures what users actually do, not how the model scored in testing.",
+          "example": "95% accuracy in testing, but users edit or delete 60% of drafts. They don't trust it yet.",
+          "source": "wiki: SIGNAL, user override rate is a more honest trust signal than accuracy"
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m2-q1",
+          "type": "multiple-choice",
+          "conceptId": "north-star-absolute-count",
+          "prompt": "Which is the strongest North Star for an AI writing assistant?",
+          "options": [
+            "Average suggestions accepted per user",
+            "Weekly users who complete a task with the assistant",
+            "Model accuracy on a test set",
+            "Total suggestions shown"
+          ],
+          "answerIndex": 1,
+          "explanation": "It's a count of people getting real value. An average can rise just because less engaged users left."
+        },
+        {
+          "id": "m2-q2",
+          "type": "true-false",
+          "conceptId": "north-star-absolute-count",
+          "statement": "A ratio North Star can improve even while the product is losing users.",
+          "answer": true,
+          "explanation": "If the users who leave are in the denominator but not the numerator, the ratio goes up as the product shrinks."
+        },
+        {
+          "id": "m2-q3",
+          "type": "true-false",
+          "conceptId": "north-star-absolute-count",
+          "statement": "Ratios have no place in a metrics answer.",
+          "answer": false,
+          "explanation": "Ratios are useful supporting metrics. Just prefer a count for the North Star, and read ratios alongside it."
+        },
+        {
+          "id": "m2-q4",
+          "type": "multiple-choice",
+          "conceptId": "guardrail-metrics",
+          "prompt": "What is a guardrail metric?",
+          "options": [
+            "The metric you're trying to grow",
+            "A metric that must not get worse while you push the North Star",
+            "A metric only engineers track",
+            "A metric you report to investors"
+          ],
+          "answerIndex": 1,
+          "explanation": "Guardrails are the things you refuse to sacrifice while chasing the main goal."
+        },
+        {
+          "id": "m2-q5",
+          "type": "matching",
+          "conceptId": "guardrail-metrics",
+          "prompt": "Match each push to the guardrail that protects against its risk.",
+          "pairs": [
+            { "left": "Run the AI on every message instead of on request", "right": "Cost per query" },
+            { "left": "Let the AI answer more questions on its own", "right": "Hallucination rate" },
+            { "left": "Generate longer, richer responses", "right": "Total response time" }
+          ],
+          "explanation": "Each push has a predictable cost. The guardrail is the metric that would show it."
+        },
+        {
+          "id": "m2-q6",
+          "type": "true-false",
+          "conceptId": "guardrail-metrics",
+          "statement": "Once the North Star is going up, guardrails don't matter much.",
+          "answer": false,
+          "explanation": "That's exactly when they matter. A rising North Star can hide a quality, speed or cost problem."
+        },
+        {
+          "id": "m2-q7",
+          "type": "multiple-choice",
+          "conceptId": "override-rate-trust",
+          "prompt": "What does user override rate measure?",
+          "options": [
+            "How often the model is updated",
+            "How often users correct or dismiss the AI's output",
+            "How often the AI refuses a request",
+            "How often admins change settings"
+          ],
+          "answerIndex": 1,
+          "explanation": "It counts real user behavior: edits, dismissals and rejections."
+        },
+        {
+          "id": "m2-q8",
+          "type": "multiple-choice",
+          "conceptId": "override-rate-trust",
+          "prompt": "An AI drafting tool scores 95% accuracy in testing, but users edit or delete 60% of its drafts. Which is the more honest trust signal?",
+          "options": [
+            "The 95% accuracy, because it's measured objectively",
+            "The 60% override rate, because it shows what users actually do",
+            "Neither, because trust can't be measured",
+            "Average draft length"
+          ],
+          "answerIndex": 1,
+          "explanation": "Accuracy is measured in testing. Overrides show whether real users trust the output enough to use it."
+        }
+      ],
+      "fixWeakAnswer": {
+        "id": "m2-fix",
+        "question": "How would you measure the success of an AI that drafts replies for agents in a customer support tool?",
+        "weakAnswer": "Our North Star is average CSAT on tickets where agents use the AI draft. As long as that goes up, the feature is working, so we'd push agents to use drafts on as many tickets as possible.",
+        "weakParts": [
+          { "text": "Our North Star is average CSAT on tickets where agents use the AI draft.", "label": "Average as the North Star, with no count" },
+          { "text": "As long as that goes up, the feature is working", "label": "No guardrails" },
+          { "text": "so we'd push agents to use drafts on as many tickets as possible.", "label": "Pushes volume with no check on whether agents trust the drafts" }
+        ],
+        "instructions": "Rewrite this answer using SIGNAL. Anchor on a count, set at least one guardrail, and show how you'd know agents trust the drafts.",
+        "maxChars": 600,
+        "checklist": [
+          { "id": "m2-fix-north-star", "conceptId": "north-star-absolute-count", "criterion": "Uses a count as the North Star (such as weekly agents who send an AI-drafted reply), or explains why an average alone could mislead" },
+          { "id": "m2-fix-guardrail", "conceptId": "guardrail-metrics", "criterion": "Names at least one guardrail that must not get worse, such as hallucination rate, escalations or cost per query" },
+          { "id": "m2-fix-guardrail-why", "conceptId": "guardrail-metrics", "criterion": "Says what the guardrail protects against when agents use drafts on more tickets" },
+          { "id": "m2-fix-override", "conceptId": "override-rate-trust", "criterion": "Includes override rate: how often agents heavily edit or discard the AI's draft" }
+        ]
+      },
+      "voice": {
+        "questionId": null,
+        "question": "How would you measure the success of an AI feature that summarizes long email threads?",
+        "timeLimitSec": 60,
+        "evaluationRubric": {
+          "excellent": "Anchors on a count-based North Star tied to real value, names one or two guardrails that must not fall, and uses override or correction behavior as the trust signal",
+          "good": "Count-based North Star and at least one guardrail, but no trust signal or thin reasoning",
+          "fair": "Reasonable metrics, but a ratio or average North Star with no caveat, or no guardrails",
+          "poor": "Model accuracy or generic engagement only, with no North Star"
+        },
+        "keyPoints": [
+          "A North Star that counts people getting value, e.g. weekly users who act on a thread after reading only its summary",
+          "Why a count over a ratio: a rate can rise as users leave",
+          "Guardrails such as hallucination rate (the summary misstates the thread), time-to-first-token, or cost per query",
+          "A trust signal from user behavior: opening the full thread right after the summary, or flagging and editing summaries"
+        ],
+        "conceptChecks": [
+          { "conceptId": "north-star-absolute-count", "criterion": "Anchors on a count-based North Star, or explains why a ratio alone could mislead" },
+          { "conceptId": "guardrail-metrics", "criterion": "Names at least one guardrail that must not get worse, and what it protects" },
+          { "conceptId": "override-rate-trust", "criterion": "Uses a user-behavior trust signal, such as override rate or reopening the full thread" }
         ]
       }
     }
