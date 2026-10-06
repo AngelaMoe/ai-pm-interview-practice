@@ -63,7 +63,7 @@ The Metrics frameworks are defined two different ways in the codebase. Lessons w
 | SIGNAL (metrics) | **S**cope · **I**dentify goal · **G**enerate metrics · **N**egative guardrails · **A**nchor on North Star · **L**ayer breakdowns |
 
 To match, align these copies to the wiki text. This changes **only text**, not behavior:
-- `voice-interface.html`: the Metrics & Analytics Study card (TROPIC and C-NABGT rows), the reveal text on the ChatGPT DAU deconstruction question, and the frontend guided-steps copy for Metrics & Analytics
+- `voice-interface.html`: the Metrics & Analytics Study card (GAME, TROPIC and C-NABGT rows, plus an "AI layer" row as the wiki says to always add it) and the reveal text on the ChatGPT DAU deconstruction question. There is no separate frontend copy of the guided steps: guided mode receives its steps from the server, so the `ai-interviewer.js` change below covers it.
 - `ai-interviewer.js`: `FRAMEWORK_STEPS_MAP['Metrics & Analytics']` (the guided-mode tracker steps)
 
 `FRAMEWORK_STEPS_MAP['Product Execution']` stays as it is. It's a deliberately different execution variant that only reuses the TROPIC letters.
@@ -186,6 +186,9 @@ v2 connects Practice and Learn so each one feeds the other:
 3. **Score improvement is tracked.** Per-concept Practice scores before and after the related lesson give success metric 2, "Practice scores improve after a lesson", which v1 defers.
 
 Before building, v2 needs its own PRD, since it changes Practice mode behavior, which v1 rules out.
+
+**v2 open items:**
+- **Framework mismatch between Practice and Learn:** Practice's "Show Framework Hints" panel (the `FRAMEWORKS` map in `voice-interface.html`) teaches **DIGS** for Metrics, and every `met*` question in `pm-questions-comprehensive.json` is tagged `DIGS`. Learn teaches TROPIC and C-NABGT. Align the frameworks and the question-bank tags **before building the v2 planner**, because the planner maps weak Practice answers to Learn concepts and needs both modes to use the same framework names.
 
 ---
 

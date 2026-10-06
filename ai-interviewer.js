@@ -29,7 +29,7 @@ function getQuestionsDb() {
 const FRAMEWORK_STEPS_MAP = {
   'Metrics & Analytics': {
     name: 'TROPIC',
-    steps: [['T','Timeframe'],['R','Region/segment'],['O','Other metrics'],['P','Product changes'],['I','Internal factors'],['C','External factors']]
+    steps: [['T','Time'],['R','Region'],['O','Other launches'],['P','Platform'],['I','Industry'],['C','Cannibalization']]
   },
   'Behavioral': {
     name: 'STAR+M',

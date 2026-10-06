@@ -1069,7 +1069,7 @@
                             { text: '10-Step Design — product design', correct: false },
                             { text: 'SIGNAL — strategic options', correct: false }
                         ],
-                        reveal: "TROPIC: Timeframe → Region → Other metrics → Product changes → Internal factors → External factors. Always diagnose before prescribing."
+                        reveal: "TROPIC: Time → Region → Other launches → Platform → Industry → Cannibalization, then add the AI layer (model update, latency, hallucination). Rule out boring causes before assuming a product problem."
                     },
                     {
                         prompt: "What is the interviewer really testing?",
@@ -1513,14 +1513,15 @@
                 name: 'Metrics & Analytics',
                 framework: 'GAME + TROPIC + C-NABGT',
                 steps: [
-                    ['GAME', 'Goal → Actions → Metrics → Evaluate (metric definition)'],
-                    ['T', 'Timeframe — when did the drop start?'],
-                    ['R', 'Region / segment — is it everywhere or one cohort?'],
-                    ['O', 'Other metrics — did related metrics move too?'],
-                    ['P', 'Product changes — any recent deploys or experiments?'],
-                    ['I', 'Internal factors — data pipeline, instrumentation'],
-                    ['C', 'External factors — competitor, seasonality, macro'],
-                    ['C-NABGT', 'Confirm → Narrow → Analyze → Build → Go → Track (north star)'],
+                    ['GAME', 'Goals → Actions → Metrics → Evaluations (metric definition)'],
+                    ['T', 'Time — sudden drop or gradual decline?'],
+                    ['R', 'Region — global, or one market?'],
+                    ['O', 'Other launches — did something else ship at the same time?'],
+                    ['P', 'Platform — iOS vs Android vs desktop?'],
+                    ['I', 'Industry — are competitors seeing it too?'],
+                    ['C', 'Cannibalization — did an internal product absorb the traffic?'],
+                    ['AI', 'AI layer — silent model update, latency spike, or hallucination rise?'],
+                    ['C-NABGT', 'Clarify scope → North Star → Actionable secondary metrics → Business metrics → Guardrails → Tracking plan'],
                 ],
                 antipatterns: [
                     'Jumping to a root cause without ruling out instrumentation errors first',
