@@ -76,7 +76,7 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 |---|---|---|---|---|
 | 1 | Define success | GAME | `goals-before-metrics`, `actions-to-metrics`, `evaluate-and-pick` | Lesson-specific: Spotify Discover Weekly success (`met002` was dropped, see open items) |
 | 2 | North Star and guardrails | SIGNAL | `north-star-absolute-count`, `guardrail-metrics`, `override-rate-trust` | Lesson-specific: AI email-thread summaries (`ai-metrics-002` was dropped, see open items) |
-| 3 | The full metrics answer | C-NABGT | `clarify-scope`, `secondary-vs-business`, `tracking-plan` | `ai-metrics-001`: ChatGPT success |
+| 3 | The full metrics answer | C-NABGT | `clarify-scope`, `secondary-vs-business`, `tracking-plan` | Lesson-specific: AI trip planner success (`ai-metrics-001` was dropped, see open items) |
 | 4 | Diagnose a metric drop | TROPIC | `rule-out-boring-causes`, `segment-the-drop`, `cannibalization` | `met005`: LinkedIn DAU/MAU drop |
 | 5 | The AI layer | TROPIC + AI metrics | `ai-layer-in-tropic`, `ai-quality-metrics`, `cost-and-latency` | `ai-metrics-003`: hallucination rate doubled |
 
@@ -209,6 +209,12 @@ Each phase ends with the server starting cleanly and the phase verified in the b
   - `met001` (Amazon Prime): "12-month retention rate".
   - `met004` (Google Maps): "navigations completed per DAU".
   - `ai-metrics-002` (Snap LLM feature): "D7 feature retention, the percentage of users who…". It was dropped as lesson 2's voice question, which now uses its own question.
+- **`ai-metrics-001` (ChatGPT) conflicts with lessons 1–2.** It was dropped as lesson 3's voice question, which now uses its own question. Its North Star (a count) and guardrails are fine. The problems:
+  - **Override rate is defined wrongly:** the tracking plan defines it as "explicit edit/copy-without-edit behavior". Copying without editing is acceptance, not an override. Lesson 2 defines override rate as correcting or dismissing the output.
+  - **The rubric uses the strict ratio rule:** the "excellent" level requires "absolute count (not ratio)", and a key point says the North Star "must be an absolute count, not an average or ratio". Lesson 2 teaches the softer "prefer a count".
+  - **No stated goal:** the Clarify step covers users and time window, but not what ChatGPT is trying to achieve, which lesson 1 puts first.
+
+  Fixing these is a Practice content change (the sample answer and rubric are used in Practice grading), so it's tracked here, not done in v1.
 
   Practice users who open the "One strong approach" panel on these questions see a ratio North Star with no caveat. Adding a count or a one-line caveat to those sample answers is a Practice content change, so it's tracked here, not done in v1.
 

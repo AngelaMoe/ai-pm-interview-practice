@@ -8,7 +8,10 @@
     { "id": "evaluate-and-pick", "lessonId": "metrics-1", "name": "Pick what matters most and say why" },
     { "id": "north-star-absolute-count", "lessonId": "metrics-2", "name": "Prefer a count for the North Star" },
     { "id": "guardrail-metrics", "lessonId": "metrics-2", "name": "Set guardrails that must not fall" },
-    { "id": "override-rate-trust", "lessonId": "metrics-2", "name": "Use override rate as the trust signal" }
+    { "id": "override-rate-trust", "lessonId": "metrics-2", "name": "Use override rate as the trust signal" },
+    { "id": "clarify-scope", "lessonId": "metrics-3", "name": "Clarify scope before choosing metrics" },
+    { "id": "secondary-vs-business", "lessonId": "metrics-3", "name": "Separate secondary metrics from business metrics" },
+    { "id": "tracking-plan", "lessonId": "metrics-3", "name": "Say exactly how each metric is collected" }
   ],
   "lessons": [
     {
@@ -213,7 +216,7 @@
           "conceptId": "guardrail-metrics",
           "title": "Set guardrails",
           "body": "N is Negative guardrails: metrics that must not get worse while you push the North Star. They catch wins that quietly cost something else, like quality, speed or money.",
-          "example": "Pushing AI answers to more questions? Guard hallucination rate, time-to-first-token and cost per query.",
+          "example": "Pushing AI answers to more questions? Guard hallucination rate, response time and cost per query.",
           "source": "wiki: SIGNAL (N); key AI metrics list"
         },
         {
@@ -357,6 +360,191 @@
           { "conceptId": "north-star-absolute-count", "criterion": "Anchors on a count-based North Star, or explains why a ratio alone could mislead" },
           { "conceptId": "guardrail-metrics", "criterion": "Names at least one guardrail that must not get worse, and what it protects" },
           { "conceptId": "override-rate-trust", "criterion": "Uses a user-behavior trust signal, such as override rate or reopening the full thread" }
+        ]
+      }
+    },
+    {
+      "id": "metrics-3",
+      "number": 3,
+      "title": "The full metrics answer",
+      "framework": "C-NABGT",
+      "conceptIds": ["clarify-scope", "secondary-vs-business", "tracking-plan"],
+      "cards": [
+        {
+          "id": "m3-card-1",
+          "conceptId": "clarify-scope",
+          "title": "The full answer, scope first",
+          "body": "C-NABGT is the full structure for an AI metrics answer: Clarify scope, North Star, Actionable secondary metrics, Business metrics, Guardrails, Tracking plan. You met N and G in lesson 2. C comes first: which product, which users, what time window.",
+          "example": "AI photo editor: mobile users, not pro desktop users. Weekly metrics at launch.",
+          "source": "wiki: C-NABGT (all steps, C); SIGNAL (S = product, users, time window)"
+        },
+        {
+          "id": "m3-card-2",
+          "conceptId": "secondary-vs-business",
+          "title": "Secondary metrics the team can act on",
+          "body": "A is 2–3 actionable secondary metrics. They explain why the North Star moved and point the team to what to fix.",
+          "example": "Photo editor: edits completed per session, share of AI edits kept without undo, export rate.",
+          "source": "wiki: C-NABGT (A, 2-3 actionable secondary metrics)"
+        },
+        {
+          "id": "m3-card-3",
+          "conceptId": "secondary-vs-business",
+          "title": "Business metrics, kept separate",
+          "body": "B is Business metrics: revenue, cost and unit economics. They show whether the product works for the company, not just for users. Keep them apart from secondary metrics: one tells the team what to fix, the other tells leadership whether it pays.",
+          "example": "Photo editor: upgrades to the paid plan, cost per AI edit.",
+          "source": "wiki: C-NABGT (B = revenue, cost, unit economics)"
+        },
+        {
+          "id": "m3-card-4",
+          "conceptId": "tracking-plan",
+          "title": "Define every metric",
+          "body": "T is the Tracking plan: how each metric is actually collected. It's the step that separates strong answers from weak ones. Define each metric precisely enough that a data scientist could write the query.",
+          "example": "\"AI edit kept\" = an AI edit applied and not undone within 60 seconds, logged as an app event.",
+          "source": "wiki: C-NABGT (T separates strong from weak; data scientist must be able to write the SQL)"
+        },
+        {
+          "id": "m3-card-5",
+          "conceptId": "tracking-plan",
+          "title": "Method and cadence",
+          "body": "Not every metric comes from logs. For each one, say how it's measured (logged events, automated evals or human raters) and how often.",
+          "example": "Hallucination rate: weekly human-rated sample of 500 outputs. Cost per edit: daily, from billing data.",
+          "source": "wiki: C-NABGT (T = human raters? automated evals? what cadence?)"
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m3-q1",
+          "type": "multiple-choice",
+          "conceptId": "clarify-scope",
+          "prompt": "You're asked how you'd measure an AI meeting-notes feature. What does Clarify scope cover?",
+          "options": [
+            "How the model was trained",
+            "Which product, which users and what time window you're measuring",
+            "The company's revenue target",
+            "Which metrics to leave out"
+          ],
+          "answerIndex": 1,
+          "explanation": "Scope sets the boundaries, so every metric that follows means one clear thing."
+        },
+        {
+          "id": "m3-q2",
+          "type": "true-false",
+          "conceptId": "clarify-scope",
+          "statement": "\"Weekly active users\" means the same thing whether you're measuring the consumer app or the developer API.",
+          "answer": false,
+          "explanation": "Different products and users make the same metric mean different things. That's why scope comes first."
+        },
+        {
+          "id": "m3-q3",
+          "type": "matching",
+          "conceptId": "secondary-vs-business",
+          "prompt": "For an AI meeting-notes feature, match each C-NABGT step to an example.",
+          "pairs": [
+            { "left": "A: Actionable secondary metric", "right": "Notes shared after the meeting, per meeting" },
+            { "left": "B: Business metric", "right": "Cost per meeting summarized" },
+            { "left": "G: Guardrail", "right": "Rate of action items assigned to the wrong person" },
+            { "left": "T: Tracking plan", "right": "Weekly human review of 200 summaries" }
+          ],
+          "explanation": "Each step has a different job. Mixing them up is how answers get muddled."
+        },
+        {
+          "id": "m3-q4",
+          "type": "multiple-choice",
+          "conceptId": "secondary-vs-business",
+          "prompt": "Which of these is a business metric?",
+          "options": [
+            "Notes shared per meeting",
+            "Cost per summary generated",
+            "Hallucination rate",
+            "Share of summaries edited before sharing"
+          ],
+          "answerIndex": 1,
+          "explanation": "Cost is unit economics. The others describe user behavior or quality."
+        },
+        {
+          "id": "m3-q5",
+          "type": "true-false",
+          "conceptId": "secondary-vs-business",
+          "statement": "Revenue makes a good actionable secondary metric for the feature team.",
+          "answer": false,
+          "explanation": "Revenue is a business metric. Secondary metrics should point the team to something it can change directly."
+        },
+        {
+          "id": "m3-q6",
+          "type": "multiple-choice",
+          "conceptId": "tracking-plan",
+          "prompt": "Which of these is a usable tracking-plan definition?",
+          "options": [
+            "We'd track engagement",
+            "We'd instrument the UI",
+            "\"Summary shared\" = user taps Share on a summary within 24 hours of the meeting, logged as an app event",
+            "We'd check the dashboard regularly"
+          ],
+          "answerIndex": 2,
+          "explanation": "It names the exact event, the time window and the data source. A data scientist could write the query."
+        },
+        {
+          "id": "m3-q7",
+          "type": "true-false",
+          "conceptId": "tracking-plan",
+          "statement": "Every metric in an AI metrics answer can be tracked from app logs.",
+          "answer": false,
+          "explanation": "Quality metrics like hallucination rate usually need automated evals or human raters."
+        },
+        {
+          "id": "m3-q8",
+          "type": "multiple-choice",
+          "conceptId": "tracking-plan",
+          "prompt": "How would you track hallucination rate for AI meeting summaries?",
+          "options": [
+            "Total summaries generated per week",
+            "A weekly human-rated sample of summaries checked against the meeting transcript",
+            "Average summary length",
+            "Number of users who open the feature"
+          ],
+          "answerIndex": 1,
+          "explanation": "It names the method (human raters), the check (against the transcript) and the cadence (weekly)."
+        }
+      ],
+      "fixWeakAnswer": {
+        "id": "m3-fix",
+        "question": "How would you measure the success of an AI feature that writes product descriptions for online sellers?",
+        "weakAnswer": "North Star: weekly sellers who publish an AI-written description. We'd also look at revenue and engagement, keep hallucinations low, and track everything in a dashboard.",
+        "weakParts": [
+          { "text": "North Star: weekly sellers who publish an AI-written description.", "label": "Jumps to the North Star with no scope" },
+          { "text": "We'd also look at revenue and engagement", "label": "Business and secondary metrics blurred, and \"engagement\" isn't defined" },
+          { "text": "and track everything in a dashboard.", "label": "No tracking plan: no definition, method or cadence" }
+        ],
+        "instructions": "Rewrite this answer using C-NABGT. Clarify scope, separate secondary and business metrics, and say how at least one metric is collected.",
+        "maxChars": 600,
+        "checklist": [
+          { "id": "m3-fix-scope", "conceptId": "clarify-scope", "criterion": "Clarifies scope first: which sellers or marketplace, and what time window" },
+          { "id": "m3-fix-secondary", "conceptId": "secondary-vs-business", "criterion": "Names 1–2 actionable secondary metrics the team can move, such as share of AI descriptions published without edits" },
+          { "id": "m3-fix-business", "conceptId": "secondary-vs-business", "criterion": "Names a business metric separately, such as cost per description or sales on listings with AI descriptions" },
+          { "id": "m3-fix-tracking", "conceptId": "tracking-plan", "criterion": "Defines how at least one metric is collected (logged event, automated eval or human rating) and how often" }
+        ]
+      },
+      "voice": {
+        "questionId": null,
+        "question": "How would you measure the success of an AI trip planner that builds travel itineraries?",
+        "timeLimitSec": 60,
+        "evaluationRubric": {
+          "excellent": "Clarifies scope, anchors on a count-based North Star, separates actionable secondary metrics from business metrics, sets an AI guardrail, and gives a tracking plan with method and cadence for the key metrics",
+          "good": "Covers most of C-NABGT, but the tracking plan is vague (\"we'd instrument it\") or secondary and business metrics are blurred",
+          "fair": "Reasonable metrics but no scope and no tracking plan, or a ratio North Star with no count or caveat",
+          "poor": "Generic engagement or satisfaction with no definitions"
+        },
+        "keyPoints": [
+          "Scope: which travelers, which product surface, what time window",
+          "A count-based North Star, e.g. weekly users who book at least one item from an AI itinerary",
+          "Secondary metrics (e.g. share of itinerary items kept without edits) kept separate from business metrics (e.g. booking revenue, cost per itinerary)",
+          "An AI guardrail, e.g. rate of wrong itinerary items (closed venues, impossible timings)",
+          "A tracking plan: definition, method (events, evals, human raters) and cadence for the key metrics"
+        ],
+        "conceptChecks": [
+          { "conceptId": "clarify-scope", "criterion": "Clarifies which users, product and time window before naming metrics" },
+          { "conceptId": "secondary-vs-business", "criterion": "Names secondary and business metrics separately, with at least one of each" },
+          { "conceptId": "tracking-plan", "criterion": "Says how at least one key metric is collected and how often" }
         ]
       }
     }
