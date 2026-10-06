@@ -74,7 +74,7 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 
 | # | Lesson | Framework | Core concepts (mastery tracked per concept) | Voice question (from the question bank) |
 |---|---|---|---|---|
-| 1 | Define success | GAME | `goals-before-metrics`, `actions-to-metrics`, `evaluate-and-pick` | `met002`: Facebook Stories success |
+| 1 | Define success | GAME | `goals-before-metrics`, `actions-to-metrics`, `evaluate-and-pick` | Lesson-specific: Spotify Discover Weekly success (`met002` was dropped, see open items) |
 | 2 | North Star and guardrails | SIGNAL | `north-star-absolute-count`, `guardrail-metrics`, `override-rate-trust` | `ai-metrics-002`: Snap LLM feature |
 | 3 | The full metrics answer | C-NABGT | `clarify-scope`, `secondary-vs-business`, `tracking-plan` | `ai-metrics-001`: ChatGPT success |
 | 4 | Diagnose a metric drop | TROPIC | `rule-out-boring-causes`, `segment-the-drop`, `cannibalization` | `met005`: LinkedIn DAU/MAU drop |
@@ -88,9 +88,9 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 
 **Step 2, Quiz (6–8 items):** a mix of multiple choice, matching (for example, match a TROPIC letter to its meaning), and true/false. Each item is tagged with a concept ID. Feedback is immediate: right or wrong, plus a one-line explanation. A wrong answer doesn't block progress.
 
-**Step 3, Fix a weak answer (1 item):** the user sees a flawed answer, for example a metrics answer with no guardrail. They rewrite the weak part in a text box (at most 600 characters). Claude Haiku grades it against a 3–4 item checklist for the lesson's concepts.
+**Step 3, Fix a weak answer (1 item):** the user sees a flawed answer, for example a metrics answer with no guardrail. They rewrite the weak part in a text box (at most 600 characters). Claude Haiku grades it against a 3–4 item checklist for the lesson's concepts. The weak parts are **not marked before the first attempt**: spotting what's wrong is part of the exercise. The markers appear with the first grading result.
 
-**Step 4, 60-second voice answer:** the user answers the lesson's voice question aloud. The timer is a soft limit: recording stops at 60 seconds. The transcript is graded by Claude Sonnet using the existing `analyzeAnswer` rubric flow for that question ID.
+**Step 4, 60-second voice answer:** the user answers the lesson's voice question aloud. The timer is a soft limit: recording stops at 60 seconds. The transcript is graded by Claude Sonnet using the existing `analyzeAnswer` rubric flow. The rubric comes from the question bank when `voice.questionId` is set, or from the lesson's own `evaluationRubric` and `keyPoints` when it's `null`. Mastery comes from the lesson's `conceptChecks`, not from the rubric's key points, because question-bank key points aren't written against Learn concepts.
 
 **Mastery model (per concept, 0–100):**
 - Each graded item tagged with a concept updates that concept's score:
@@ -110,7 +110,7 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 | Browser | Anonymous ID (`localStorage`, key `learn_anon_id`), lesson UI state, speech-to-text (same Web Speech API as Practice) |
 | Express server | Lesson content serving, grading calls to Claude, all Supabase reads and writes, rate limiting, input validation |
 | Supabase | `learners`, `concept_mastery`, `lesson_progress` tables |
-| Static JSON | Lesson content: `learn/metrics-unit.json` (cards, quiz, weak answers, concept tags) |
+| Static JSON | Lesson content: `learn/metrics-unit.json` (cards, quiz, weak answers, concept tags). Schema below. |
 
 **Secrets:** `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are **server-only**. The browser never talks to Supabase directly, so the service-role key never ships to the client. Both must be added to `.env.example` and the README. New dependency: `@supabase/supabase-js`.
 
@@ -124,7 +124,7 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 | `GET /api/learn/progress?anonId=` | UUID | `{ lessons: [{id, status}], concepts: [{id, mastery}] }` | No |
 | `POST /api/learn/quiz-result` | `{ anonId, lessonId, results: [{itemId, correct}] }` | Updated mastery for the affected concepts | No |
 | `POST /api/learn/grade-fix` | `{ anonId, lessonId, answer }` (at most 600 characters) | `{ checklist: [{concept, met, note}], feedback }` | Haiku |
-| `POST /api/learn/grade-voice` | `{ anonId, lessonId, transcript }` (at most 2,000 characters) | Existing `analyzeAnswer` JSON shape plus mastery updates | Sonnet |
+| `POST /api/learn/grade-voice` | `{ anonId, lessonId, transcript }` (at most 2,000 characters) | Existing `analyzeAnswer` JSON shape plus `conceptChecks` results and mastery updates | Sonnet |
 | `POST /api/learn/complete` | `{ anonId, lessonId }` | `{ unitComplete: boolean }` | No |
 
 **Validation:** `anonId` must be a UUID v4. `lessonId` must be one of the 5 known IDs. `itemId` must exist in the lesson content. Free text is length-capped, run through an injection-pattern sanitizer, and wrapped in `<user_input>…</user_input>` before it reaches a prompt. **The sanitizer doesn't exist yet and is new work.**
@@ -141,6 +141,34 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 - Both system prompts use prompt caching (the wiki framework block is over 500 tokens).
 
 **Prompts:** the grading prompts and their exact JSON output contracts are written and tested on 3–5 sample answers **before** the route code, and stored under `/prompts/` with a `CHANGELOG.md`.
+
+### Lesson content schema (`learn/metrics-unit.json`)
+
+```
+unit:     { unitId, title, version, concepts[], lessons[] }
+concept:  { id, lessonId, name }
+lesson:   { id, number, title, framework, conceptIds[], cards[], quiz[], fixWeakAnswer, voice }
+
+card:     { id, conceptId, title, body, example, source }
+quiz item (all): { id, type, conceptId, explanation }
+  multiple-choice: + { prompt, options[], answerIndex }
+  true-false:      + { statement, answer: boolean }
+  matching:        + { prompt, pairs[{ left, right }] }
+fixWeakAnswer: { id, question, weakAnswer, weakParts[], instructions, maxChars, checklist[] }
+  weakPart:      { text, label }
+  checklist item:{ id, conceptId, criterion }
+voice:    { questionId | null, question, timeLimitSec, evaluationRubric?, keyPoints?, conceptChecks[] }
+  conceptCheck:  { conceptId, criterion }
+```
+
+Field notes:
+- **`source`** (card): where the card's claim comes from in `wiki-knowledge.js`, for example `"wiki: GAME (E); evaluation criterion 5"`. It's for content review and isn't shown to users.
+- **`weakParts`** (fix step): exact substrings of `weakAnswer`, each with a short label explaining the flaw. They're hidden until after the first attempt (see Lesson flow).
+- **`maxChars`** (fix step): the character limit for the rewrite, 600. The server enforces the same limit.
+- **`conceptChecks`** (voice step): one GAME-style check per lesson concept. These, not the rubric, drive mastery updates.
+- **`evaluationRubric` and `keyPoints`** (voice step): required when `questionId` is `null`, and in the same shape as `pm-questions-comprehensive.json` so the `analyzeAnswer` flow can grade them. When `questionId` is set, they come from the question bank.
+
+Validation rules (checked before committing content): unique IDs; every `conceptId` exists in `concepts`; `answerIndex` is in range; every `weakParts[].text` appears in `weakAnswer`; 3–5 cards of at most about 60 words each (body plus example); 6–8 quiz items.
 
 ### Data model (Supabase)
 
@@ -176,6 +204,12 @@ Each phase ends with the server starting cleanly and the phase verified in the b
 - **Speech recognition** uses the Web Speech API (Chrome and Edge only), the same limitation as Practice. Learn shows a text fallback for step 4 in unsupported browsers.
 - **Anonymous ID loss:** clearing site data resets progress. This is accepted and stated in the UI.
 - **Practice routes are unprotected:** see "Before deploy" under Architecture. This blocks deployment, not the Learn mode build.
+- **Question bank North Stars conflict with lesson 2:** lesson 2 teaches that a North Star must be an absolute count, never a ratio or average alone (from the wiki). Several question-bank sample answers break that rule:
+  - `met002` (Facebook Stories): "daily story viewers / DAU" (a ratio). It was dropped as lesson 1's voice question for this reason, and lesson 1 now uses its own question.
+  - `met001` (Amazon Prime): "12-month retention rate". `met004` (Google Maps): "navigations completed per DAU". Both are ratios.
+  - `ai-metrics-002` (Snap LLM feature), **currently lesson 2's voice question**: "D7 feature retention, the percentage of users who…" (a percentage). Lesson 2 will need its own question or a fixed sample answer before its content is written.
+
+  Practice users who open the "One strong approach" panel on these questions see a North Star the wiki rejects. Fixing the sample answers is a Practice content change, so it's tracked here, not done in v1.
 
 ### v2 direction (not in MVP)
 
@@ -247,7 +281,7 @@ The existing Study Frameworks and Question Deconstruction screens stay reachable
 
 #### 4. Lesson: fix a weak answer
 
-**Layout:** a labeled panel holding the weak answer, with the flawed part visually marked plus a text label ("Weak part"). Below it, a labeled textarea "Your improved version" with a character count (600 maximum).
+**Layout:** a labeled panel holding the weak answer, shown **unmarked** before the first attempt. Below it, a labeled textarea "Your improved version" with a character count (600 maximum). After the first grading result, each `weakParts` span is visually marked in the panel with its text label (for example "Weak part: No pick, no reason"), so color isn't the only signal. The markers stay visible on any retry.
 
 **Primary action:** "Get feedback". There is also a ghost "Skip" link.
 
@@ -256,7 +290,7 @@ The existing Study Frameworks and Question Deconstruction screens stay reachable
 |---|---|
 | Empty | Button disabled until at least 20 characters are entered |
 | Grading | Button shows "Grading your answer…" with a spinner. The textarea is read-only. |
-| Result | A checklist with ✓ or ✗ plus a note per concept, and 1–2 sentences of feedback. Buttons: "Continue" (primary) and "Try again" (ghost). |
+| Result | The weak-part markers appear in the answer panel. Below them: a checklist with ✓ or ✗ plus a note per concept, and 1–2 sentences of feedback. Buttons: "Continue" (primary) and "Try again" (ghost). |
 | Rate limited | "You've hit the practice limit for now. Try again in a bit, or skip this step." |
 | Error | "Something went wrong grading that. Try again or skip." |
 

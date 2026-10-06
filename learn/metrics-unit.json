@@ -1,0 +1,186 @@
+{
+  "unitId": "metrics",
+  "title": "Metrics",
+  "version": 1,
+  "concepts": [
+    { "id": "goals-before-metrics", "lessonId": "metrics-1", "name": "State the goal before any metric" },
+    { "id": "actions-to-metrics", "lessonId": "metrics-1", "name": "Tie each metric to a user action" },
+    { "id": "evaluate-and-pick", "lessonId": "metrics-1", "name": "Pick what matters most and say why" }
+  ],
+  "lessons": [
+    {
+      "id": "metrics-1",
+      "number": 1,
+      "title": "Define success",
+      "framework": "GAME",
+      "conceptIds": ["goals-before-metrics", "actions-to-metrics", "evaluate-and-pick"],
+      "cards": [
+        {
+          "id": "m1-card-1",
+          "conceptId": "goals-before-metrics",
+          "title": "Start with the goal",
+          "body": "GAME is a four-step way to answer \"How would you measure success?\": Goals, Actions, Metrics, Evaluations. Start with G: say what the product is trying to accomplish before naming a single metric. Without a goal, you can't judge which metrics matter.",
+          "example": "A recipe app's Save button. Goal: help people actually cook the recipes they find, not just browse them.",
+          "source": "wiki: GAME (G)"
+        },
+        {
+          "id": "m1-card-2",
+          "conceptId": "actions-to-metrics",
+          "title": "List what users can do",
+          "body": "A is Actions: the things users can actually do with the product. Listing actions keeps your metrics tied to real behavior instead of vague ideas like \"engagement\".",
+          "example": "Save a recipe. Open a saved recipe. Cook from it. Share it.",
+          "source": "wiki: GAME (A); C-NABGT note that \"we'd track engagement\" is unacceptable"
+        },
+        {
+          "id": "m1-card-3",
+          "conceptId": "actions-to-metrics",
+          "title": "Count each action",
+          "body": "M is Metrics: for each action, name something you can count. A good metric is specific enough that a data scientist could write the query straight away.",
+          "example": "Save: recipes saved per weekly user. Cook: share of saved recipes opened in cooking mode within 7 days.",
+          "source": "wiki: GAME (M); C-NABGT note that a data scientist must be able to write the SQL"
+        },
+        {
+          "id": "m1-card-4",
+          "conceptId": "evaluate-and-pick",
+          "title": "Pick what matters and say why",
+          "body": "E is Evaluations: decide which metrics matter most for the goal, and explain why. Then land on a clear answer. Interviewers mark down \"it depends\".",
+          "example": "Most important: share of saved recipes cooked within 7 days. It shows the goal is happening. Saves alone don't.",
+          "source": "wiki: GAME (E); evaluation criterion 5, recommendation clarity"
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m1-q1",
+          "type": "multiple-choice",
+          "conceptId": "goals-before-metrics",
+          "prompt": "An interviewer asks how you'd measure the success of Instagram Reels. What should you say first?",
+          "options": [
+            "A list of engagement metrics like DAU and time spent",
+            "What Reels is trying to accomplish",
+            "Which metric is the North Star",
+            "How Reels makes money"
+          ],
+          "answerIndex": 1,
+          "explanation": "Goals come first. Until you know what Reels is for, you can't tell which metrics matter."
+        },
+        {
+          "id": "m1-q2",
+          "type": "true-false",
+          "conceptId": "goals-before-metrics",
+          "statement": "Opening with standard metrics like DAU and time spent is fine, as long as they're the metrics the company already tracks.",
+          "answer": false,
+          "explanation": "Standard metrics without a goal are guesses. State the goal first, then choose metrics that show it's being met."
+        },
+        {
+          "id": "m1-q3",
+          "type": "multiple-choice",
+          "conceptId": "actions-to-metrics",
+          "prompt": "Which of these is a metric you could actually count?",
+          "options": [
+            "Users love saving recipes",
+            "Engagement with the Save button",
+            "Recipes saved per weekly active user",
+            "Brand affinity"
+          ],
+          "answerIndex": 2,
+          "explanation": "It names a specific action (saving) and a specific count. A data scientist could write the query straight away."
+        },
+        {
+          "id": "m1-q4",
+          "type": "matching",
+          "conceptId": "actions-to-metrics",
+          "prompt": "Match each user action to a metric that counts it.",
+          "pairs": [
+            { "left": "Save a recipe", "right": "Recipes saved per weekly user" },
+            { "left": "Cook from a saved recipe", "right": "Share of saved recipes opened in cooking mode" },
+            { "left": "Share a recipe", "right": "Recipe links sent per 100 users" }
+          ],
+          "explanation": "Each metric counts one specific thing a user does. That's what makes it measurable."
+        },
+        {
+          "id": "m1-q5",
+          "type": "true-false",
+          "conceptId": "actions-to-metrics",
+          "statement": "\"We'd track engagement\" is a specific enough metric for an interview answer.",
+          "answer": false,
+          "explanation": "Engagement isn't countable as stated. Name the action and the count, like recipes saved per weekly user."
+        },
+        {
+          "id": "m1-q6",
+          "type": "multiple-choice",
+          "conceptId": "evaluate-and-pick",
+          "prompt": "What does the E in GAME ask you to do?",
+          "options": [
+            "Estimate the size of the market",
+            "Decide which metrics matter most, and why",
+            "Explain how the feature was built",
+            "Experiment with an A/B test"
+          ],
+          "answerIndex": 1,
+          "explanation": "E is Evaluations: rank your metrics against the goal and justify the top one."
+        },
+        {
+          "id": "m1-q7",
+          "type": "multiple-choice",
+          "conceptId": "evaluate-and-pick",
+          "prompt": "You've listed six metrics. What's the strongest next move?",
+          "options": [
+            "Say you'd track all six equally",
+            "Add a few more to be thorough",
+            "Pick the one that best shows the goal is met, and explain why",
+            "Pick the one that's easiest to measure"
+          ],
+          "answerIndex": 2,
+          "explanation": "Listing is only half the job. Strong answers choose and justify."
+        },
+        {
+          "id": "m1-q8",
+          "type": "true-false",
+          "conceptId": "evaluate-and-pick",
+          "statement": "Ending with \"it depends on the company's priorities\" is a safe, strong close.",
+          "answer": false,
+          "explanation": "Interviewers want you to land somewhere specific. Make a call and give the reason."
+        }
+      ],
+      "fixWeakAnswer": {
+        "id": "m1-fix",
+        "question": "How would you measure the success of a new \"Save for later\" button in a news app?",
+        "weakAnswer": "I'd look at DAU, time spent in the app, and the number of saves. If all three go up after launch, the feature is a success.",
+        "weakParts": [
+          { "text": "I'd look at DAU, time spent in the app", "label": "Generic metrics with no goal" },
+          { "text": "If all three go up after launch, the feature is a success.", "label": "No pick, no reason" }
+        ],
+        "instructions": "Rewrite this answer using GAME. State the goal, tie your metrics to what users do, and pick the one that matters most.",
+        "maxChars": 600,
+        "checklist": [
+          { "id": "m1-fix-goal", "conceptId": "goals-before-metrics", "criterion": "States what the Save for later button is trying to achieve, before naming metrics" },
+          { "id": "m1-fix-actions", "conceptId": "actions-to-metrics", "criterion": "Names at least two specific user actions, such as saving an article and coming back to read it" },
+          { "id": "m1-fix-metrics", "conceptId": "actions-to-metrics", "criterion": "Gives a countable metric for each action, not generic DAU or time spent" },
+          { "id": "m1-fix-pick", "conceptId": "evaluate-and-pick", "criterion": "Picks the most important metric and says why it shows the goal is met" }
+        ]
+      },
+      "voice": {
+        "questionId": null,
+        "question": "How would you measure the success of Spotify's Discover Weekly playlist?",
+        "timeLimitSec": 60,
+        "evaluationRubric": {
+          "excellent": "States the goal first, ties each metric to a specific user action, then picks one metric and justifies it against the goal",
+          "good": "Clear goal and action-based metrics, but no clear pick or a weak justification",
+          "fair": "Reasonable metrics, but no stated goal or no link to user actions",
+          "poor": "Generic metrics only (DAU, engagement, time spent) with no structure"
+        },
+        "keyPoints": [
+          "Goal stated before metrics, e.g. help listeners discover new music they keep coming back to",
+          "Specific user actions: open the playlist, play tracks, save or like a track, follow an artist",
+          "A countable metric for each action",
+          "One metric picked as most important, with the reason it shows the goal is met"
+        ],
+        "conceptChecks": [
+          { "conceptId": "goals-before-metrics", "criterion": "States what Discover Weekly is trying to accomplish before naming metrics" },
+          { "conceptId": "actions-to-metrics", "criterion": "Names specific user actions (opening the playlist, playing, saving tracks) with a countable metric for each" },
+          { "conceptId": "evaluate-and-pick", "criterion": "Picks the most important metric and explains why" }
+        ]
+      }
+    }
+  ]
+}
