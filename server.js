@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import AIInterviewer from './ai-interviewer.js';
+import { getClientIp } from './lib/rate-limit.js';
+import learnRouter from './learn/routes.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: join(__dirname, '.env'), override: true });
@@ -16,18 +18,21 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
+// Learn mode routes parse their own JSON with a smaller body limit, so they're mounted first
+app.use('/api/learn', learnRouter);
 app.use(express.json());
-app.use(express.static(__dirname));
+
+// Serve only the frontend page — never the whole project folder, which holds
+// env files, server code and lesson content
+app.get('/voice-interface.html', (req, res) => {
+  res.sendFile(join(__dirname, 'voice-interface.html'));
+});
 
 // ===== DEMO MODE =====
 // When no API key is set, allow 2 free tries per IP using the built-in key,
 // then return a 402 with instructions to get their own key.
 const DEMO_LIMIT = 2;
 const demoUsage = new Map(); // ip -> count
-
-function getClientIp(req) {
-  return (req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
-}
 
 function checkDemoLimit(req, res) {
   // If the app has its own API key configured, no demo gate needed

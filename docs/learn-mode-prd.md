@@ -122,20 +122,39 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 
 | Route | Input | Output | Claude? |
 |---|---|---|---|
-| `GET /api/learn/unit/metrics` | — | Lesson list with card, quiz and weak-answer content (quiz answers included; the quiz is graded client-side because it isn't sensitive) | No |
-| `GET /api/learn/progress?anonId=` | UUID | `{ lessons: [{id, status}], concepts: [{id, mastery}] }` | No |
-| `POST /api/learn/quiz-result` | `{ anonId, lessonId, results: [{itemId, correct}] }` | Updated mastery for the affected concepts | No |
+| `GET /api/learn/unit/metrics` | — | Lesson list with card, quiz and weak-answer content. Quiz answers are included so the UI can show instant feedback. Card `source` fields are stripped. | No |
+| `GET /api/learn/progress?anonId=` | UUID | `{ lessons: [{id, status}], concepts: [{id, score, mastered}] }`. Lessons with no row are `not_started`, concepts with no row score 0. | No |
+| `POST /api/learn/lesson/start` | `{ anonId, lessonId }` | `{ lessonId, status }` | No |
+| `POST /api/learn/quiz-result` | `{ anonId, lessonId, answers: [{itemId, answer}] }`. `answer` is an index (multiple choice), a boolean (true/false) or `[{left, right}]` (matching). | Per item `{itemId, correct, explanation}`, plus updated mastery for the lesson's concepts | No |
 | `POST /api/learn/grade-fix` | `{ anonId, lessonId, answer }` (at most 600 characters) | `{ checklist: [{concept, met, note}], feedback }` | Haiku |
 | `POST /api/learn/grade-voice` | `{ anonId, lessonId, transcript }` (at most 2,000 characters) | Existing `analyzeAnswer` JSON shape plus `conceptChecks` results and mastery updates | Sonnet |
-| `POST /api/learn/complete` | `{ anonId, lessonId }` | `{ unitComplete: boolean }` | No |
+| `POST /api/learn/lesson/complete` | `{ anonId, lessonId }` | `{ lessonId, status, unitComplete }` | No |
+
+**Route notes (as built):**
+- **`lesson/start` exists because of the completion metric.** Its denominator is "learners who started lesson 1", so something has to record a start. `quiz-result` also records a start, in case the UI skips the call. Neither ever downgrades a completed lesson.
+- **The server grades the quiz.** The client sends its answers, and the server checks them against the lesson content. A client can't inflate mastery or the metrics by claiming `correct: true`.
+- **"Complete" is accepted as sent** for now, because the fix and voice steps can be skipped and their grading routes don't exist yet. Revisit this when grading lands.
 
 **Validation:** `anonId` must be a UUID v4. `lessonId` must be one of the 5 known IDs. `itemId` must exist in the lesson content. Free text is length-capped, run through an injection-pattern sanitizer, and wrapped in `<user_input>…</user_input>` before it reaches a prompt. **The sanitizer doesn't exist yet and is new work.**
 
 **Rate limiting:** both grading routes are limited per IP and per `anonId` (proposed: 20 grading calls per hour per anonymous ID, 40 per hour per IP). **No rate limiter exists in the app today.** The only limit is the demo-mode counter, so this is new work. Demo mode applies the same way as in Practice when `ANTHROPIC_API_KEY` is missing.
 
-**Errors:** all `/api/learn/*` routes use a new `safeError()` helper (none exists yet). Status codes: 400 validation, 404 unknown lesson, 429 rate limit, 500 generic. If Supabase is unreachable, lessons still work and progress shows a "not saved" warning. Grading failures let the user retry or skip the step.
+**Errors:** all `/api/learn/*` routes use `safeError()` (`lib/safe-error.js`). Status codes:
+- 400 for validation, including malformed JSON
+- 404 for an unknown unit
+- 413 for a body over 20kb
+- 429 for the rate limit
+- **503 when Supabase isn't configured or can't be reached**, with the safe message "Progress can't be saved right now…", so lessons still work and the UI shows its "not saved" warning
+- 500 for anything else, with the real error logged server-side
 
-**Before deploy: Practice routes need the same protection.** The existing `/api/interview/*` routes that call Claude (`start`, `respond`, `evaluate`, `analyze-answer`) have no rate limiter, `safeError()` or sanitizer either. The same three helpers built for Learn mode must be applied to those routes before the app is deployed. This is a protection-only change: it doesn't alter Practice behavior for normal use, so it's compatible with the "no Practice changes" non-goal.
+Grading failures let the user retry or skip the step.
+
+**Before deploy** (these block deployment, not the Learn mode build):
+1. **Secrets only in Vercel settings:** `ANTHROPIC_API_KEY`, `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set in Vercel → Project → Settings → Environment Variables (Production and Preview). They never go in code, `vercel.json`, a committed file, or any `NEXT_PUBLIC_`/client-side variable. Check `git ls-files '.env*'` before each deploy: only `.env.example` should be listed.
+2. **Practice routes get the same protection as Learn:** the existing `/api/interview/*` routes that call Claude (`start`, `respond`, `evaluate`, `analyze-answer`) get the rate limiter, `safeError()` and the input sanitizer. This is a protection-only change: it doesn't alter Practice behavior for normal use, so it's compatible with the "no Practice changes" non-goal.
+3. **A shared rate-limit store:** the current limiter (`lib/rate-limit.js`) keeps counts in memory, so they reset on restart and aren't shared across Vercel's serverless instances. Replace it with a shared store, initialized lazily inside the function that uses it, never at module load.
+4. **Only the frontend page is served:** keep serving `voice-interface.html` by name, never the project folder. `express.static(__dirname)` was removed because it served `env.txt` (which contained an API key), `server.js`, `CLAUDE.md` and the lesson content.
+5. **The API URL isn't hardcoded:** `voice-interface.html` sets `API_URL = 'http://localhost:3000/api'`, which won't work once deployed. Use a relative `/api` path.
 
 **Model and cost:**
 - Fix-a-weak-answer uses `claude-haiku-4-5-20251001` (short checklist, high volume).
@@ -174,21 +193,30 @@ Validation rules (checked before committing content): unique IDs; every `concept
 
 ### Data model (Supabase)
 
-```sql
-learners          (anon_id uuid primary key, created_at timestamptz default now())
+The full, runnable schema is in `supabase/schema.sql`.
 
-concept_mastery   (anon_id uuid references learners, concept_id text, score int check (score between 0 and 100),
+```sql
+learners          (anon_id uuid primary key, created_at timestamptz, last_seen_at timestamptz)
+
+concept_mastery   (anon_id uuid references learners on delete cascade, concept_id text,
+                   score int check (score between 0 and 100),
+                   applied_met boolean default false,   -- met in the fix or voice step
+                   check (applied_met or score <= 69),  -- no mastery from the quiz alone
                    updated_at timestamptz, primary key (anon_id, concept_id))
 
-lesson_progress   (anon_id uuid references learners, lesson_id text,
+lesson_progress   (anon_id uuid references learners on delete cascade, lesson_id text,
                    status text check (status in ('started','completed')),
                    started_at timestamptz, completed_at timestamptz,
                    primary key (anon_id, lesson_id))
 ```
 
-Row-level security is enabled, with no public policies. Only the server's service role reads and writes.
+**Access:**
+- **RLS** is enabled with no policies.
+- **Table privileges** are granted only to `service_role`: `SELECT`, `INSERT` and `UPDATE`, no `DELETE`. They're revoked from `anon` and `authenticated`.
+- **Project settings:** the project has "Automatically expose new tables" off, which is why the explicit grants are needed.
+- **No personal data:** the tables hold no personal information. That means only the anonymous UUID, lesson and concept IDs, scores and timestamps. IP addresses are used only for in-memory rate limiting and are never stored.
 
-**Unit completion rate query:** count of `anon_id` with 5 completed lessons ÷ count of `anon_id` with lesson 1 started.
+**Unit completion rate query:** count of `anon_id` with 5 completed lessons ÷ count of `anon_id` with lesson 1 started. The SQL is in a comment at the end of `supabase/schema.sql`. It's run ad hoc in the SQL Editor, deliberately not as a view: Postgres views run with their owner's rights by default and could expose data through the Data API.
 
 ### Build phases
 
@@ -197,7 +225,7 @@ Each phase ends with the server starting cleanly and the phase verified in the b
 1. **Content and framework unification:** fix the framework text, then write `learn/metrics-unit.json` for all 5 lessons.
 2. **Prompts:** write and test the fix-answer and voice grading prompts in `/prompts/`.
 3. **Learn UI with static content only:** lesson map, cards, and quiz, with no backend progress.
-4. **Supabase and progress routes:** anonymous ID, mastery, and lesson status.
+4. **Supabase and progress routes:** anonymous ID, mastery, and lesson status. **Built 2026-10-07, ahead of phases 2 and 3**, which don't depend on it. The helpers it introduced (`safeError()` and the rate limiter) are reused by phase 5.
 5. **Grading routes:** sanitizer, `safeError()`, and rate limiter first, then the fix-a-weak-answer and voice answer routes and their error states.
 
 ### Risks and open items
@@ -205,7 +233,7 @@ Each phase ends with the server starting cleanly and the phase verified in the b
 - **Lesson content quality is the product.** Authoring 5 lessons of cards, quiz items and weak answers is the largest piece of work, and it needs a review pass before Phase 3.
 - **Speech recognition** uses the Web Speech API (Chrome and Edge only), the same limitation as Practice. Learn shows a text fallback for step 4 in unsupported browsers.
 - **Anonymous ID loss:** clearing site data resets progress. This is accepted and stated in the UI.
-- **Practice routes are unprotected:** see "Before deploy" under Architecture. This blocks deployment, not the Learn mode build.
+- **Before-deploy items are open:** see "Before deploy" under Architecture. They block deployment, not the Learn mode build.
 - **Question bank North Stars are weaker than what lesson 2 teaches:** lesson 2 teaches "prefer a count for the North Star, because a ratio can rise when its denominator shrinks (for example, users leaving)". It also says ratios are fine as supporting metrics. Several question-bank sample answers use a ratio North Star **with no count alongside it and no caveat**. That makes them weaker answers than lesson 2 teaches, not wrong ones:
   - `met002` (Facebook Stories): "daily story viewers / DAU". It was dropped as lesson 1's voice question, which now uses its own question.
   - `met001` (Amazon Prime): "12-month retention rate".

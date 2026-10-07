@@ -50,6 +50,19 @@ Edit `.env`:
 ANTHROPIC_API_KEY=sk-ant-your-key-here
 ```
 
+#### Environment variables
+
+| Variable | Required | What it does |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | For full use | Claude API key for interviews and feedback. Without it, demo mode allows 2 free tries per IP. |
+| `PORT` | No | Server port. Defaults to 3000. |
+| `SUPABASE_URL` | For Learn progress | Your Supabase project URL (Project Settings → Data API). |
+| `SUPABASE_SERVICE_ROLE_KEY` | For Learn progress | Supabase **secret** key (`sb_secret_…` or legacy `service_role`). Server-only, never sent to the browser. |
+
+Without the two Supabase variables, Learn lessons still load but progress isn't saved. To set up the database, run `supabase/schema.sql` once in the Supabase SQL Editor.
+
+Never commit `.env`. It's gitignored, and in production the variables are set in the Vercel dashboard.
+
 ### 3. Run
 
 ```bash

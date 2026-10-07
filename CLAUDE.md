@@ -4,11 +4,12 @@
 
 ```bash
 cd ~/Documents/Personal/Claude\ Projects/ai-interview-simulator
-node server.js        # port 3000
+node server.js        # port 3000 (PORT in .env wins over the shell: dotenv uses override: true)
 # open http://localhost:3000
+npm test              # Learn mode mastery/content tests (node:test, no extra deps)
 ```
 
-ESM project (`"type": "module"`). Uses `@anthropic-ai/sdk`. Requires `ANTHROPIC_API_KEY` in `.env`.
+ESM project (`"type": "module"`). Uses `@anthropic-ai/sdk` and `@supabase/supabase-js`. Env vars are listed in README → "Environment variables". The Supabase ones are optional: without them, Learn progress routes return 503.
 
 ---
 
@@ -17,7 +18,7 @@ ESM project (`"type": "module"`). Uses `@anthropic-ai/sdk`. Requires `ANTHROPIC_
 | Mode | What it is | Status |
 |------|-----------|--------|
 | **Practice** | The existing voice mock interview (guided coaching + full simulation). | Built. **Do not change** while building Learn mode. |
-| **Learn** | Duolingo-style lessons that teach PM interview knowledge. Built on top of the existing Study Frameworks cards and Question Deconstruction quiz, reusing their content rather than replacing them. | Planned. Work happens on branch `feature/learn-mode`. PRD and UI spec not written yet. |
+| **Learn** | Duolingo-style lessons that teach PM interview knowledge. Built on top of the existing Study Frameworks cards and Question Deconstruction quiz, reusing their content rather than replacing them. | In progress on branch `feature/learn-mode`. PRD: `docs/learn-mode-prd.md`. Content for all 5 Metrics lessons and the progress API are built. The UI and grading are not. |
 
 **Stack:** Node/Express, same as the rest of the app. No new framework for Learn mode.
 
@@ -37,7 +38,18 @@ ESM project (`"type": "module"`). Uses `@anthropic-ai/sdk`. Requires `ANTHROPIC_
 | `ai-interviewer.js` | Claude integration — system prompts, question picking, guided mode |
 | `wiki-knowledge.js` | Compiled Obsidian framework reference block injected into system prompt |
 | `pm-questions-comprehensive.json` | Question bank — 55 questions across 9 categories with rubrics and sample answers |
-| `voice-interface.html` | Single-page frontend — all UI screens, voice logic, quiz logic |
+| `voice-interface.html` | Single-page frontend — all UI screens, voice logic, quiz logic. The only file the server serves. |
+| `learn/metrics-unit.json` | Learn mode content: 5 Metrics lessons, 15 concepts (schema in the PRD) |
+| `learn/routes.js` | `/api/learn/*`: unit content, progress, lesson start/complete, server-graded quiz |
+| `learn/content.js`, `learn/mastery.js` | Content lookups (strips `source`), quiz grading and mastery rules (+20/−10, 69 cap until applied) |
+| `learn/supabase-client.js` | Lazy server-only Supabase client (secret key). Returns null when not configured. |
+| `lib/safe-error.js`, `lib/rate-limit.js` | Safe client errors; in-memory per-IP rate limiter (+ `getClientIp`) |
+| `supabase/schema.sql` | Tables, constraints, RLS, grants to `service_role` only. Run once in the SQL Editor. |
+
+**Gotchas:**
+- **Root-owned files:** `node_modules` and `package-lock.json` were root-owned from an old `sudo npm install` (fixed 2026-10-07). Never use `sudo` with npm.
+- **No DELETE for the server:** `service_role` has no DELETE on the Learn tables (by design). Remove test rows in the SQL Editor.
+- **Test learner IDs:** they use the prefix `00000000-0000-4000-8000-…` so they're easy to find and delete.
 
 ---
 
@@ -99,8 +111,25 @@ When `ANTHROPIC_API_KEY` is not set, demo mode activates — 2 free uses per IP,
 
 **Since then (2026-10-05):** Committed the above to `main`, created `feature/learn-mode`, and added `mode` validation to `/api/interview/start` (only `guided` or `mock`, otherwise 400).
 
-**Next steps (suggested):**
-- Write the Learn mode PRD and UI spec (see Product direction above) before any Learn mode code
+## Session handoff — 2026-10-07
+
+**Last completed:**
+- **PRD phase 4 (Supabase + progress routes):** built and checked against the live project. 15/15 API checks passed. Directly in the database, the 69 cap is enforced, DELETE is denied, and the first completion time is kept.
+- **Security fixes:**
+  - removed `express.static(__dirname)`, which served `env.txt` (it held an API key), `server.js` and more
+  - deleted `env.txt` and `.env.txt`
+- **Earlier:** the PRD, the framework text fix, and all 5 Metrics lessons.
+
+**Open:**
+- **RLS check as `anon`:** not run yet. It needs the publishable key, or run `set role anon; select * from learners;` in the SQL Editor and expect a permission error.
+- **Test rows:** 2 test learners are in Supabase. Delete them in the SQL Editor with `delete from learners where anon_id in ('00000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000002');`. The cascade removes their other rows.
+- **Revoke the old key:** the Anthropic key from the deleted `env.txt` was served over HTTP, so revoke it if it's unused.
+
+**Next step:** PRD phase 2 is the grading prompts in `/prompts/` (fix-a-weak-answer with Haiku, voice with Sonnet), tested on 3–5 sample answers before any route code. Or phase 3, the Learn UI with static content.
+
+**Before deploy:** see the PRD → Architecture → "Before deploy" (5 items).
+
+**Other suggestions (from 2026-07-28):**
 - Add Vibe Coding as an interview type in the dropdown + deconstruction question
 - Build Obsidian vault file-watcher so new clipped notes auto-sync into the app
 - Push to GitHub and deploy to Vercel (currently running local only)
