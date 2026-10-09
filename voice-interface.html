@@ -440,10 +440,22 @@
         /* A link styled like the button cards (buttons here get font-weight 600 globally) */
         a.landing-card { display: block; text-decoration: none; color: inherit; font-weight: 600; }
         .mode-choice { margin-bottom: 28px; }
-        .landing-section-label {
+        .more-tools { border-top: 1px solid #eee; padding-top: 18px; }
+        .more-tools-label {
             font-size: 12px; font-weight: 700; color: #666;
             text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px;
         }
+        .more-tools-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        /* Overrides the global button style: small, ghost-like secondary links */
+        .tool-link {
+            flex: none; min-height: 44px; padding: 10px 12px; text-align: left;
+            background: none; border: 1.5px solid #e0e0e0; border-radius: 8px;
+            font-size: 14px; font-weight: 600; color: #5b21b6;
+        }
+        .tool-link:hover { border-color: #667eea; background: #f5f3ff; }
+        .tool-link:focus-visible { outline: 3px solid #667eea; outline-offset: 2px; }
+        .tool-link-hint { display: block; font-size: 12px; font-weight: 400; color: #666; margin-top: 2px; }
+        @media (max-width: 480px) { .more-tools-links { grid-template-columns: 1fr; } }
 
         .landing-card h2 {
             font-size: 17px;
@@ -910,7 +922,7 @@
 <body>
     <div class="container">
         <h1>AI PM Interview Practice</h1>
-        <p class="subtitle">Voice-only practice with real big tech interview questions</p>
+        <p class="subtitle">Learn PM interview frameworks, then practice with real questions.</p>
 
         <div id="error" class="error hidden"></div>
 
@@ -930,24 +942,20 @@
                 </button>
             </div>
 
-            <p class="landing-section-label">Or jump straight in</p>
-            <div class="landing-options">
-                <button class="landing-card" onclick="showStudy()">
-                    <div class="card-tag tag-start">Step 1</div>
-                    <h2>Study Frameworks</h2>
-                    <p>Learn the 7 round types, frameworks, and anti-patterns. Takes 5–10 min.</p>
-                </button>
-                <button class="landing-card" onclick="showDeconstruct()">
-                    <div class="card-tag" style="background:#dcfce7;color:#15803d;">Step 2 — New</div>
-                    <h2>Question Deconstruction</h2>
-                    <p>Practice reading questions — recognize type, pick framework, spot the hidden test.</p>
-                </button>
-                <button class="landing-card" onclick="showSetup()">
-                    <div class="card-tag tag-practice">Step 3</div>
-                    <h2>Mock Interview</h2>
-                    <p>Voice-only practice with AI feedback. Choose guided coaching or full simulation.</p>
-                </button>
-            </div>
+            <!-- Secondary tools: same screens as before, smaller entry points -->
+            <section class="more-tools" aria-labelledby="moreToolsLabel">
+                <h2 id="moreToolsLabel" class="more-tools-label">More practice tools</h2>
+                <div class="more-tools-links">
+                    <button class="tool-link" onclick="showStudy()">
+                        Study Frameworks
+                        <span class="tool-link-hint">All 8 round types and their frameworks</span>
+                    </button>
+                    <button class="tool-link" onclick="showDeconstruct()">
+                        Question Deconstruction
+                        <span class="tool-link-hint">Spot the question type and the hidden test</span>
+                    </button>
+                </div>
+            </section>
         </div>
 
         <!-- Study screen -->
