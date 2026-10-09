@@ -28,6 +28,19 @@ app.get('/voice-interface.html', (req, res) => {
   res.sendFile(join(__dirname, 'voice-interface.html'));
 });
 
+// Learn mode UI: each browser-facing file listed by name. Nothing else in learn/
+// (lesson JSON, routes, Supabase client) is reachable.
+const LEARN_UI_FILES = {
+  '/learn': 'learn/ui/index.html',
+  '/learn/learn.css': 'learn/ui/learn.css',
+  '/learn/learn.js': 'learn/ui/learn.js',
+  '/learn/learn-logic.js': 'learn/ui/learn-logic.js',
+  '/learn/mastery.js': 'learn/mastery.js' // same grading rules the server uses
+};
+for (const [route, file] of Object.entries(LEARN_UI_FILES)) {
+  app.get(route, (req, res) => res.sendFile(join(__dirname, file)));
+}
+
 // ===== DEMO MODE =====
 // When no API key is set, allow 2 free tries per IP using the built-in key,
 // then return a 402 with instructions to get their own key.

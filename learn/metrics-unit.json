@@ -25,6 +25,7 @@
       "number": 1,
       "title": "Define success",
       "framework": "GAME",
+      "takeaway": "Start with the goal, tie each metric to something users do, then pick the one that matters most and say why.",
       "conceptIds": ["goals-before-metrics", "actions-to-metrics", "evaluate-and-pick"],
       "cards": [
         {
@@ -199,6 +200,7 @@
       "number": 2,
       "title": "North Star and guardrails",
       "framework": "SIGNAL",
+      "takeaway": "Prefer a count of people getting value, set guardrails that must not get worse, and trust what users do over accuracy scores.",
       "conceptIds": ["north-star-absolute-count", "guardrail-metrics", "override-rate-trust"],
       "cards": [
         {
@@ -374,6 +376,7 @@
       "number": 3,
       "title": "The full metrics answer",
       "framework": "C-NABGT",
+      "takeaway": "Clarify scope first, keep secondary and business metrics apart, and define every metric well enough that someone could query it.",
       "conceptIds": ["clarify-scope", "secondary-vs-business", "tracking-plan"],
       "cards": [
         {
@@ -559,6 +562,7 @@
       "number": 4,
       "title": "Diagnose a metric drop",
       "framework": "TROPIC",
+      "takeaway": "Rule out boring causes first, split the drop by region and platform, and check whether your own product took the traffic.",
       "conceptIds": ["rule-out-boring-causes", "segment-the-drop", "cannibalization"],
       "cards": [
         {
@@ -744,6 +748,7 @@
       "number": 5,
       "title": "The AI layer",
       "framework": "TROPIC + AI metrics",
+      "takeaway": "Ask whether the model or what you built around it changed, confirm before acting, and treat speed and cost as product metrics.",
       "conceptIds": ["ai-layer-in-tropic", "ai-quality-metrics", "cost-and-latency"],
       "cards": [
         {

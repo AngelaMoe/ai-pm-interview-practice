@@ -437,6 +437,14 @@
             background: #f5f3ff;
         }
 
+        /* A link styled like the button cards (buttons here get font-weight 600 globally) */
+        a.landing-card { display: block; text-decoration: none; color: inherit; font-weight: 600; }
+        .mode-choice { margin-bottom: 28px; }
+        .landing-section-label {
+            font-size: 12px; font-weight: 700; color: #666;
+            text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px;
+        }
+
         .landing-card h2 {
             font-size: 17px;
             font-weight: 700;
@@ -908,6 +916,21 @@
 
         <!-- Landing screen -->
         <div id="landing">
+            <!-- Mode choice: Learn (primary) or Practice (secondary) -->
+            <div class="landing-options mode-choice">
+                <a class="landing-card primary" href="/learn">
+                    <div class="card-tag tag-start">Learn</div>
+                    <h2>Learn the Metrics frameworks</h2>
+                    <p>5 short lessons with concept cards and quizzes. Your progress is saved in this browser.</p>
+                </a>
+                <button class="landing-card" onclick="showSetup()">
+                    <div class="card-tag tag-practice">Practice</div>
+                    <h2>Mock interview</h2>
+                    <p>Answer real interview questions out loud and get AI feedback.</p>
+                </button>
+            </div>
+
+            <p class="landing-section-label">Or jump straight in</p>
             <div class="landing-options">
                 <button class="landing-card" onclick="showStudy()">
                     <div class="card-tag tag-start">Step 1</div>

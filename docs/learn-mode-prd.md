@@ -168,7 +168,7 @@ Grading failures let the user retry or skip the step.
 ```
 unit:     { unitId, title, version, concepts[], lessons[] }
 concept:  { id, lessonId, name }
-lesson:   { id, number, title, framework, conceptIds[], cards[], quiz[], fixWeakAnswer, voice }
+lesson:   { id, number, title, framework, takeaway, conceptIds[], cards[], quiz[], fixWeakAnswer, voice }
 
 card:     { id, conceptId, title, body, example, source }
 quiz item (all): { id, type, conceptId, explanation }
@@ -189,7 +189,9 @@ Field notes:
 - **`conceptChecks`** (voice step): one GAME-style check per lesson concept. These, not the rubric, drive mastery updates.
 - **`evaluationRubric` and `keyPoints`** (voice step): required when `questionId` is `null`, and in the same shape as `pm-questions-comprehensive.json` so the `analyzeAnswer` flow can grade them. When `questionId` is set, they come from the question bank.
 
-Validation rules (checked before committing content): unique IDs; every `conceptId` exists in `concepts`; `answerIndex` is in range; every `weakParts[].text` appears in `weakAnswer`; 3–5 cards of at most about 60 words each (body plus example); 6–8 quiz items.
+- **`takeaway`** (lesson): one line, at most 25 words, shown on the "Lesson complete" screen. Added in phase 3.
+
+Validation rules (checked before committing content): unique IDs; every `conceptId` exists in `concepts`; `answerIndex` is in range; every `weakParts[].text` appears in `weakAnswer`; 3–5 cards of at most about 60 words each (body plus example); 6–8 quiz items; a non-empty `takeaway` of at most 25 words.
 
 ### Data model (Supabase)
 
@@ -224,7 +226,12 @@ Each phase ends with the server starting cleanly and the phase verified in the b
 
 1. **Content and framework unification:** fix the framework text, then write `learn/metrics-unit.json` for all 5 lessons.
 2. **Prompts:** write and test the fix-answer and voice grading prompts in `/prompts/`.
-3. **Learn UI with static content only:** lesson map, cards, and quiz, with no backend progress.
+3. **Learn UI:** landing mode choice, lesson map, and the 4 lesson steps. **Built 2026-10-09**, wired to the phase 4 progress API rather than static-only, since that API already existed. The notes below describe what was built.
+   - **Files:** Learn lives in `learn/ui/` (`index.html`, `learn.css`, `learn.js`, `learn-logic.js`), separate from `voice-interface.html`. The server serves each file by name at `/learn`. The browser imports `learn/mastery.js`, so instant quiz feedback uses the same rules the server grades with.
+   - **Placeholder steps:** the fix and speak steps show the exercise (the question, the unmarked weak answer, the voice question) with "feedback is coming soon" and Continue. There's no text box or microphone yet, because those would collect input that goes nowhere. Phase 5 replaces both.
+   - **Quiz saving:** each item is saved as soon as it's checked (one answer per `quiz-result` call), so a half-finished quiz still counts.
+   - **Map note:** "Quiz answers can raise a concept to 69%. Reaching mastery (70%+) needs the written and spoken practice steps…". Without it, learners would wonder why nothing is ever mastered.
+   - **Landing:** Learn is the primary card and Practice is secondary, both placed above the original 3 step cards, which are unchanged.
 4. **Supabase and progress routes:** anonymous ID, mastery, and lesson status. **Built 2026-10-07, ahead of phases 2 and 3**, which don't depend on it. The helpers it introduced (`safeError()` and the rate limiter) are reused by phase 5.
 5. **Grading routes:** sanitizer, `safeError()`, and rate limiter first, then the fix-a-weak-answer and voice answer routes and their error states.
 

@@ -18,7 +18,7 @@ ESM project (`"type": "module"`). Uses `@anthropic-ai/sdk` and `@supabase/supaba
 | Mode | What it is | Status |
 |------|-----------|--------|
 | **Practice** | The existing voice mock interview (guided coaching + full simulation). | Built. **Do not change** while building Learn mode. |
-| **Learn** | Duolingo-style lessons that teach PM interview knowledge. Built on top of the existing Study Frameworks cards and Question Deconstruction quiz, reusing their content rather than replacing them. | In progress on branch `feature/learn-mode`. PRD: `docs/learn-mode-prd.md`. Content for all 5 Metrics lessons and the progress API are built. The UI and grading are not. |
+| **Learn** | Duolingo-style lessons that teach PM interview knowledge. Built on top of the existing Study Frameworks cards and Question Deconstruction quiz, reusing their content rather than replacing them. | In progress on branch `feature/learn-mode`. PRD: `docs/learn-mode-prd.md`. Content, the progress API and the UI (`/learn`) are built. Grading of the fix and speak steps is not (they're placeholders). |
 
 **Stack:** Node/Express, same as the rest of the app. No new framework for Learn mode.
 
@@ -39,7 +39,8 @@ ESM project (`"type": "module"`). Uses `@anthropic-ai/sdk` and `@supabase/supaba
 | `wiki-knowledge.js` | Compiled Obsidian framework reference block injected into system prompt |
 | `pm-questions-comprehensive.json` | Question bank — 55 questions across 9 categories with rubrics and sample answers |
 | `voice-interface.html` | Single-page frontend — all UI screens, voice logic, quiz logic. The only file the server serves. |
-| `learn/metrics-unit.json` | Learn mode content: 5 Metrics lessons, 15 concepts (schema in the PRD) |
+| `learn/metrics-unit.json` | Learn mode content: 5 Metrics lessons, 15 concepts, one `takeaway` each (schema in the PRD) |
+| `learn/ui/` | Learn UI at `/learn`: `index.html`, `learn.css`, `learn.js` (screens, `textContent` only), `learn-logic.js` (pure helpers + tests). Each file is served by name in `server.js` (`LEARN_UI_FILES`). |
 | `learn/routes.js` | `/api/learn/*`: unit content, progress, lesson start/complete, server-graded quiz |
 | `learn/content.js`, `learn/mastery.js` | Content lookups (strips `source`), quiz grading and mastery rules (+20/−10, 69 cap until applied) |
 | `learn/supabase-client.js` | Lazy server-only Supabase client (secret key). Returns null when not configured. |
@@ -119,13 +120,26 @@ When `ANTHROPIC_API_KEY` is not set, demo mode activates — 2 free uses per IP,
   - removed `express.static(__dirname)`, which served `env.txt` (it held an API key), `server.js` and more
   - deleted `env.txt` and `.env.txt`
 - **Earlier:** the PRD, the framework text fix, and all 5 Metrics lessons.
+- **RLS check passed** in the SQL Editor (2026-10-07): `set role anon; select * from learners;` returned "permission denied".
+- **Test learners deleted:** the 2 test learners (`00000000-0000-4000-8000-…000001` and `…000002`) were removed from Supabase. To clean up future test rows, use `delete from learners where anon_id in (...)` in the SQL Editor. The cascade removes their other rows.
+- **The old Anthropic key is gone:** the key from the deleted `env.txt` no longer exists (confirmed 2026-10-09).
+
+## Session handoff — 2026-10-09
+
+**Last completed: PRD phase 3, the Learn UI**, in `learn/ui/`:
+- **Built:** the landing mode choice in `voice-interface.html` (additive only, 23 lines, nothing removed), the lesson map, cards, quiz (all 3 types, saved per item), the fix and speak placeholders, and lesson complete with a takeaway.
+- **Checked:**
+  - 19 unit tests
+  - 61 headless-Chrome checks: a keyboard-only run of lesson 1, persistence, simulated 503s, 375px width, no stray text and no JS errors
+  - 11 landing checks
+
+**How the browser tests work:** they drive the system Chrome directly through the DevTools protocol, using Node's built-in WebSocket and no dependencies. They live in the session scratchpad and aren't committed. Rebuild them from the same approach if you need them.
 
 **Open:**
-- **RLS check as `anon`:** not run yet. It needs the publishable key, or run `set role anon; select * from learners;` in the SQL Editor and expect a permission error.
-- **Test rows:** 2 test learners are in Supabase. Delete them in the SQL Editor with `delete from learners where anon_id in ('00000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000002');`. The cascade removes their other rows.
-- **Revoke the old key:** the Anthropic key from the deleted `env.txt` was served over HTTP, so revoke it if it's unused.
+- **Test learners:** test learners `…000003`, `…000004` and `…000005` are in Supabase. Delete them in the SQL Editor:
+  `delete from learners where anon_id in ('00000000-0000-4000-8000-000000000003','00000000-0000-4000-8000-000000000004','00000000-0000-4000-8000-000000000005');`
 
-**Next step:** PRD phase 2 is the grading prompts in `/prompts/` (fix-a-weak-answer with Haiku, voice with Sonnet), tested on 3–5 sample answers before any route code. Or phase 3, the Learn UI with static content.
+**Next step:** PRD phase 2 is the grading prompts in `/prompts/` (fix-a-weak-answer with Haiku, voice with Sonnet), tested on 3–5 sample answers before any route code. Then phase 5, the grading routes, which replace the placeholders and set `applied_met`.
 
 **Before deploy:** see the PRD → Architecture → "Before deploy" (5 items).
 
