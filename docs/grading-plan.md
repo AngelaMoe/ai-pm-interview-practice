@@ -1,6 +1,13 @@
 # Learn Mode Grading Plan (PRD phase 2)
 
-**Status:** Approved 2026-10-09. Step 1 (SDK upgrade + Practice smoke test) done; step 2 next.
+**Status:** Approved 2026-10-09. Steps 1 (SDK upgrade + Practice smoke test) and 2 (output schemas, 2026-10-12) done; step 3 next.
+
+**Output contracts:** `learn/grading/schemas.js`. It holds:
+- the per-lesson JSON Schemas sent as structured outputs (ids restricted to the lesson's own items)
+- validators for what schemas can't express: each item graded exactly once, word limits, score/label agreement, at most 2 strengths
+- `enforceEvidence()`: downgrades any "met" whose quote isn't in the learner's text
+
+The matching ignores case, punctuation and spacing, because speech transcripts lack punctuation. Tests are in `learn/grading/schemas.test.js`. All three schemas were checked live on their models: accepted, validator passed, no evidence rejected.
 **Goal:** Grading prompts for the fix step and the voice step, proven against a labeled eval set **before** any grading route code (PRD phase 5) is written.
 
 ---
