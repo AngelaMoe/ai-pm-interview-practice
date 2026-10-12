@@ -1,6 +1,6 @@
 # Learn Mode Grading Plan (PRD phase 2)
 
-**Status:** Approved 2026-10-09. Step 1 in progress.
+**Status:** Approved 2026-10-09. Step 1 (SDK upgrade + Practice smoke test) done; step 2 next.
 **Goal:** Grading prompts for the fix step and the voice step, proven against a labeled eval set **before** any grading route code (PRD phase 5) is written.
 
 ---
@@ -27,6 +27,24 @@
 - **Prompt caching:** Haiku 4.5 only caches prompts of 4,096+ tokens. The fix prompt (~1.5k) **won't cache**, so caching is not used there. Sonnet's minimum is 1,024, so the voice prompt caches: a stable rules + wiki prefix, then the lesson's rubric. The eval checks `cache_read_input_tokens`.
 - **Pinned model IDs** keep eval results valid: `claude-haiku-4-5-20251001`, `claude-sonnet-4-6`, `claude-sonnet-5-5`.
 
+### Probe results (step 1, 2026-10-09, real API, SDK 0.132.1)
+
+| Probe | Result |
+|---|---|
+| Haiku 4.5 + structured outputs | Works |
+| **Sonnet 4.6 + structured outputs** | **Works**, even though it isn't on the documented support list |
+| Sonnet 4.6 + forced strict tool | Works, but uses about 3× the input tokens (720 vs 218) for the tool definition |
+| Sonnet 5.5 + structured outputs, effort `low` | Works |
+| Sonnet 5.5 + forced tool | 400, as documented |
+
+**Changes to the plan:**
+1. **One mechanism for all three models:** structured outputs (`output_config.format`). There's no forced-tool path for Sonnet 4.6. Server-side schema validation and one retry stay, because Sonnet 4.6's support isn't documented.
+2. **The evidence field is split in two.** All 3 models that returned free-text evidence paraphrased or annotated the quote ("The goal is stated first ('…')"), and that would fail the verbatim check. The schema uses:
+   - **`evidence`:** the exact words copied from the learner's text, which the server verifies as a substring
+   - **`reason`:** a short explanation, which isn't checked
+
+   The evidence-verified metric (target ≥ 98%) catches regressions.
+
 ---
 
 ## Prompts (`/prompts/`, output contract first)
@@ -41,7 +59,7 @@ Files: `fix-grader.v1.md`, `voice-grader.v1.md`, and `CHANGELOG.md` (one entry p
   - the checklist items (`id`, `conceptId`, criterion)
   - the learner's rewrite: sanitized, wrapped in `<user_input>`, at most 600 characters
 - **Output:**
-  - `checklist[{ id, met, evidence, note }]`
+  - `checklist[{ id, met, evidence, reason }]`
   - `feedback`: 1–2 sentences, at most 40 words
   - `flags { off_topic, injection_attempt }`
 
@@ -54,7 +72,7 @@ Files: `fix-grader.v1.md`, `voice-grader.v1.md`, and `CHANGELOG.md` (one entry p
   - the transcript: wrapped, at most 2,000 characters
 - **Output:**
   - `score` (an enum, 1–5) and `scoreLabel`
-  - `conceptChecks[{ conceptId, met, evidence }]`
+  - `conceptChecks[{ conceptId, met, evidence, reason }]`
   - `keyPointsCovered[]`
   - up to 2 `strengths`
   - one `improvement`
