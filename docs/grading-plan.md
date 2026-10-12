@@ -1,6 +1,6 @@
 # Learn Mode Grading Plan (PRD phase 2)
 
-**Status:** Approved 2026-10-09. Steps 1 (SDK upgrade + Practice smoke test) and 2 (output schemas, 2026-10-12) done; step 3 next.
+**Status:** Approved 2026-10-09. Steps 1–4 done (2026-10-12): SDK upgrade, output schemas, v1 prompts, 77 eval cases. Step 5 next: Angela reviews 9 uncertain calls and blind-labels the held-out set (23 cases, 92 marks).
 
 **Output contracts:** `learn/grading/schemas.js`. It holds:
 - the per-lesson JSON Schemas sent as structured outputs (ids restricted to the lesson's own items)
