@@ -56,14 +56,15 @@ export function fixGradeSchema(checklist) {
 
 export const SCORE_LABELS = { 5: 'excellent', 4: 'good', 3: 'fair', 2: 'poor', 1: 'poor' }; // matches the rubric
 
+// Property order matters: structured outputs generate fields in schema order,
+// so the evidence-based judgments (concept checks, key points) come before the
+// score that should rest on them.
 export function voiceGradeSchema(voice) {
   return {
     type: 'object',
     additionalProperties: false,
-    required: ['score', 'scoreLabel', 'conceptChecks', 'keyPointsCovered', 'strengths', 'improvement', 'flags'],
+    required: ['conceptChecks', 'keyPointsCovered', 'score', 'scoreLabel', 'strengths', 'improvement', 'flags'],
     properties: {
-      score: { type: 'integer', enum: [1, 2, 3, 4, 5], description: 'Rubric score: 5 excellent, 4 good, 3 fair, 1-2 poor.' },
-      scoreLabel: { type: 'string', enum: ['excellent', 'good', 'fair', 'poor'] },
       conceptChecks: {
         type: 'array',
         description: 'One entry per concept check, in the order given.',
@@ -92,6 +93,8 @@ export function voiceGradeSchema(voice) {
           }
         }
       },
+      score: { type: 'integer', enum: [1, 2, 3, 4, 5], description: 'Rubric score: 5 excellent, 4 good, 3 fair, 1-2 poor.' },
+      scoreLabel: { type: 'string', enum: ['excellent', 'good', 'fair', 'poor'] },
       strengths: { type: 'array', description: 'At most 2 specific strengths, each one sentence.', items: { type: 'string' } },
       improvement: { type: 'string', description: 'The single most useful improvement, one sentence (at most 30 words).' },
       flags: {
@@ -99,7 +102,7 @@ export function voiceGradeSchema(voice) {
         required: [...FLAGS_SCHEMA.required, 'too_short'],
         properties: {
           ...FLAGS_SCHEMA.properties,
-          too_short: { type: 'boolean', description: 'True if the transcript is too short to grade fairly.' }
+          too_short: { type: 'boolean', description: 'True if the transcript is too short to be a full answer. Concept checks are still graded; the score is at most 2.' }
         }
       }
     }
@@ -163,6 +166,7 @@ export function validateVoiceGrade(grade, voice) {
   if (!grade || typeof grade !== 'object') return { ok: false, errors: ['not an object'] };
   if (![1, 2, 3, 4, 5].includes(grade.score)) errors.push('score must be an integer 1-5');
   else if (grade.scoreLabel !== SCORE_LABELS[grade.score]) errors.push(`scoreLabel "${grade.scoreLabel}" doesn't match score ${grade.score}`);
+  if (grade.flags?.too_short === true && grade.score > 2) errors.push(`too_short answers can score at most 2 (got ${grade.score})`);
   checkItems(grade.conceptChecks, 'conceptId', voice.conceptChecks.map(c => c.conceptId), 'conceptChecks', errors);
   if (!Array.isArray(grade.keyPointsCovered)) errors.push('keyPointsCovered must be an array');
   else {

@@ -34,6 +34,15 @@ test('schemas are structured-outputs compatible for every lesson', () => {
   }
 });
 
+test('voice schema puts evidence-based fields before the score (generation order)', () => {
+  const order = Object.keys(voiceGradeSchema(voice).properties);
+  assert.ok(order.indexOf('conceptChecks') < order.indexOf('score'));
+  assert.ok(order.indexOf('keyPointsCovered') < order.indexOf('score'));
+  assert.deepEqual(voiceGradeSchema(voice).required, order);
+  const fixOrder = Object.keys(fixGradeSchema(checklist).properties);
+  assert.ok(fixOrder.indexOf('checklist') < fixOrder.indexOf('feedback'));
+});
+
 test('schemas restrict ids to the lesson\'s own items', () => {
   assert.deepEqual(fixGradeSchema(checklist).properties.checklist.items.properties.id.enum, checklist.map(c => c.id));
   assert.deepEqual(voiceGradeSchema(voice).properties.conceptChecks.items.properties.conceptId.enum, voice.conceptChecks.map(c => c.conceptId));
@@ -93,6 +102,15 @@ test('validateVoiceGrade: score/label mismatch, missing key point, 3 strengths f
   assert.equal(validateVoiceGrade(strengths, voice).ok, false);
   const tooShort = goodVoice(); delete tooShort.flags.too_short;
   assert.equal(validateVoiceGrade(tooShort, voice).ok, false);
+});
+
+test('validateVoiceGrade: too_short caps the score at 2 but allows met checks', () => {
+  const capped = goodVoice();
+  capped.flags.too_short = true;
+  capped.conceptChecks[0] = { ...capped.conceptChecks[0], met: true, evidence: 'weekly users', reason: 'Count-based.' };
+  assert.equal(validateVoiceGrade(capped, voice).ok, false, 'score 4 with too_short must fail');
+  capped.score = 2; capped.scoreLabel = 'poor';
+  assert.deepEqual(validateVoiceGrade(capped, voice), { ok: true, errors: [] });
 });
 
 test('evidence matching ignores case, punctuation and spacing (speech transcripts)', () => {

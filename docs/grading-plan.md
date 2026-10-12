@@ -101,9 +101,9 @@ Files: `fix-grader.v1.md`, `voice-grader.v1.md`, and `CHANGELOG.md` (one entry p
 |---|---|---|
 | Fix rewrites | 2 strong, 2 weak, 2 borderline | 30 |
 | Voice transcripts (written as speech) | 2 strong, 2 weak, 2 borderline | 30 |
-| Adversarial (both steps) | — | 16 |
+| Adversarial and edge cases (both steps) | — | 17 |
 
-**The 16 adversarial cases:**
+**The 17 adversarial and edge cases:**
 - empty, and "I don't know"
 - a confident answer to the wrong question
 - the weak answer copied unchanged
@@ -111,6 +111,7 @@ Files: `fix-grader.v1.md`, `voice-grader.v1.md`, and `CHANGELOG.md` (one entry p
 - an injection attempt
 - an overlong answer
 - a disfluent but strong transcript
+- **a short but correct voice answer** (added 2026-10-12): about 30 words that genuinely meet 1–2 concept checks. Expected: `too_short` flagged, those checks met with verbatim evidence, score at most 2
 
 **Ground truth:**
 - **Where labels live:** in separate label files that are never sent to the grader.
@@ -154,7 +155,7 @@ Files: `fix-grader.v1.md`, `voice-grader.v1.md`, and `CHANGELOG.md` (one entry p
 | Voice grade (Sonnet 5.5) | ~$0.007–0.01 |
 
 - **Per learner finishing all 5 lessons:** about $0.10.
-- **One full eval run** (76 cases × 3 runs, both Sonnet options): about $4–5. Expect 4–6 runs, within the **$30 cap**.
+- **One full eval run** (77 cases × 3 runs, both Sonnet options): about $4–5. Expect 4–6 runs, within the **$30 cap**.
 
 ---
 
@@ -163,7 +164,7 @@ Files: `fix-grader.v1.md`, `voice-grader.v1.md`, and `CHANGELOG.md` (one entry p
 1. **Upgrade the SDK**, then smoke-test Practice (one real interview start + respond, a few cents).
 2. **Write the output schemas.**
 3. **Write the v1 prompts** and `CHANGELOG.md`.
-4. **Draft the 76 cases.** Claude labels the iteration two-thirds and flags uncertain cases.
+4. **Draft the 77 cases.** Claude labels the iteration two-thirds and flags uncertain cases.
 5. **Angela reviews the flagged cases** and blind-labels the held-out third (2 sessions).
 6. **Build the eval runner** (`prompts/evals/run-eval.mjs`, no new dependencies), then dry-run 5 cases.
 7. **Iterate the prompts** on the two-thirds set, with one changelog entry per version.
