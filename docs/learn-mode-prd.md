@@ -155,6 +155,11 @@ Grading failures let the user retry or skip the step.
 3. **A shared rate-limit store:** the current limiter (`lib/rate-limit.js`) keeps counts in memory, so they reset on restart and aren't shared across Vercel's serverless instances. Replace it with a shared store, initialized lazily inside the function that uses it, never at module load.
 4. **Only the frontend page is served:** keep serving `voice-interface.html` by name, never the project folder. `express.static(__dirname)` was removed because it served `env.txt` (which contained an API key), `server.js`, `CLAUDE.md` and the lesson content.
 5. **The API URL isn't hardcoded:** `voice-interface.html` sets `API_URL = 'http://localhost:3000/api'`, which won't work once deployed. Use a relative `/api` path.
+6. **Client IPs can't be spoofed:** `getClientIp()` (`lib/rate-limit.js`) must trust `X-Forwarded-For` **only when running behind Vercel's proxy**.
+   - **Today:** it takes the first value of that header from any request, so a client can send a fake IP to dodge the rate limiter and the demo-mode limit.
+   - **Behind Vercel:** use the address Vercel sets, gated on Vercel's own environment (for example `process.env.VERCEL`).
+   - **Everywhere else:** use `req.socket.remoteAddress`.
+   - **Test:** a request with a forged `X-Forwarded-For` doesn't change which counter it's charged to.
 
 **Model and cost:**
 - Fix-a-weak-answer uses `claude-haiku-4-5-20251001` (short checklist, high volume).
