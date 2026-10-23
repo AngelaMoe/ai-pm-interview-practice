@@ -1,0 +1,203 @@
+{
+  "decidedBy": "Angela",
+  "date": "2026-10-23",
+  "method": "Independent-model labels, disagreements adjudicated by Angela. Claude Fable 5.1 labeled the held-out set blind (labels.fable.json); its labels were compared with Claude Opus's intended labels. 0 disagreements on 80 item labels and 12 voice scores, so no adjudication was needed and these are the agreed labels. \"flags\" (injection, off-topic, too-short) come from the case design, not from either labeler.",
+  "labels": {
+    "fix-m2-weak-2": {
+      "items": {
+        "m2-fix-north-star": false,
+        "m2-fix-guardrail": false,
+        "m2-fix-guardrail-why": false,
+        "m2-fix-override": false
+      }
+    },
+    "fix-m2-border-1": {
+      "items": {
+        "m2-fix-north-star": true,
+        "m2-fix-guardrail": true,
+        "m2-fix-guardrail-why": false,
+        "m2-fix-override": false
+      }
+    },
+    "fix-m4-border-1": {
+      "items": {
+        "m4-fix-data": false,
+        "m4-fix-timing": false,
+        "m4-fix-segment": true,
+        "m4-fix-cannibal": true
+      }
+    },
+    "voice-adv-idk": {
+      "items": {
+        "goals-before-metrics": false,
+        "actions-to-metrics": false,
+        "evaluate-and-pick": false
+      },
+      "score": 1,
+      "flags": {
+        "too_short": true
+      }
+    },
+    "fix-m5-weak-1": {
+      "items": {
+        "m5-fix-confirm": false,
+        "m5-fix-layer": false,
+        "m5-fix-quality": false,
+        "m5-fix-speed-cost": false
+      }
+    },
+    "voice-m4-weak-2": {
+      "items": {
+        "rule-out-boring-causes": false,
+        "segment-the-drop": false,
+        "cannibalization": false
+      },
+      "score": 1
+    },
+    "fix-m4-strong-2": {
+      "items": {
+        "m4-fix-data": true,
+        "m4-fix-timing": true,
+        "m4-fix-segment": true,
+        "m4-fix-cannibal": true
+      }
+    },
+    "fix-adv-idk": {
+      "items": {
+        "m2-fix-north-star": false,
+        "m2-fix-guardrail": false,
+        "m2-fix-guardrail-why": false,
+        "m2-fix-override": false
+      }
+    },
+    "voice-m3-weak-1": {
+      "items": {
+        "clarify-scope": false,
+        "secondary-vs-business": false,
+        "tracking-plan": false
+      },
+      "score": 2
+    },
+    "voice-m4-strong-1": {
+      "items": {
+        "rule-out-boring-causes": true,
+        "segment-the-drop": true,
+        "cannibalization": true
+      },
+      "score": 5
+    },
+    "voice-m2-border-2": {
+      "items": {
+        "north-star-absolute-count": true,
+        "guardrail-metrics": false,
+        "override-rate-trust": true
+      },
+      "score": 3
+    },
+    "voice-m5-weak-2": {
+      "items": {
+        "ai-layer-in-tropic": false,
+        "ai-quality-metrics": false,
+        "cost-and-latency": false
+      },
+      "score": 1,
+      "flags": {
+        "too_short": true
+      }
+    },
+    "fix-m1-strong-2": {
+      "items": {
+        "m1-fix-goal": true,
+        "m1-fix-actions": true,
+        "m1-fix-metrics": true,
+        "m1-fix-pick": true
+      }
+    },
+    "voice-adv-empty": {
+      "items": {
+        "rule-out-boring-causes": false,
+        "segment-the-drop": false,
+        "cannibalization": false
+      },
+      "score": 1,
+      "flags": {
+        "too_short": true
+      }
+    },
+    "voice-m2-strong-1": {
+      "items": {
+        "north-star-absolute-count": true,
+        "guardrail-metrics": true,
+        "override-rate-trust": true
+      },
+      "score": 5
+    },
+    "voice-m2-strong-2": {
+      "items": {
+        "north-star-absolute-count": true,
+        "guardrail-metrics": true,
+        "override-rate-trust": true
+      },
+      "score": 5
+    },
+    "fix-m5-strong-1": {
+      "items": {
+        "m5-fix-confirm": true,
+        "m5-fix-layer": true,
+        "m5-fix-quality": true,
+        "m5-fix-speed-cost": true
+      }
+    },
+    "voice-adv-keywords": {
+      "items": {
+        "clarify-scope": false,
+        "secondary-vs-business": false,
+        "tracking-plan": false
+      },
+      "score": 1
+    },
+    "fix-m5-border-1": {
+      "items": {
+        "m5-fix-confirm": true,
+        "m5-fix-layer": false,
+        "m5-fix-quality": true,
+        "m5-fix-speed-cost": false
+      }
+    },
+    "voice-m2-border-1": {
+      "items": {
+        "north-star-absolute-count": false,
+        "guardrail-metrics": true,
+        "override-rate-trust": false
+      },
+      "score": 3
+    },
+    "fix-m5-weak-2": {
+      "items": {
+        "m5-fix-confirm": false,
+        "m5-fix-layer": false,
+        "m5-fix-quality": false,
+        "m5-fix-speed-cost": false
+      }
+    },
+    "fix-adv-injection": {
+      "items": {
+        "m5-fix-confirm": false,
+        "m5-fix-layer": false,
+        "m5-fix-quality": false,
+        "m5-fix-speed-cost": false
+      },
+      "flags": {
+        "injection_attempt": true
+      }
+    },
+    "voice-m5-border-2": {
+      "items": {
+        "ai-layer-in-tropic": false,
+        "ai-quality-metrics": true,
+        "cost-and-latency": false
+      },
+      "score": 3
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "capUsd": 30,
+  "entries": [
+    {
+      "date": "2026-10-09",
+      "what": "step 1: Practice smoke test (Sonnet 4.6, via Practice routes)",
+      "calls": 5,
+      "cost": 0.08,
+      "basis": "estimate"
+    },
+    {
+      "date": "2026-10-09",
+      "what": "step 1: structured-output probe (Haiku 4.5, Sonnet 4.6 x2, Sonnet 5.5 x2)",
+      "calls": 5,
+      "cost": 0.0063,
+      "basis": "measured"
+    },
+    {
+      "date": "2026-10-12",
+      "what": "Practice smoke test re-run after npm audit fix (Sonnet 4.6)",
+      "calls": 4,
+      "cost": 0.06,
+      "basis": "estimate"
+    },
+    {
+      "date": "2026-10-12",
+      "what": "step 2: schema check (Haiku 4.5, Sonnet 4.6, Sonnet 5.5)",
+      "calls": 3,
+      "cost": 0.0203,
+      "basis": "measured"
+    },
+    {
+      "date": "2026-10-12",
+      "what": "eval run 20261012-135628 (iteration, 5 cases × 2 reps)",
+      "calls": 17,
+      "cost": 0.2065,
+      "basis": "measured"
+    },
+    {
+      "date": "2026-10-12",
+      "what": "eval run 20261012-135735 (iteration, 2 cases × 2 reps)",
+      "calls": 8,
+      "cost": 0.054,
+      "basis": "measured"
+    }
+  ]
+}

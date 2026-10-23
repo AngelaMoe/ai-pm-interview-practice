@@ -118,7 +118,7 @@ const wordCount = s => (s.trim() ? s.trim().split(/\s+/).length : 0);
 // sometimes add it.
 export function normalizeForMatch(s) {
   return s.toLowerCase()
-    .replace(/[‘’“”]/g, "'")
+    .replace(/[\u2018\u2019\u201C\u201D]/g, "'")
     .replace(/[^\p{L}\p{N}\s']/gu, ' ')
     .replace(/'/g, '')
     .replace(/\s+/g, ' ')

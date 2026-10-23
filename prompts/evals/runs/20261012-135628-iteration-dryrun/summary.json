@@ -1,0 +1,211 @@
+{
+  "set": "iteration",
+  "stamp": "20261012-135628",
+  "reps": 2,
+  "versions": {
+    "fix": "v1",
+    "voice": "v1"
+  },
+  "cases": 5,
+  "calls": 16,
+  "stoppedForBudget": false,
+  "labelSource": "labels.claude.json (uncertain items not yet reviewed)",
+  "groups": {
+    "fix/haiku-4-5": {
+      "calls": 4,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "errors": {},
+      "items": {
+        "total": 16,
+        "tp": 14,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 0,
+      "agreementOverall": 100,
+      "agreementClearCut": 100,
+      "agreementByKind": {
+        "borderline": 100,
+        "strong": 100
+      },
+      "agreementExcludingUncertain": 100,
+      "uncertainItemsGraded": 0,
+      "voiceScore": null,
+      "ordering": null,
+      "knownNegatives": {
+        "cases": 0,
+        "nothingMet": 0
+      },
+      "designedFlags": {
+        "checks": 0,
+        "correct": 0
+      },
+      "injectionFlagged": {
+        "cases": 0,
+        "flagged": 0
+      },
+      "consistency": {
+        "comparableItems": 8,
+        "flipped": 0,
+        "flipRate": 0
+      },
+      "evidence": {
+        "rawMet": 14,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.0117,
+        "perCall": 0.0029
+      },
+      "latencyMs": {
+        "median": 6082,
+        "p95": 6086
+      },
+      "tokens": {
+        "input": 6288,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "output": 1092,
+        "cacheReadShare": 0
+      }
+    },
+    "voice/sonnet-4-6": {
+      "calls": 6,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "errors": {},
+      "items": {
+        "total": 18,
+        "tp": 8,
+        "fp": 0,
+        "fn": 0,
+        "tn": 10
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 0,
+      "agreementOverall": 100,
+      "agreementClearCut": null,
+      "agreementByKind": {
+        "borderline": 100,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 100,
+      "uncertainItemsGraded": 0,
+      "voiceScore": {
+        "exact": 100,
+        "withinOne": 100,
+        "meanAbsError": 0,
+        "meanSignedError": 0
+      },
+      "ordering": null,
+      "knownNegatives": {
+        "cases": 2,
+        "nothingMet": 2
+      },
+      "designedFlags": {
+        "checks": 4,
+        "correct": 4
+      },
+      "injectionFlagged": {
+        "cases": 2,
+        "flagged": 2
+      },
+      "consistency": {
+        "comparableItems": 9,
+        "flipped": 0,
+        "flipRate": 0
+      },
+      "evidence": {
+        "rawMet": 8,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.0932,
+        "perCall": 0.0155
+      },
+      "latencyMs": {
+        "median": 10223,
+        "p95": 10667
+      },
+      "tokens": {
+        "input": 2470,
+        "cacheRead": 3158,
+        "cacheWrite": 15778,
+        "output": 1709,
+        "cacheReadShare": 14.8
+      }
+    },
+    "voice/sonnet-5-5": {
+      "calls": 6,
+      "schemaValidAfterRetry": 100,
+      "retries": 1,
+      "errors": {},
+      "items": {
+        "total": 18,
+        "tp": 8,
+        "fp": 0,
+        "fn": 0,
+        "tn": 10
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 0,
+      "agreementOverall": 100,
+      "agreementClearCut": null,
+      "agreementByKind": {
+        "borderline": 100,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 100,
+      "uncertainItemsGraded": 0,
+      "voiceScore": {
+        "exact": 100,
+        "withinOne": 100,
+        "meanAbsError": 0,
+        "meanSignedError": 0
+      },
+      "ordering": null,
+      "knownNegatives": {
+        "cases": 2,
+        "nothingMet": 2
+      },
+      "designedFlags": {
+        "checks": 4,
+        "correct": 4
+      },
+      "injectionFlagged": {
+        "cases": 2,
+        "flagged": 2
+      },
+      "consistency": {
+        "comparableItems": 9,
+        "flipped": 0,
+        "flipRate": 0
+      },
+      "evidence": {
+        "rawMet": 8,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.1016,
+        "perCall": 0.0169
+      },
+      "latencyMs": {
+        "median": 4569,
+        "p95": 5071
+      },
+      "tokens": {
+        "input": 3854,
+        "cacheRead": 4185,
+        "cacheWrite": 25110,
+        "output": 3025,
+        "cacheReadShare": 12.6
+      }
+    }
+  }
+}

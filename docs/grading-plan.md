@@ -1,6 +1,6 @@
 # Learn Mode Grading Plan (PRD phase 2)
 
-**Status:** Approved 2026-10-09. Steps 1–4 done (2026-10-12): SDK upgrade, output schemas, v1 prompts, 77 eval cases. Step 5 next: Angela reviews 9 uncertain calls and blind-labels the held-out set (23 cases, 92 marks).
+**Status:** Approved 2026-10-09. Steps 1–6 done: SDK upgrade, output schemas, v1 prompts, 77 eval cases, labels (held-out labeled blind by Claude Fable 5.1 with 0 disagreements; 9 iteration calls decided by Angela, 2026-10-23), and the eval runner. Step 7 next: iterate the prompts on the iteration set.
 
 **Output contracts:** `learn/grading/schemas.js`. It holds:
 - the per-lesson JSON Schemas sent as structured outputs (ids restricted to the lesson's own items)
@@ -16,10 +16,17 @@ The matching ignores case, punctuation and spacing, because speech transcripts l
 
 1. **SDK:** upgrade `@anthropic-ai/sdk` from `^0.27.0` to current. It's needed for structured outputs. Smoke-test Practice after the upgrade.
 2. **Voice model:** run the eval with **two options**, Sonnet 4.6 (the CLAUDE.md default) and Sonnet 5.5. The eval decides. If 5.5 wins, update the CLAUDE.md model defaults.
-3. **Labeling:**
-   - **Held-out third:** Angela labels it **blind** (~80 labels), in 2 short sessions, using a labeling sheet with one case per row: met/not met per item, and 1–5 for voice.
-   - **Iteration two-thirds:** Claude labels these, and flags uncertain cases for Angela to review.
-   - The final accuracy numbers are against Angela's labels only.
+3. **Labeling: independent-model labels, disagreements adjudicated by Angela.** Changed 2026-10-23; originally Angela was going to blind-label the held-out third herself.
+   - **Held-out third (23 cases, 92 labels):** labeled blind by an independent model, Claude Fable 5.1, in a separate agent with fresh context.
+     - **Its only input** was the labeling-sheet rows (neutral ids H01–H23, question, answer, criteria, rubric) plus the labeling rules, all in its prompt.
+     - **It was told not to read any files or run tools**, so it never saw `labels.claude.json`, `split.json` or any grader output. It reported reading none.
+     - **Why Fable, not Opus:** Opus wrote the cases and the intended labels, so Fable gives an independent model judgment rather than the same model with fresh context.
+     - **Its labels** are in `labels.fable.json`, keyed by sheet id.
+   - **Disagreements:** Fable's labels were compared with Claude's intended labels. Angela decides each disagreement, and her decisions plus the agreed labels form the final held-out labels (`labels.angela.json`).
+   - **Result (2026-10-23):** 0 disagreements. 80/80 item labels and 12/12 voice scores matched, including the 3 held-out calls Claude had marked uncertain. There was nothing to adjudicate.
+     - **Caveat:** the cases were written to be clear-cut where they're meant to be, and both labelers applied the same written rules. Agreement shows the labels are consistent, not that the criteria wording has no shared blind spot.
+   - **Iteration two-thirds:** Claude's labels, with its 9 uncertain calls decided one at a time by Angela (`labels.review.json`).
+   - **Final accuracy numbers** are against `labels.angela.json` only.
 4. **Budget:** at most **$30** of API spend for this phase. Stop and ask before going over it. Spend is tracked from the API's `usage` data in `prompts/evals/spend.md`.
 
 ---
@@ -147,6 +154,20 @@ Files: `fix-grader.v1.md`, `voice-grader.v1.md`, and `CHANGELOG.md` (one entry p
 ---
 
 ## Cost (estimates; the eval measures the real numbers)
+
+**Measured in the step 6 dry run (2026-10-12):**
+
+| Call | Cost per call | Median latency |
+|---|---|---|
+| Fix (Haiku 4.5) | $0.0029 | about 6s |
+| Voice, Sonnet 4.6, cache warm | about $0.007 | about 10s |
+| Voice, Sonnet 5.5, cache warm | about $0.007 | about 4.6s |
+
+- **Cold cache:** voice is about $0.016 per call.
+- **The runner warms each model's cache before running calls in parallel**, so cost and cache numbers match real traffic.
+- **Tokenizer difference:** Sonnet 5.5 reads the same prompt as about 33% more tokens (4,185 vs 3,154).
+
+The estimates below are the original planning numbers.
 
 | Call | Estimate per call |
 |---|---|

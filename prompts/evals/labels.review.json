@@ -1,0 +1,46 @@
+{
+  "decidedBy": "Angela",
+  "date": "2026-10-23",
+  "method": "Each of Claude's 9 uncertain iteration-set calls was shown one at a time (answer, criterion or rubric, Claude's call and reasoning). Angela agreed with all 9.",
+  "labels": {
+    "fix-m1-border-2": {
+      "items": {
+        "m1-fix-actions": true
+      }
+    },
+    "fix-m2-strong-2": {
+      "items": {
+        "m2-fix-override": true
+      }
+    },
+    "fix-m3-border-1": {
+      "items": {
+        "m3-fix-business": false
+      }
+    },
+    "fix-adv-keywords": {
+      "items": {
+        "m2-fix-guardrail": false
+      }
+    },
+    "voice-m1-border-2": {
+      "items": {
+        "actions-to-metrics": true
+      }
+    },
+    "voice-m3-border-2": {
+      "items": {},
+      "score": 3
+    },
+    "voice-m5-border-1": {
+      "items": {
+        "ai-layer-in-tropic": false
+      },
+      "score": 3
+    },
+    "voice-adv-overlong": {
+      "items": {},
+      "score": 3
+    }
+  }
+}
