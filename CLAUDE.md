@@ -149,3 +149,36 @@ When `ANTHROPIC_API_KEY` is not set, demo mode activates — 2 free uses per IP,
 - Add Vibe Coding as an interview type in the dropdown + deconstruction question
 - Build Obsidian vault file-watcher so new clipped notes auto-sync into the app
 - Push to GitHub and deploy to Vercel (currently running local only)
+
+## Session handoff — 2026-10-23
+
+**Last completed: PRD phase 2, Learn grading prompts and eval** (plan: `docs/grading-plan.md`, history: `prompts/CHANGELOG.md`).
+- **Locked:** fix-grader v2 and voice-grader v2 on **Claude Sonnet 5.5** (effort `low`) for both steps, in `GRADING_CONFIG` (`learn/grading/grader.js`). Haiku 4.5 and Sonnet 4.6 were tried and missed the fix step's false-"met" target.
+- **Held-out pass (step 8):** every target met. Fix and voice both had 0% false "met", 100% item agreement, and voice scores 83% exact / 100% within ±1. Run `prompts/evals/runs/20261023-091545-held-out-locked-v2/`.
+- **Labels:** the held-out set was labeled blind by Claude Fable 5.1, with disagreements adjudicated by Angela (there were 0). Angela also decided Claude's 9 uncertain iteration-set calls.
+- **Grading spend:** $4.97 of the $30 phase budget (`prompts/evals/spend.md`).
+
+**Grading code** (shared by the eval and the phase 5 routes):
+- `lib/sanitize.js`: tag stripping and length caps; `detectInjection()` for logging only
+- `learn/grading/schemas.js`: keyed output schemas, validators, evidence matching that tolerates fillers and stutters
+- `learn/grading/prompts.js`: loads the versioned `prompts/*.vN.md` files
+- `learn/grading/grader.js`: `gradeFix()`, `gradeVoice()`, one retry, evidence check, code-measured `too_short` (under 40 words of substance caps the score at 2)
+- **Eval:** `node prompts/evals/run-eval.mjs` (see `prompts/evals/README.md`). The held-out set should not be reused for tuning: it has been run once on the locked configuration.
+
+**Gotchas:**
+- **Prompt versions are immutable once evaluated:** changes go in a new `*.vN.md` plus a `PROMPT_PROFILES` entry in `grader.js` and a new eval run.
+- **Sonnet 5.5 rejects forced `tool_choice` and can't fully disable thinking:** grading uses structured outputs with effort `low`.
+- **The zsh `grep` here is aliased to `ugrep`,** which rejects long combined regexes. Use `/usr/bin/grep`.
+
+**Open:**
+- **Test learners:** `…000003`, `…000004` and `…000005` are still in Supabase, from the 2026-10-09 UI tests. Delete them in the SQL Editor (query in the 2026-10-09 handoff above).
+
+**Next step: PRD phase 5, the grading routes.**
+- `POST /api/learn/grade-fix` and `POST /api/learn/grade-voice` call `gradeFix()` / `gradeVoice()` with their defaults (the locked config).
+- Each met item sets `applied_met` and adds +25 (`learn/mastery.js` `APPLIED_STEP_MET`).
+- Refusals return the safe "couldn't grade, try again" error with no fallback model (PRD).
+- Both routes need rate limiting.
+- Log grades so a sample of real answers can be spot-checked.
+- Then replace the fix and speak placeholders in `learn/ui/learn.js`.
+
+**Before deploy:** see the PRD → Architecture → "Before deploy" (6 items).

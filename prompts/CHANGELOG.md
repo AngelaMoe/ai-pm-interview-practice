@@ -6,6 +6,22 @@ Each version records what changed, why, and its eval results. Versions are immut
 
 **Status: LOCKED (2026-10-23) on `claude-sonnet-5-5` for both steps** (effort `low`). Decided by Angela after the iteration runs, and these defaults are in `GRADING_CONFIG` in `learn/grading/grader.js`. The held-out pass (grading plan step 8) runs on this locked configuration only.
 
+**Held-out results (grading plan step 8, run `20261023-091545-held-out-locked-v2`):** the locked configuration ran once on the 23 held-out cases × 3 runs, scored against `labels.angela.json`. **Every target was met.**
+
+| Target | Fix (Sonnet 5.5) | Voice (Sonnet 5.5) |
+|---|---|---|
+| False "met" ≤ 5% / false "not met" ≤ 10% | 0 / 0 | 0 / 0 |
+| Agreement: clear-cut ≥ 95% / overall ≥ 90% / borderline | 100 / 100 / 100 | 100 / 100 / 100 |
+| Voice score within ±1 ≥ 90% / exact ≥ 60% / mean abs error ≤ 0.6 | n/a | 100 / 83.3 / 0.17 |
+| Ordering matches labels | n/a | 3/3 |
+| Known negatives, nothing met / designed flags | 15/15 · 3/3 | 18/18 · 9/9 |
+| Items flipped / evidence verified / valid output | 0 / 100 / 100 | 0 / 100 / 100 |
+| Cost per call · median latency | $0.0062 · 3.7s | $0.0083 · 3.7s |
+
+**Score misses:** 2 of 12 voice answers scored exactly 1 below the label, on all 3 runs, and none scored higher. The held-out labels were independently confirmed by Fable 5.1, so the grader leans slightly harsh rather than the labels being generous. It's small and in the cautious direction.
+
+**Caveat:** this is 23 cases (240 item grades), with cases written to be clear-cut where intended. It's strong evidence, not a guarantee. Real learner answers will be messier than the eval set.
+
 **Why Sonnet 5.5 for the fix step too:** fix v2 was re-run on Sonnet (run `20261023-090654-iteration-fix-sonnet-v2`, prompt unchanged).
 
 | Fix-step target | Haiku 4.5 | Sonnet 4.6 | Sonnet 5.5 |

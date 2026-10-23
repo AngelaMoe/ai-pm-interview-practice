@@ -1,6 +1,6 @@
 # Learn Mode Grading Plan (PRD phase 2)
 
-**Status:** Steps 1–7 done. **Locked 2026-10-23: fix-grader v2 and voice-grader v2 on Claude Sonnet 5.5 (effort `low`) for both steps**, in `GRADING_CONFIG` (`learn/grading/grader.js`). Step 8 (one held-out pass on the locked configuration) next.
+**Status: complete (2026-10-23).** fix-grader v2 and voice-grader v2 are locked on Claude Sonnet 5.5 (effort `low`) for both steps, in `GRADING_CONFIG` (`learn/grading/grader.js`). **Step 8, the held-out pass, met every target:** fix and voice both had 0% false "met", 100% item agreement and 83% exact voice scores (100% within ±1). Results are in `prompts/CHANGELOG.md`. Next: PRD phase 5, the grading routes.
 
 **Output contracts:** `learn/grading/schemas.js`. It holds:
 - the per-lesson JSON Schemas sent as structured outputs (ids restricted to the lesson's own items)

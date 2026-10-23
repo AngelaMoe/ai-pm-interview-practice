@@ -63,6 +63,13 @@
       "calls": 162,
       "cost": 0.8933,
       "basis": "measured"
+    },
+    {
+      "date": "2026-10-23",
+      "what": "eval run 20261023-091545 (held-out, 23 cases × 3 reps)",
+      "calls": 69,
+      "cost": 0.5038,
+      "basis": "measured"
     }
   ]
 }

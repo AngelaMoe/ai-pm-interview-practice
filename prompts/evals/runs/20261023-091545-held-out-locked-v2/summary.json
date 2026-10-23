@@ -1,0 +1,203 @@
+{
+  "set": "held-out",
+  "stamp": "20261023-091545",
+  "reps": 3,
+  "versions": {
+    "fix": "v2",
+    "voice": "v2"
+  },
+  "step": "all",
+  "fixModels": [
+    "sonnet-5-5"
+  ],
+  "voiceModels": [
+    "sonnet-5-5"
+  ],
+  "cases": 23,
+  "calls": 69,
+  "stoppedForBudget": false,
+  "labelSource": "labels.angela.json",
+  "groups": {
+    "fix/sonnet-5-5": {
+      "calls": 33,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "retryReasons": {},
+      "errors": {},
+      "items": {
+        "total": 132,
+        "tp": 54,
+        "fp": 0,
+        "fn": 0,
+        "tn": 78
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 0,
+      "failedItems": 0,
+      "agreementOverall": 100,
+      "agreementClearCut": 100,
+      "agreementByKind": {
+        "strong": 100,
+        "weak": 100,
+        "borderline": 100,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 100,
+      "uncertainItemsGraded": 0,
+      "voiceScore": null,
+      "ordering": null,
+      "knownNegatives": {
+        "cases": 15,
+        "nothingMet": 15
+      },
+      "designedFlags": {
+        "checks": 3,
+        "correct": 3
+      },
+      "injectionFlagged": {
+        "cases": 3,
+        "flagged": 3
+      },
+      "consistency": {
+        "comparableItems": 44,
+        "flipped": 0,
+        "flipRate": 0
+      },
+      "evidence": {
+        "rawMet": 54,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.2053,
+        "perCall": 0.0062
+      },
+      "latencyMs": {
+        "median": 3671,
+        "p95": 4540
+      },
+      "tokens": {
+        "input": 15042,
+        "cacheRead": 60796,
+        "cacheWrite": 19367,
+        "output": 11466,
+        "cacheReadShare": 63.9
+      }
+    },
+    "voice/sonnet-5-5": {
+      "calls": 36,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "retryReasons": {},
+      "errors": {},
+      "items": {
+        "total": 108,
+        "tp": 39,
+        "fp": 0,
+        "fn": 0,
+        "tn": 69
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 0,
+      "failedItems": 0,
+      "agreementOverall": 100,
+      "agreementClearCut": 100,
+      "agreementByKind": {
+        "strong": 100,
+        "borderline": 100,
+        "weak": 100,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 100,
+      "uncertainItemsGraded": 0,
+      "voiceScore": {
+        "exact": 83.3,
+        "withinOne": 100,
+        "meanAbsError": 0.17,
+        "meanSignedError": -0.17
+      },
+      "ordering": {
+        "pairs": 3,
+        "correct": 3,
+        "detail": [
+          {
+            "lessonId": "metrics-2",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              5,
+              3
+            ],
+            "grade": [
+              5,
+              3
+            ]
+          },
+          {
+            "lessonId": "metrics-4",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              5,
+              1
+            ],
+            "grade": [
+              5,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-5",
+            "pair": "borderline>weak",
+            "ok": true,
+            "label": [
+              3,
+              1
+            ],
+            "grade": [
+              2,
+              1
+            ]
+          }
+        ]
+      },
+      "knownNegatives": {
+        "cases": 18,
+        "nothingMet": 18
+      },
+      "designedFlags": {
+        "checks": 9,
+        "correct": 9
+      },
+      "injectionFlagged": {
+        "cases": 0,
+        "flagged": 0
+      },
+      "consistency": {
+        "comparableItems": 36,
+        "flipped": 0,
+        "flipRate": 0
+      },
+      "evidence": {
+        "rawMet": 39,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.2984,
+        "perCall": 0.0083
+      },
+      "latencyMs": {
+        "median": 3669,
+        "p95": 4847
+      },
+      "tokens": {
+        "input": 22410,
+        "cacheRead": 138291,
+        "cacheWrite": 33534,
+        "output": 14212,
+        "cacheReadShare": 71.2
+      }
+    }
+  }
+}
