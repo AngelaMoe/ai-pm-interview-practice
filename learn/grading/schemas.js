@@ -109,6 +109,75 @@ export function voiceGradeSchema(voice) {
   };
 }
 
+// ===== v2: keyed shapes =====
+// v1 returned items as lists, and Haiku sometimes graded one item twice. v2
+// returns one required property per item, so every item appears exactly once
+// by construction. Each property's description carries the item's criterion.
+
+const ITEM_PROPERTIES = {
+  met: { type: 'boolean' },
+  evidence: { type: 'string', description: EVIDENCE_DESCRIPTION },
+  reason: { type: 'string', description: REASON_DESCRIPTION }
+};
+const keyedObject = (entries, description) => ({
+  type: 'object',
+  additionalProperties: false,
+  description,
+  required: entries.map(([key]) => key),
+  properties: Object.fromEntries(entries.map(([key, value]) => [key, value]))
+});
+const itemObject = criterion => ({ type: 'object', additionalProperties: false, description: criterion, required: Object.keys(ITEM_PROPERTIES), properties: ITEM_PROPERTIES });
+export const keyPointKey = i => `key_point_${i}`;
+
+export function fixGradeSchemaKeyed(checklist) {
+  return {
+    type: 'object',
+    additionalProperties: false,
+    required: ['checklist', 'feedback', 'flags'],
+    properties: {
+      checklist: keyedObject(checklist.map(c => [c.id, itemObject(c.criterion)]), 'One entry per checklist item.'),
+      feedback: fixGradeSchema(checklist).properties.feedback,
+      flags: FLAGS_SCHEMA
+    }
+  };
+}
+
+// Voice v2 has no too_short flag: length is measured in code (see grader.js).
+export function voiceGradeSchemaKeyed(voice) {
+  const v1 = voiceGradeSchema(voice).properties;
+  return {
+    type: 'object',
+    additionalProperties: false,
+    required: ['conceptChecks', 'keyPointsCovered', 'score', 'scoreLabel', 'strengths', 'improvement', 'flags'],
+    properties: {
+      conceptChecks: keyedObject(voice.conceptChecks.map(c => [c.conceptId, itemObject(c.criterion)]), 'One entry per concept check.'),
+      keyPointsCovered: keyedObject(voice.keyPoints.map((k, i) => [keyPointKey(i), { type: 'boolean', description: `Covered: ${k}` }]), 'One entry per key point: true if its substance appears in the answer.'),
+      score: v1.score,
+      scoreLabel: v1.scoreLabel,
+      strengths: v1.strengths,
+      improvement: v1.improvement,
+      flags: FLAGS_SCHEMA
+    }
+  };
+}
+
+// Converts a keyed (v2) grade to the list shape the validators, evidence check,
+// metrics and routes use. Missing keys stay missing, so validation catches them.
+export function keyedFixToList(grade, checklist) {
+  if (!grade?.checklist || typeof grade.checklist !== 'object') return grade;
+  return { ...grade, checklist: checklist.filter(c => c.id in grade.checklist).map(c => ({ id: c.id, ...grade.checklist[c.id] })) };
+}
+
+export function keyedVoiceToList(grade, voice) {
+  if (!grade?.conceptChecks || typeof grade.conceptChecks !== 'object') return grade;
+  const kp = grade.keyPointsCovered && typeof grade.keyPointsCovered === 'object' ? grade.keyPointsCovered : {};
+  return {
+    ...grade,
+    conceptChecks: voice.conceptChecks.filter(c => c.conceptId in grade.conceptChecks).map(c => ({ conceptId: c.conceptId, ...grade.conceptChecks[c.conceptId] })),
+    keyPointsCovered: voice.keyPoints.map((_, i) => keyPointKey(i)).filter(k => k in kp).map(k => ({ index: Number(k.slice('key_point_'.length)), covered: kp[k] }))
+  };
+}
+
 // ===== Validation =====
 
 const wordCount = s => (s.trim() ? s.trim().split(/\s+/).length : 0);
@@ -125,9 +194,33 @@ export function normalizeForMatch(s) {
     .trim();
 }
 
+// Speech disfluencies a grader may tidy out of a quote: filler sounds, and
+// stutters or restarts (a word or short phrase said twice in a row). Removing
+// them from both sides lets "find new music" match "find find new music"
+// without accepting paraphrase: every remaining word must still match in order.
+const FILLERS = new Set(['um', 'umm', 'uh', 'uhh', 'er', 'erm', 'ah', 'hmm', 'mm']);
+export function stripDisfluencies(normalized) {
+  const tokens = normalized.split(' ').filter(t => t && !FILLERS.has(t));
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (let i = 0; i < tokens.length && !changed; i++) {
+      for (let n = 4; n >= 1; n--) {
+        if (i + 2 * n <= tokens.length && tokens.slice(i, i + n).join(' ') === tokens.slice(i + n, i + 2 * n).join(' ')) {
+          tokens.splice(i + n, n); // drop the repeat
+          changed = true;
+          break;
+        }
+      }
+    }
+  }
+  return tokens.join(' ');
+}
+
 export function evidenceFound(evidence, learnerText) {
-  const quote = normalizeForMatch(evidence);
-  return quote.length > 0 && normalizeForMatch(learnerText).includes(quote);
+  const quote = stripDisfluencies(normalizeForMatch(evidence));
+  // Pad with spaces so the quote has to match whole words
+  return quote.length > 0 && ` ${stripDisfluencies(normalizeForMatch(learnerText))} `.includes(` ${quote} `);
 }
 
 // Items must cover every expected id exactly once.
@@ -161,12 +254,14 @@ export function validateFixGrade(grade, checklist) {
   return { ok: errors.length === 0, errors };
 }
 
-export function validateVoiceGrade(grade, voice) {
+// modelJudgesLength: true for voice v1 (the model sets flags.too_short); false
+// for v2, where code measures length and sets the flag after validation.
+export function validateVoiceGrade(grade, voice, { modelJudgesLength = true } = {}) {
   const errors = [];
   if (!grade || typeof grade !== 'object') return { ok: false, errors: ['not an object'] };
   if (![1, 2, 3, 4, 5].includes(grade.score)) errors.push('score must be an integer 1-5');
   else if (grade.scoreLabel !== SCORE_LABELS[grade.score]) errors.push(`scoreLabel "${grade.scoreLabel}" doesn't match score ${grade.score}`);
-  if (grade.flags?.too_short === true && grade.score > 2) errors.push(`too_short answers can score at most 2 (got ${grade.score})`);
+  if (modelJudgesLength && grade.flags?.too_short === true && grade.score > 2) errors.push(`too_short answers can score at most 2 (got ${grade.score})`);
   checkItems(grade.conceptChecks, 'conceptId', voice.conceptChecks.map(c => c.conceptId), 'conceptChecks', errors);
   if (!Array.isArray(grade.keyPointsCovered)) errors.push('keyPointsCovered must be an array');
   else {
@@ -176,7 +271,7 @@ export function validateVoiceGrade(grade, voice) {
   }
   if (!Array.isArray(grade.strengths) || grade.strengths.length > 2 || grade.strengths.some(s => typeof s !== 'string')) errors.push('strengths must be at most 2 strings');
   if (typeof grade.improvement !== 'string' || !grade.improvement.trim()) errors.push('improvement missing');
-  checkFlags(grade.flags, ['off_topic', 'injection_attempt', 'too_short'], errors);
+  checkFlags(grade.flags, modelJudgesLength ? ['off_topic', 'injection_attempt', 'too_short'] : ['off_topic', 'injection_attempt'], errors);
   return { ok: errors.length === 0, errors };
 }
 

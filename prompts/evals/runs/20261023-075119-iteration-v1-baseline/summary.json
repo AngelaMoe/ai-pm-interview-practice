@@ -1,0 +1,304 @@
+{
+  "set": "iteration",
+  "stamp": "20261023-075119",
+  "reps": 3,
+  "versions": {
+    "fix": "v1",
+    "voice": "v1"
+  },
+  "cases": 54,
+  "calls": 243,
+  "stoppedForBudget": false,
+  "labelSource": "labels.claude.json + labels.review.json",
+  "groups": {
+    "fix/haiku-4-5": {
+      "calls": 81,
+      "schemaValidAfterRetry": 91.4,
+      "retries": 11,
+      "retryReasons": {
+        "checklist: m1-fix-pick appears 2 times (expected 1)": 1,
+        "checklist: m2-fix-north-star appears 2 times (expected 1)": 3,
+        "checklist: m2-fix-guardrail appears 2 times (expected 1); checklist: m2-fix-guardrail-why appears 2 times (expected 1)": 1,
+        "checklist: m2-fix-override appears 2 times (expected 1)": 5,
+        "checklist: m3-fix-business appears 2 times (expected 1)": 1,
+        "checklist: m4-fix-timing appears 2 times (expected 1)": 1,
+        "checklist: m4-fix-cannibal appears 2 times (expected 1)": 1,
+        "checklist: m5-fix-speed-cost appears 2 times (expected 1)": 2,
+        "checklist: m5-fix-quality appears 2 times (expected 1)": 1,
+        "checklist: m5-fix-confirm appears 2 times (expected 1)": 1,
+        "checklist: m5-fix-layer appears 2 times (expected 1)": 1
+      },
+      "errors": {
+        "invalid_after_retry": 7
+      },
+      "items": {
+        "total": 296,
+        "tp": 108,
+        "fp": 11,
+        "fn": 3,
+        "tn": 174
+      },
+      "falseMetRate": 5.9,
+      "falseNotMetRate": 2.7,
+      "agreementOverall": 95.3,
+      "agreementClearCut": 100,
+      "agreementByKind": {
+        "weak": 100,
+        "strong": 100,
+        "borderline": 83.8,
+        "adversarial": 95.8
+      },
+      "agreementExcludingUncertain": 95.3,
+      "uncertainItemsGraded": 0,
+      "voiceScore": null,
+      "ordering": null,
+      "knownNegatives": {
+        "cases": 36,
+        "nothingMet": 36
+      },
+      "designedFlags": {
+        "checks": 3,
+        "correct": 3
+      },
+      "injectionFlagged": {
+        "cases": 0,
+        "flagged": 0
+      },
+      "consistency": {
+        "comparableItems": 100,
+        "flipped": 1,
+        "flipRate": 1
+      },
+      "evidence": {
+        "rawMet": 119,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.2675,
+        "perCall": 0.0033
+      },
+      "latencyMs": {
+        "median": 3759,
+        "p95": 5712
+      },
+      "tokens": {
+        "input": 142373,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "output": 25029,
+        "cacheReadShare": 0
+      }
+    },
+    "voice/sonnet-4-6": {
+      "calls": 81,
+      "schemaValidAfterRetry": 98.8,
+      "retries": 3,
+      "retryReasons": {
+        "too_short answers can score at most 2": 4
+      },
+      "errors": {
+        "invalid_after_retry": 1
+      },
+      "items": {
+        "total": 240,
+        "tp": 106,
+        "fp": 3,
+        "fn": 0,
+        "tn": 131
+      },
+      "falseMetRate": 2.2,
+      "falseNotMetRate": 0,
+      "agreementOverall": 98.8,
+      "agreementClearCut": 100,
+      "agreementByKind": {
+        "strong": 100,
+        "weak": 100,
+        "borderline": 95.2,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 98.8,
+      "uncertainItemsGraded": 0,
+      "voiceScore": {
+        "exact": 81.3,
+        "withinOne": 100,
+        "meanAbsError": 0.19,
+        "meanSignedError": -0.19
+      },
+      "ordering": {
+        "lessons": 4,
+        "correct": 3,
+        "detail": [
+          {
+            "lessonId": "metrics-1",
+            "ok": true,
+            "strong": 5,
+            "borderline": 3.5,
+            "weak": 1.1666666666666667
+          },
+          {
+            "lessonId": "metrics-3",
+            "ok": true,
+            "strong": 4.5,
+            "borderline": 2.5,
+            "weak": 1
+          },
+          {
+            "lessonId": "metrics-4",
+            "ok": true,
+            "strong": 5,
+            "borderline": 3,
+            "weak": 1
+          },
+          {
+            "lessonId": "metrics-5",
+            "ok": false,
+            "strong": 4.6,
+            "borderline": 2,
+            "weak": 3
+          }
+        ]
+      },
+      "knownNegatives": {
+        "cases": 30,
+        "nothingMet": 30
+      },
+      "designedFlags": {
+        "checks": 9,
+        "correct": 9
+      },
+      "injectionFlagged": {
+        "cases": 3,
+        "flagged": 3
+      },
+      "consistency": {
+        "comparableItems": 81,
+        "flipped": 0,
+        "flipRate": 0
+      },
+      "evidence": {
+        "rawMet": 109,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.7262,
+        "perCall": 0.009
+      },
+      "latencyMs": {
+        "median": 7566,
+        "p95": 11122
+      },
+      "tokens": {
+        "input": 40129,
+        "cacheRead": 224125,
+        "cacheWrite": 41047,
+        "output": 25643,
+        "cacheReadShare": 73.4
+      }
+    },
+    "voice/sonnet-5-5": {
+      "calls": 81,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "retryReasons": {},
+      "errors": {},
+      "items": {
+        "total": 243,
+        "tp": 99,
+        "fp": 0,
+        "fn": 9,
+        "tn": 135
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 8.3,
+      "agreementOverall": 96.3,
+      "agreementClearCut": 100,
+      "agreementByKind": {
+        "strong": 100,
+        "weak": 100,
+        "borderline": 90.5,
+        "adversarial": 94.4
+      },
+      "agreementExcludingUncertain": 96.3,
+      "uncertainItemsGraded": 0,
+      "voiceScore": {
+        "exact": 64.2,
+        "withinOne": 100,
+        "meanAbsError": 0.36,
+        "meanSignedError": -0.36
+      },
+      "ordering": {
+        "lessons": 4,
+        "correct": 3,
+        "detail": [
+          {
+            "lessonId": "metrics-1",
+            "ok": true,
+            "strong": 5,
+            "borderline": 3.5,
+            "weak": 1
+          },
+          {
+            "lessonId": "metrics-3",
+            "ok": true,
+            "strong": 4,
+            "borderline": 2.5,
+            "weak": 1
+          },
+          {
+            "lessonId": "metrics-4",
+            "ok": true,
+            "strong": 4,
+            "borderline": 3,
+            "weak": 1
+          },
+          {
+            "lessonId": "metrics-5",
+            "ok": false,
+            "strong": 4.166666666666667,
+            "borderline": 2,
+            "weak": 3
+          }
+        ]
+      },
+      "knownNegatives": {
+        "cases": 30,
+        "nothingMet": 30
+      },
+      "designedFlags": {
+        "checks": 9,
+        "correct": 9
+      },
+      "injectionFlagged": {
+        "cases": 3,
+        "flagged": 3
+      },
+      "consistency": {
+        "comparableItems": 81,
+        "flipped": 3,
+        "flipRate": 3.7
+      },
+      "evidence": {
+        "rawMet": 102,
+        "rejected": 3,
+        "verifiedRate": 97.1
+      },
+      "cost": {
+        "total": 0.5785,
+        "perCall": 0.0071
+      },
+      "latencyMs": {
+        "median": 3928,
+        "p95": 6097
+      },
+      "tokens": {
+        "input": 51930,
+        "cacheRead": 318130,
+        "cacheWrite": 20930,
+        "output": 35871,
+        "cacheReadShare": 81.4
+      }
+    }
+  }
+}

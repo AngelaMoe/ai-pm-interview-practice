@@ -154,18 +154,41 @@ function summarize(rows) {
       else { confExcl.total++; if (met === want) confExcl.agree++; }
     }
   }
+  // A failed grade (no usable output after the retry) counts as wrong on every
+  // item in the agreement metrics, so failures can't flatter them. The false
+  // met / not met rates stay over graded items; failures are reported separately.
+  let failedItems = 0;
+  for (const r of rows.filter(r => !r.ok)) {
+    const label = labels[r.caseId];
+    for (const item of Object.keys(label.items)) {
+      failedItems++;
+      byKind[r.kind] ??= { agree: 0, total: 0 };
+      byKind[r.kind].total++;
+      if (!(label.uncertain || []).includes(item)) confExcl.total++;
+    }
+  }
   const items = conf.tp + conf.fp + conf.fn + conf.tn;
   const clear = ['strong', 'weak'].reduce((m, k) => ({ agree: m.agree + (byKind[k]?.agree || 0), total: m.total + (byKind[k]?.total || 0) }), { agree: 0, total: 0 });
 
   // Voice score
   const voice = ok.filter(r => r.step === 'voice');
   const diffs = voice.map(r => r.grade.score - labels[r.caseId].score);
-  // Ordering: per lesson, mean score strong > borderline > weak
+  // Ordering, checked against the labels' own order: per lesson, for each pair
+  // of case kinds whose mean label scores differ (e.g. strong 4.5 > borderline 3),
+  // the grader's mean scores must be ordered the same way. Pairs the labels
+  // rank equal are skipped, since the rubric can rate a "weak" answer fair.
   const ordering = [];
+  const avg = a => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
   for (const lessonId of [...new Set(voice.map(r => r.lessonId))]) {
-    const mean = kind => { const s = voice.filter(r => r.lessonId === lessonId && r.kind === kind).map(r => r.grade.score); return s.length ? s.reduce((a, b) => a + b, 0) / s.length : null; };
-    const [s, b, w] = ['strong', 'borderline', 'weak'].map(mean);
-    if (s !== null && b !== null && w !== null) ordering.push({ lessonId, ok: s > b && b > w, strong: s, borderline: b, weak: w });
+    const of = kind => voice.filter(r => r.lessonId === lessonId && r.kind === kind);
+    for (const [hi, lo] of [['strong', 'borderline'], ['borderline', 'weak'], ['strong', 'weak']]) {
+      const [a, b] = [of(hi), of(lo)];
+      if (!a.length || !b.length) continue;
+      const labelA = avg(a.map(r => labels[r.caseId].score)), labelB = avg(b.map(r => labels[r.caseId].score));
+      if (labelA === labelB) continue;
+      const gradeA = avg(a.map(r => r.grade.score)), gradeB = avg(b.map(r => r.grade.score));
+      ordering.push({ lessonId, pair: `${hi}>${lo}`, ok: Math.sign(gradeA - gradeB) === Math.sign(labelA - labelB), label: [labelA, labelB], grade: [gradeA, gradeB] });
+    }
   }
   // Known negatives: cases whose labels have nothing met
   const negatives = ok.filter(r => Object.values(labels[r.caseId].items).every(v => !v));
@@ -200,7 +223,8 @@ function summarize(rows) {
     items: { total: items, ...conf },
     falseMetRate: pct(conf.fp, conf.fp + conf.tn),
     falseNotMetRate: pct(conf.fn, conf.fn + conf.tp),
-    agreementOverall: pct(conf.tp + conf.tn, items),
+    failedItems,
+    agreementOverall: pct(conf.tp + conf.tn, items + failedItems),
     agreementClearCut: pct(clear.agree, clear.total),
     agreementByKind: Object.fromEntries(Object.entries(byKind).map(([k, v]) => [k, pct(v.agree, v.total)])),
     agreementExcludingUncertain: pct(confExcl.agree, confExcl.total),
@@ -211,7 +235,7 @@ function summarize(rows) {
       meanAbsError: Math.round((diffs.reduce((n, d) => n + Math.abs(d), 0) / diffs.length) * 100) / 100,
       meanSignedError: Math.round((diffs.reduce((n, d) => n + d, 0) / diffs.length) * 100) / 100
     } : null,
-    ordering: ordering.length ? { lessons: ordering.length, correct: ordering.filter(o => o.ok).length, detail: ordering } : null,
+    ordering: ordering.length ? { pairs: ordering.length, correct: ordering.filter(o => o.ok).length, detail: ordering } : null,
     knownNegatives: { cases: negatives.length, nothingMet: negPass.length },
     designedFlags: { checks: flagChecks.length, correct: flagChecks.filter(Boolean).length },
     injectionFlagged: { cases: injectionCases.length, flagged: injectionCases.filter(r => r.grade.flags.injection_attempt).length },
@@ -242,13 +266,13 @@ const rowOf = (label, f) => md.push(`| ${label} | ` + Object.values(groupsOut).m
 rowOf('False "met" rate (≤ 5%)', g => T(g.falseMetRate, g.falseMetRate <= 5));
 rowOf('False "not met" rate (≤ 10%)', g => T(g.falseNotMetRate, g.falseNotMetRate <= 10));
 rowOf('Agreement, clear-cut (≥ 95%)', g => T(g.agreementClearCut, g.agreementClearCut >= 95));
-rowOf('Agreement, overall (≥ 90%)', g => T(g.agreementOverall, g.agreementOverall >= 90));
+rowOf('Agreement, overall, failures count as wrong (≥ 90%)', g => T(g.agreementOverall, g.agreementOverall >= 90));
 rowOf('Agreement, borderline (reported)', g => T(g.agreementByKind.borderline, true));
 rowOf('Agreement, adversarial (reported)', g => T(g.agreementByKind.adversarial, true));
 rowOf('Voice score within ±1 (≥ 90%)', g => (g.voiceScore ? T(g.voiceScore.withinOne, g.voiceScore.withinOne >= 90) : 'n/a'));
 rowOf('Voice score exact (≥ 60%)', g => (g.voiceScore ? T(g.voiceScore.exact, g.voiceScore.exact >= 60) : 'n/a'));
 rowOf('Voice score mean abs error (≤ 0.6)', g => (g.voiceScore ? T(g.voiceScore.meanAbsError, g.voiceScore.meanAbsError <= 0.6) : 'n/a'));
-rowOf('Ordering strong > borderline > weak (100%)', g => (g.ordering ? T(`${g.ordering.correct}/${g.ordering.lessons}`, g.ordering.correct === g.ordering.lessons) : 'n/a'));
+rowOf('Ordering matches labels, kind pairs (100%)', g => (g.ordering ? T(`${g.ordering.correct}/${g.ordering.pairs}`, g.ordering.correct === g.ordering.pairs) : 'n/a'));
 rowOf('Known negatives: nothing met (100%)', g => T(`${g.knownNegatives.nothingMet}/${g.knownNegatives.cases}`, g.knownNegatives.nothingMet === g.knownNegatives.cases));
 rowOf('Designed flags correct (100%)', g => T(`${g.designedFlags.correct}/${g.designedFlags.checks}`, g.designedFlags.correct === g.designedFlags.checks));
 rowOf('Consistency: items flipped (≤ 5%)', g => T(g.consistency.flipRate, g.consistency.flipRate === null || g.consistency.flipRate <= 5));

@@ -1,0 +1,519 @@
+{
+  "set": "iteration",
+  "stamp": "20261023-085635",
+  "reps": 3,
+  "versions": {
+    "fix": "v2",
+    "voice": "v2"
+  },
+  "cases": 54,
+  "calls": 243,
+  "stoppedForBudget": false,
+  "labelSource": "labels.claude.json + labels.review.json",
+  "groups": {
+    "fix/haiku-4-5": {
+      "calls": 81,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "retryReasons": {},
+      "errors": {},
+      "items": {
+        "total": 324,
+        "tp": 129,
+        "fp": 21,
+        "fn": 3,
+        "tn": 171
+      },
+      "falseMetRate": 10.9,
+      "falseNotMetRate": 2.3,
+      "failedItems": 0,
+      "agreementOverall": 92.6,
+      "agreementClearCut": 96.4,
+      "agreementByKind": {
+        "strong": 100,
+        "weak": 92.9,
+        "borderline": 82.1,
+        "adversarial": 95.8
+      },
+      "agreementExcludingUncertain": 92.6,
+      "uncertainItemsGraded": 0,
+      "voiceScore": null,
+      "ordering": null,
+      "knownNegatives": {
+        "cases": 36,
+        "nothingMet": 30
+      },
+      "designedFlags": {
+        "checks": 3,
+        "correct": 3
+      },
+      "injectionFlagged": {
+        "cases": 0,
+        "flagged": 0
+      },
+      "consistency": {
+        "comparableItems": 108,
+        "flipped": 4,
+        "flipRate": 3.7
+      },
+      "evidence": {
+        "rawMet": 150,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.2863,
+        "perCall": 0.0035
+      },
+      "latencyMs": {
+        "median": 3894,
+        "p95": 8353
+      },
+      "tokens": {
+        "input": 184995,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "output": 20261,
+        "cacheReadShare": 0
+      }
+    },
+    "voice/sonnet-4-6": {
+      "calls": 81,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "retryReasons": {},
+      "errors": {},
+      "items": {
+        "total": 243,
+        "tp": 108,
+        "fp": 0,
+        "fn": 0,
+        "tn": 135
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 0,
+      "failedItems": 0,
+      "agreementOverall": 100,
+      "agreementClearCut": 100,
+      "agreementByKind": {
+        "strong": 100,
+        "weak": 100,
+        "borderline": 100,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 100,
+      "uncertainItemsGraded": 0,
+      "voiceScore": {
+        "exact": 70.4,
+        "withinOne": 100,
+        "meanAbsError": 0.3,
+        "meanSignedError": -0.27
+      },
+      "ordering": {
+        "pairs": 11,
+        "correct": 11,
+        "detail": [
+          {
+            "lessonId": "metrics-1",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              5,
+              3.5
+            ],
+            "grade": [
+              5,
+              3.5
+            ]
+          },
+          {
+            "lessonId": "metrics-1",
+            "pair": "borderline>weak",
+            "ok": true,
+            "label": [
+              3.5,
+              1.5
+            ],
+            "grade": [
+              3.5,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-1",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              5,
+              1.5
+            ],
+            "grade": [
+              5,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-3",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              4.5,
+              3
+            ],
+            "grade": [
+              4.5,
+              2.1666666666666665
+            ]
+          },
+          {
+            "lessonId": "metrics-3",
+            "pair": "borderline>weak",
+            "ok": true,
+            "label": [
+              3,
+              1
+            ],
+            "grade": [
+              2.1666666666666665,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-3",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              4.5,
+              1
+            ],
+            "grade": [
+              4.5,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-4",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              5,
+              3.5
+            ],
+            "grade": [
+              4,
+              3
+            ]
+          },
+          {
+            "lessonId": "metrics-4",
+            "pair": "borderline>weak",
+            "ok": true,
+            "label": [
+              3.5,
+              2
+            ],
+            "grade": [
+              3,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-4",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              5,
+              2
+            ],
+            "grade": [
+              4,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-5",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              4.5,
+              3
+            ],
+            "grade": [
+              4.5,
+              2
+            ]
+          },
+          {
+            "lessonId": "metrics-5",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              4.5,
+              3
+            ],
+            "grade": [
+              4.5,
+              3
+            ]
+          }
+        ]
+      },
+      "knownNegatives": {
+        "cases": 30,
+        "nothingMet": 30
+      },
+      "designedFlags": {
+        "checks": 9,
+        "correct": 9
+      },
+      "injectionFlagged": {
+        "cases": 3,
+        "flagged": 3
+      },
+      "consistency": {
+        "comparableItems": 81,
+        "flipped": 0,
+        "flipRate": 0
+      },
+      "evidence": {
+        "rawMet": 108,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.6972,
+        "perCall": 0.0086
+      },
+      "latencyMs": {
+        "median": 7589,
+        "p95": 13671
+      },
+      "tokens": {
+        "input": 38718,
+        "cacheRead": 250889,
+        "cacheWrite": 43738,
+        "output": 22781,
+        "cacheReadShare": 75.3
+      }
+    },
+    "voice/sonnet-5-5": {
+      "calls": 81,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "retryReasons": {},
+      "errors": {},
+      "items": {
+        "total": 243,
+        "tp": 102,
+        "fp": 0,
+        "fn": 6,
+        "tn": 135
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 5.6,
+      "failedItems": 0,
+      "agreementOverall": 97.5,
+      "agreementClearCut": 100,
+      "agreementByKind": {
+        "strong": 100,
+        "weak": 100,
+        "borderline": 90.5,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 97.5,
+      "uncertainItemsGraded": 0,
+      "voiceScore": {
+        "exact": 69.1,
+        "withinOne": 100,
+        "meanAbsError": 0.31,
+        "meanSignedError": -0.31
+      },
+      "ordering": {
+        "pairs": 11,
+        "correct": 11,
+        "detail": [
+          {
+            "lessonId": "metrics-1",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              5,
+              3.5
+            ],
+            "grade": [
+              5,
+              3.5
+            ]
+          },
+          {
+            "lessonId": "metrics-1",
+            "pair": "borderline>weak",
+            "ok": true,
+            "label": [
+              3.5,
+              1.5
+            ],
+            "grade": [
+              3.5,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-1",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              5,
+              1.5
+            ],
+            "grade": [
+              5,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-3",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              4.5,
+              3
+            ],
+            "grade": [
+              4,
+              2.5
+            ]
+          },
+          {
+            "lessonId": "metrics-3",
+            "pair": "borderline>weak",
+            "ok": true,
+            "label": [
+              3,
+              1
+            ],
+            "grade": [
+              2.5,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-3",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              4.5,
+              1
+            ],
+            "grade": [
+              4,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-4",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              5,
+              3.5
+            ],
+            "grade": [
+              4,
+              3
+            ]
+          },
+          {
+            "lessonId": "metrics-4",
+            "pair": "borderline>weak",
+            "ok": true,
+            "label": [
+              3.5,
+              2
+            ],
+            "grade": [
+              3,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-4",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              5,
+              2
+            ],
+            "grade": [
+              4,
+              1
+            ]
+          },
+          {
+            "lessonId": "metrics-5",
+            "pair": "strong>borderline",
+            "ok": true,
+            "label": [
+              4.5,
+              3
+            ],
+            "grade": [
+              4.5,
+              2
+            ]
+          },
+          {
+            "lessonId": "metrics-5",
+            "pair": "strong>weak",
+            "ok": true,
+            "label": [
+              4.5,
+              3
+            ],
+            "grade": [
+              4.5,
+              3
+            ]
+          }
+        ]
+      },
+      "knownNegatives": {
+        "cases": 30,
+        "nothingMet": 30
+      },
+      "designedFlags": {
+        "checks": 9,
+        "correct": 9
+      },
+      "injectionFlagged": {
+        "cases": 3,
+        "flagged": 3
+      },
+      "consistency": {
+        "comparableItems": 81,
+        "flipped": 0,
+        "flipRate": 0
+      },
+      "evidence": {
+        "rawMet": 102,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.5924,
+        "perCall": 0.0073
+      },
+      "latencyMs": {
+        "median": 4450,
+        "p95": 11266
+      },
+      "tokens": {
+        "input": 51930,
+        "cacheRead": 353090,
+        "cacheWrite": 33364,
+        "output": 33448,
+        "cacheReadShare": 80.5
+      }
+    }
+  }
+}

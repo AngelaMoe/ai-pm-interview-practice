@@ -5,7 +5,10 @@
 // Shared by the eval runner and (later) the grading routes.
 
 import Anthropic from '@anthropic-ai/sdk';
-import { fixGradeSchema, voiceGradeSchema, validateFixGrade, validateVoiceGrade, enforceEvidence } from './schemas.js';
+import {
+  fixGradeSchema, voiceGradeSchema, fixGradeSchemaKeyed, voiceGradeSchemaKeyed, keyedFixToList, keyedVoiceToList,
+  validateFixGrade, validateVoiceGrade, enforceEvidence, normalizeForMatch, stripDisfluencies, SCORE_LABELS
+} from './schemas.js';
 import { renderFixPrompt, renderVoicePrompt } from './prompts.js';
 
 // $ per million tokens: [input, output]. Cache writes cost 1.25x input, reads 0.1x.
@@ -26,7 +29,25 @@ export function costOf(modelKey, usage) {
 
 const MAX_ATTEMPTS = 2; // first try + one retry on invalid output
 
-async function callGrader({ client, modelKey, system, user, schema, validate, maxTokens, cacheSystem }) {
+// What each prompt version expects. v1: list-shaped output and the model judges
+// length. v2: keyed output (each item exactly once) and length measured in code.
+export const PROMPT_PROFILES = {
+  'fix-grader.v1': { shape: 'list' },
+  'fix-grader.v2': { shape: 'keyed' },
+  'voice-grader.v1': { shape: 'list', modelJudgesLength: true },
+  'voice-grader.v2': { shape: 'keyed', modelJudgesLength: false }
+};
+const profileOf = id => { const p = PROMPT_PROFILES[id]; if (!p) throw new Error(`no profile for prompt ${id}`); return p; };
+
+// Voice v2: an answer is too short for a 60-second answer below this many
+// words of substance (fillers and stutters removed). The score is capped at 2.
+export const TOO_SHORT_WORDS = 40;
+export function substantiveWordCount(text) {
+  const t = stripDisfluencies(normalizeForMatch(text || ''));
+  return t ? t.split(' ').length : 0;
+}
+
+async function callGrader({ client, modelKey, system, user, schema, validate, maxTokens, cacheSystem, normalize = g => g }) {
   const model = MODELS[modelKey];
   const attempts = [];
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -56,7 +77,7 @@ async function callGrader({ client, modelKey, system, user, schema, validate, ma
     }
     let grade;
     try {
-      grade = JSON.parse(response.content.find(b => b.type === 'text')?.text ?? '');
+      grade = normalize(JSON.parse(response.content.find(b => b.type === 'text')?.text ?? ''));
     } catch {
       record.error = response.stop_reason === 'max_tokens' ? 'truncated' : 'invalid_json';
       continue;
@@ -74,10 +95,14 @@ async function callGrader({ client, modelKey, system, user, schema, validate, ma
 
 export async function gradeFix({ client, lesson, answer, modelKey = 'haiku-4-5', version = 'v1' }) {
   const prompt = renderFixPrompt(lesson, answer, version);
+  const profile = profileOf(prompt.promptId);
   const checklist = lesson.fixWeakAnswer.checklist;
+  const keyed = profile.shape === 'keyed';
   const result = await callGrader({
     client, modelKey, system: prompt.system, user: prompt.user,
-    schema: fixGradeSchema(checklist), validate: g => validateFixGrade(g, checklist),
+    schema: keyed ? fixGradeSchemaKeyed(checklist) : fixGradeSchema(checklist),
+    normalize: keyed ? g => keyedFixToList(g, checklist) : undefined,
+    validate: g => validateFixGrade(g, checklist),
     maxTokens: 1500, cacheSystem: false // below Haiku 4.5's 4,096-token cache minimum
   });
   if (!result.ok) return { ...result, promptId: prompt.promptId };
@@ -87,13 +112,25 @@ export async function gradeFix({ client, lesson, answer, modelKey = 'haiku-4-5',
 
 export async function gradeVoice({ client, lesson, transcript, modelKey = 'sonnet-4-6', version = 'v1' }) {
   const prompt = renderVoicePrompt(lesson, transcript, version);
+  const profile = profileOf(prompt.promptId);
   const voice = lesson.voice;
+  const keyed = profile.shape === 'keyed';
   const result = await callGrader({
     client, modelKey, system: prompt.system, user: prompt.user,
-    schema: voiceGradeSchema(voice), validate: g => validateVoiceGrade(g, voice),
+    schema: keyed ? voiceGradeSchemaKeyed(voice) : voiceGradeSchema(voice),
+    normalize: keyed ? g => keyedVoiceToList(g, voice) : undefined,
+    validate: g => validateVoiceGrade(g, voice, { modelJudgesLength: profile.modelJudgesLength }),
     maxTokens: 2500, cacheSystem: true
   });
   if (!result.ok) return { ...result, promptId: prompt.promptId };
   const { items, rejected } = enforceEvidence(result.grade.conceptChecks, prompt.learnerText, 'conceptId');
-  return { ...result, promptId: prompt.promptId, rawGrade: result.grade, grade: { ...result.grade, conceptChecks: items }, evidenceRejected: rejected };
+  let grade = { ...result.grade, conceptChecks: items };
+  if (!profile.modelJudgesLength) {
+    // Length is measured, not judged: flag short answers and cap their score
+    const words = substantiveWordCount(prompt.learnerText);
+    const tooShort = words < TOO_SHORT_WORDS;
+    grade = { ...grade, flags: { ...grade.flags, too_short: tooShort }, substantiveWords: words };
+    if (tooShort && grade.score > 2) grade = { ...grade, score: 2, scoreLabel: SCORE_LABELS[2], scoreCappedFrom: result.grade.score };
+  }
+  return { ...result, promptId: prompt.promptId, rawGrade: result.grade, grade, evidenceRejected: rejected };
 }

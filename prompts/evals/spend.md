@@ -10,4 +10,6 @@
 | 2026-10-12 | step 2: schema check (Haiku 4.5, Sonnet 4.6, Sonnet 5.5) | 3 | $0.0203 | measured |
 | 2026-10-12 | eval run 20261012-135628 (iteration, 5 cases × 2 reps) | 17 | $0.2065 | measured |
 | 2026-10-12 | eval run 20261012-135735 (iteration, 2 cases × 2 reps) | 8 | $0.0540 | measured |
-| | **Running total** | | **$0.43** | |
+| 2026-10-23 | eval run 20261023-075119 (iteration, 54 cases × 3 reps) | 257 | $1.5722 | measured |
+| 2026-10-23 | eval run 20261023-085635 (iteration, 54 cases × 3 reps) | 243 | $1.5758 | measured |
+| | **Running total** | | **$3.58** | |
