@@ -250,6 +250,9 @@ Each phase ends with the server starting cleanly and the phase verified in the b
 - **Speech recognition** uses the Web Speech API (Chrome and Edge only), the same limitation as Practice. Learn shows a text fallback for step 4 in unsupported browsers.
 - **Anonymous ID loss:** clearing site data resets progress. This is accepted and stated in the UI.
 - **Before-deploy items are open:** see "Before deploy" under Architecture. They block deployment, not the Learn mode build.
+- **Lesson 5 voice rubric gap (proposal, not applied):** band 3 ("Standard TROPIC checks only, with no AI layer") has no place for an answer that investigates through AI quality signals instead of TROPIC. In the held-out spot-check, the locked grader scored such an answer 2, where both labelers scored 3. Mastery was unaffected; only the 1–5 score is in question.
+  - **Proposed:** content v2 rewords band 3 to "Some systematic investigation (TROPIC checks, or AI quality signals such as re-query rate or a split by question type), but no AI layer".
+  - **Details:** the label impact (none) and the re-eval process are in `docs/proposals/lesson-5-rubric-v2.md`. Awaiting Angela's decision.
 - **Question bank North Stars are weaker than what lesson 2 teaches:** lesson 2 teaches "prefer a count for the North Star, because a ratio can rise when its denominator shrinks (for example, users leaving)". It also says ratios are fine as supporting metrics. Several question-bank sample answers use a ratio North Star **with no count alongside it and no caveat**. That makes them weaker answers than lesson 2 teaches, not wrong ones:
   - `met002` (Facebook Stories): "daily story viewers / DAU". It was dropped as lesson 1's voice question, which now uses its own question.
   - `met001` (Amazon Prime): "12-month retention rate".

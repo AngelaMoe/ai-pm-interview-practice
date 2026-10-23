@@ -173,6 +173,11 @@ When `ANTHROPIC_API_KEY` is not set, demo mode activates — 2 free uses per IP,
 **Open:**
 - **Test learners:** `…000003`, `…000004` and `…000005` are still in Supabase, from the 2026-10-09 UI tests. Delete them in the SQL Editor (query in the 2026-10-09 handoff above).
 
+**Also done 2026-10-23, after the spot-check:**
+- **Held-out spot-check of 5 cases passed (Angela).** Every concept check was correct with verbatim evidence. The 2 voice score misses (−1) are band-edge calls.
+- **Improvement word cap:** the voice "improvement" line is capped at 30 words by trimming in code (`capWords()`), not by failing the grade. See the CHANGELOG.
+- **Lesson 5 rubric proposal:** a band 3 rewording is drafted in `docs/proposals/lesson-5-rubric-v2.md`. It's **not applied** and awaits Angela's decision (also in the PRD's open items). Applying it needs content v2 and a lesson 5 voice re-eval (about $0.15).
+
 **Next step: PRD phase 5, the grading routes.**
 - `POST /api/learn/grade-fix` and `POST /api/learn/grade-voice` call `gradeFix()` / `gradeVoice()` with their defaults (the locked config).
 - Each met item sets `applied_met` and adds +25 (`learn/mastery.js` `APPLIED_STEP_MET`).

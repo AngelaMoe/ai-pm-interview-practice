@@ -7,7 +7,8 @@
 import Anthropic from '@anthropic-ai/sdk';
 import {
   fixGradeSchema, voiceGradeSchema, fixGradeSchemaKeyed, voiceGradeSchemaKeyed, keyedFixToList, keyedVoiceToList,
-  validateFixGrade, validateVoiceGrade, enforceEvidence, normalizeForMatch, stripDisfluencies, SCORE_LABELS
+  validateFixGrade, validateVoiceGrade, enforceEvidence, normalizeForMatch, stripDisfluencies, SCORE_LABELS,
+  capWords, IMPROVEMENT_MAX_WORDS
 } from './schemas.js';
 import { renderFixPrompt, renderVoicePrompt } from './prompts.js';
 
@@ -135,6 +136,8 @@ export async function gradeVoice({ client, lesson, transcript, modelKey = GRADIN
   if (!result.ok) return { ...result, promptId: prompt.promptId };
   const { items, rejected } = enforceEvidence(result.grade.conceptChecks, prompt.learnerText, 'conceptId');
   let grade = { ...result.grade, conceptChecks: items };
+  const improvement = capWords(grade.improvement, IMPROVEMENT_MAX_WORDS);
+  if (improvement.trimmed) grade = { ...grade, improvement: improvement.text, improvementTrimmedFrom: result.grade.improvement };
   if (!profile.modelJudgesLength) {
     // Length is measured, not judged: flag short answers and cap their score
     const words = substantiveWordCount(prompt.learnerText);

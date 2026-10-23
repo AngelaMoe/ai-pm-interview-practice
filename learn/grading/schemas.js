@@ -289,3 +289,24 @@ export function enforceEvidence(items, learnerText, idKey) {
   });
   return { items: checked, rejected };
 }
+
+// ===== Word caps on learner-facing text =====
+// The voice prompt asks for an improvement of at most 30 words, but Sonnet 5.5
+// writes right at the limit (25-41% of eval grades ran 31-37 words). A hard
+// validator cap would retry or fail correct grades over a few words, so the cap
+// is applied by trimming after validation: cut at the last sentence or clause
+// break within the limit, or hard-cut with an ellipsis if there is no sensible
+// break. The grade itself is unchanged.
+export const IMPROVEMENT_MAX_WORDS = 30;
+export function capWords(text, maxWords) {
+  const words = text.trim().split(/\s+/);
+  if (words.length <= maxWords) return { text: text.trim(), trimmed: false };
+  const head = words.slice(0, maxWords);
+  // Last word in the head that ends a sentence or clause, if it keeps at least half
+  let cut = -1;
+  for (let i = head.length - 1; i >= Math.floor(maxWords / 2); i--) {
+    if (/[.;:,!?]$/.test(head[i]) || head[i + 1] === '—' || head[i + 1] === '-') { cut = i; break; }
+  }
+  if (cut === -1) return { text: head.join(' ').replace(/[,;:]$/, '') + '…', trimmed: true };
+  return { text: head.slice(0, cut + 1).join(' ').replace(/[,;:]$/, '.'), trimmed: true };
+}

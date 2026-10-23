@@ -22,6 +22,10 @@ Each version records what changed, why, and its eval results. Versions are immut
 
 **Caveat:** this is 23 cases (240 item grades), with cases written to be clear-cut where intended. It's strong evidence, not a guarantee. Real learner answers will be messier than the eval set.
 
+**Post-lock code change (2026-10-23, prompt and model unchanged):** the voice "improvement" line is now capped at 30 words in code. `capWords()` in `schemas.js` trims at the last sentence or clause break, or hard-cuts with "…" if there's no sensible break, and keeps the original in `improvementTrimmedFrom`.
+- **Why trim instead of failing:** Sonnet 5.5 writes the line right at the limit (median 30 words; 41% of iteration and 25% of held-out grades ran 31–37 words). A hard validator cap would have retried, or failed, correct grades over a few words.
+- **Effect:** no grading decision changes, so the eval results stand.
+
 **Why Sonnet 5.5 for the fix step too:** fix v2 was re-run on Sonnet (run `20261023-090654-iteration-fix-sonnet-v2`, prompt unchanged).
 
 | Fix-step target | Haiku 4.5 | Sonnet 4.6 | Sonnet 5.5 |

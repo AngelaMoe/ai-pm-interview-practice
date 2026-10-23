@@ -127,3 +127,40 @@ test('voice validator v2 does not require a too_short flag; v1 still does', () =
   assert.equal(validateVoiceGrade(g, l.voice, { modelJudgesLength: false }).ok, true);
   assert.equal(validateVoiceGrade(g, l.voice).ok, false);
 });
+
+// ===== Improvement word cap (trim, never fail) =====
+import { capWords, IMPROVEMENT_MAX_WORDS } from './schemas.js';
+const words = s => s.trim().split(/\s+/).length;
+
+test('capWords: leaves text at or under the cap untouched', () => {
+  assert.deepEqual(capWords('Name one guardrail and what it protects.', 30), { text: 'Name one guardrail and what it protects.', trimmed: false });
+});
+
+test('capWords: trims an over-30-word improvement (held-out style) at the last clause break', () => {
+  const long = "You skipped TROPIC's boring causes and the AI layer; check timing, region, platform, then silent model, prompt or retrieval changes, latency and cost, comparing before and after on the same test conversations.";
+  assert.ok(words(long) > 30);
+  const r = capWords(long, IMPROVEMENT_MAX_WORDS);
+  assert.equal(r.trimmed, true);
+  assert.ok(words(r.text) <= 30);
+  assert.equal(r.text, "You skipped TROPIC's boring causes and the AI layer; check timing, region, platform, then silent model, prompt or retrieval changes, latency and cost.");
+});
+
+test('capWords: hard-cuts with an ellipsis when there is no sensible break', () => {
+  const r = capWords(Array.from({ length: 40 }, (_, i) => `w${i}`).join(' '), 30);
+  assert.equal(r.trimmed, true);
+  assert.ok(r.text.endsWith('…'));
+  assert.equal(words(r.text), 30);
+});
+
+test('gradeVoice: an over-long improvement is trimmed, not retried or failed', async () => {
+  const l = getLesson('metrics-2');
+  const reply37 = voiceReply(l, 3);
+  const body = JSON.parse(reply37.content[0].text);
+  body.improvement = 'You should add a user-behavior trust signal, such as how often people reopen the full thread right after the summary, and explain briefly why a count beats a ratio for the North Star metric here.';
+  const client = fakeClient([{ ...reply37, content: [{ type: 'text', text: JSON.stringify(body) }] }]);
+  const r = await gradeVoice({ client, lesson: l, transcript: caseText('voice-m2-border-2'), version: 'v2' });
+  assert.equal(r.ok, true);
+  assert.equal(r.attempts.length, 1, 'no retry');
+  assert.ok(words(r.grade.improvement) <= 30);
+  assert.equal(r.grade.improvementTrimmedFrom, body.improvement);
+});
