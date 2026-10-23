@@ -4,7 +4,20 @@ Each version records what changed, why, and its eval results. Versions are immut
 
 ## fix-grader v2 / voice-grader v2 (2026-10-23)
 
-**Status:** evaluated on the iteration set (run `20261023-085635-iteration-v2`, 54 cases × 3 runs). **Voice v2 meets every target on both Sonnets. Fix v2 on Haiku misses** (see below). Not yet run on the held-out set.
+**Status: LOCKED (2026-10-23) on `claude-sonnet-5-5` for both steps** (effort `low`). Decided by Angela after the iteration runs, and these defaults are in `GRADING_CONFIG` in `learn/grading/grader.js`. The held-out pass (grading plan step 8) runs on this locked configuration only.
+
+**Why Sonnet 5.5 for the fix step too:** fix v2 was re-run on Sonnet (run `20261023-090654-iteration-fix-sonnet-v2`, prompt unchanged).
+
+| Fix-step target | Haiku 4.5 | Sonnet 4.6 | Sonnet 5.5 |
+|---|---|---|---|
+| False "met" ≤ 5% | 10.9 ✗ | 5.7 ✗ | **0** |
+| False "not met" ≤ 10% | 2.3 | 0.8 | 1.5 |
+| Agreement overall ≥ 90% | 92.6 | 96.3 | 99.4 |
+| Agreement, borderline | 82.1 | 86.9 | 100 |
+| Known negatives, nothing met | 30/36 ✗ | 36/36 | 36/36 |
+| Cost per call · median latency | $0.0035 · 3.9s | $0.0058 · 5.8s | $0.0053 · 3.5s |
+
+Sonnet 5.5's only misses, across both steps, are strict calls on three items Angela adjudicated as met: review 2, review 5, and the "or" decision. It made zero false "met" calls.
 
 **Changes (approved by Angela after the v1 baseline):**
 - **A1, keyed output:** checklist items, concept checks and key points are now one required property each, instead of list entries. A grader can no longer grade an item twice or skip one. (v1: Haiku duplicated an item in 7 of 81 fix grades, so they were lost.) Each property's description carries its criterion.

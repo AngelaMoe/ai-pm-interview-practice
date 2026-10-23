@@ -1,6 +1,6 @@
 # Learn Mode Grading Plan (PRD phase 2)
 
-**Status:** Approved 2026-10-09. Steps 1–6 done: SDK upgrade, output schemas, v1 prompts, 77 eval cases, labels (held-out labeled blind by Claude Fable 5.1 with 0 disagreements; 9 iteration calls decided by Angela, 2026-10-23), and the eval runner. Step 7 next: iterate the prompts on the iteration set.
+**Status:** Steps 1–7 done. **Locked 2026-10-23: fix-grader v2 and voice-grader v2 on Claude Sonnet 5.5 (effort `low`) for both steps**, in `GRADING_CONFIG` (`learn/grading/grader.js`). Step 8 (one held-out pass on the locked configuration) next.
 
 **Output contracts:** `learn/grading/schemas.js`. It holds:
 - the per-lesson JSON Schemas sent as structured outputs (ids restricted to the lesson's own items)
@@ -27,6 +27,10 @@ The matching ignores case, punctuation and spacing, because speech transcripts l
      - **Caveat:** the cases were written to be clear-cut where they're meant to be, and both labelers applied the same written rules. Agreement shows the labels are consistent, not that the criteria wording has no shared blind spot.
    - **Iteration two-thirds:** Claude's labels, with its 9 uncertain calls decided one at a time by Angela (`labels.review.json`).
    - **Final accuracy numbers** are against `labels.angela.json` only.
+5. **Model (decided 2026-10-23, after step 7):** **Claude Sonnet 5.5 for both steps**, replacing Haiku 4.5 for the fix step and choosing it over Sonnet 4.6 for voice.
+   - **Why:** it was the only model that met every iteration-set target in both steps, with zero false "met" calls. Haiku 4.5 and Sonnet 4.6 both missed the fix step's false-"met" target. It was also the cheapest and fastest Sonnet ($0.0053 fix / $0.0073 voice per call; 3.5s / 4.5s median).
+   - **CLAUDE.md:** the project CLAUDE.md records this. The global CLAUDE.md model defaults are deliberately unchanged.
+6. **Refusals (decided 2026-10-23):** a refused grading call returns the safe "couldn't grade, try again" error, with no fallback model, because a different model would grade by different standards. Recorded in the PRD (Architecture → Errors).
 4. **Budget:** at most **$30** of API spend for this phase. Stop and ask before going over it. Spend is tracked from the API's `usage` data in `prompts/evals/spend.md`.
 
 ---

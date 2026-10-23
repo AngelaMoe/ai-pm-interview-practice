@@ -4,7 +4,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { renderFixPrompt, renderVoicePrompt } from './prompts.js';
-import { gradeFix, gradeVoice, costOf } from './grader.js';
+import { gradeFix, gradeVoice, costOf, GRADING_CONFIG } from './grader.js';
 import { getLesson } from '../content.js';
 
 const l2 = getLesson('metrics-2');
@@ -54,7 +54,7 @@ const fixGrade = met => ({
 
 test('gradeFix: valid first try, structured output request, evidence enforced', async () => {
   const client = fakeClient([reply(fixGrade([true, true, false, false]))]);
-  const r = await gradeFix({ client, lesson: l2, answer });
+  const r = await gradeFix({ client, lesson: l2, answer, modelKey: 'haiku-4-5', version: 'v1' });
   assert.equal(r.ok, true);
   assert.equal(r.attempts.length, 1);
   assert.deepEqual(r.evidenceRejected, ['m2-fix-guardrail'], 'made-up quote is rejected');
@@ -68,7 +68,7 @@ test('gradeFix: valid first try, structured output request, evidence enforced', 
 
 test('gradeFix: retries once on invalid output, then succeeds', async () => {
   const client = fakeClient([reply('{not json'), reply(fixGrade([false, false, false, false]))]);
-  const r = await gradeFix({ client, lesson: l2, answer });
+  const r = await gradeFix({ client, lesson: l2, answer, modelKey: 'haiku-4-5', version: 'v1' });
   assert.equal(r.ok, true);
   assert.deepEqual(r.attempts.map(a => a.error), ['invalid_json', undefined]);
 });
@@ -76,7 +76,7 @@ test('gradeFix: retries once on invalid output, then succeeds', async () => {
 test('gradeFix: two invalid outputs give a safe failure', async () => {
   const bad = fixGrade([false, false, false, false]); bad.checklist.pop();
   const client = fakeClient([reply(bad), reply(bad)]);
-  const r = await gradeFix({ client, lesson: l2, answer });
+  const r = await gradeFix({ client, lesson: l2, answer, modelKey: 'haiku-4-5', version: 'v1' });
   assert.equal(r.ok, false);
   assert.equal(r.error, 'invalid_after_retry');
   assert.equal(client.calls.length, 2);
@@ -86,7 +86,7 @@ test('gradeFix: refusal and API errors stop without retrying', async () => {
   let r = await gradeFix({ client: fakeClient([reply('{}', 'refusal')]), lesson: l2, answer });
   assert.equal(r.error, 'refusal');
   const client = fakeClient([new Error('network down')]);
-  r = await gradeFix({ client, lesson: l2, answer });
+  r = await gradeFix({ client, lesson: l2, answer, modelKey: 'haiku-4-5', version: 'v1' });
   assert.equal(r.error, 'api_error');
   assert.equal(client.calls.length, 1);
 });
@@ -100,7 +100,7 @@ test('gradeVoice: Sonnet 5.5 sends effort low; system prompt is cached', async (
     flags: { off_topic: false, injection_attempt: false, too_short: false }
   };
   const client = fakeClient([reply(g)]);
-  const r = await gradeVoice({ client, lesson: l2, transcript: 'um some answer', modelKey: 'sonnet-5-5' });
+  const r = await gradeVoice({ client, lesson: l2, transcript: 'um some answer', modelKey: 'sonnet-5-5', version: 'v1' });
   assert.equal(r.ok, true);
   assert.equal(client.calls[0].model, 'claude-sonnet-5-5');
   assert.equal(client.calls[0].output_config.effort, 'low');
@@ -111,4 +111,16 @@ test('costOf uses the model rates, including cache reads and writes', () => {
   assert.equal(costOf('haiku-4-5', { input_tokens: 1e6, output_tokens: 0 }), 1);
   assert.equal(costOf('sonnet-4-6', { input_tokens: 0, output_tokens: 1e6 }), 15);
   assert.ok(Math.abs(costOf('sonnet-4-6', { input_tokens: 0, output_tokens: 0, cache_read_input_tokens: 1e6, cache_creation_input_tokens: 1e6 }) - (0.3 + 3.75)) < 1e-9);
+});
+
+test('defaults are the locked configuration: Sonnet 5.5, v2, both steps', async () => {
+  assert.deepEqual(GRADING_CONFIG, { fix: { modelKey: 'sonnet-5-5', version: 'v2' }, voice: { modelKey: 'sonnet-5-5', version: 'v2' } });
+  assert.ok(Object.isFrozen(GRADING_CONFIG) && Object.isFrozen(GRADING_CONFIG.fix));
+  const ids = l2.fixWeakAnswer.checklist.map(c => c.id);
+  const keyed = { checklist: Object.fromEntries(ids.map(id => [id, { met: false, evidence: '', reason: 'r' }])), feedback: 'f', flags: { off_topic: false, injection_attempt: false } };
+  const client = fakeClient([reply(keyed)]);
+  const r = await gradeFix({ client, lesson: l2, answer });
+  assert.equal(r.promptId, 'fix-grader.v2');
+  assert.equal(client.calls[0].model, 'claude-sonnet-5-5');
+  assert.equal(client.calls[0].output_config.effort, 'low');
 });

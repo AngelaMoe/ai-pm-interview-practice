@@ -22,6 +22,8 @@ ESM project (`"type": "module"`). Uses `@anthropic-ai/sdk` and `@supabase/supaba
 
 **Stack:** Node/Express, same as the rest of the app. No new framework for Learn mode.
 
+**Learn grading uses Sonnet 5.5, see docs/grading-plan.md.**
+
 **Ground rules for Learn mode work:**
 - Keep changes small. Add to existing files rather than restructuring them.
 - Practice mode endpoints (`/api/interview/*`) and their behavior stay as they are.

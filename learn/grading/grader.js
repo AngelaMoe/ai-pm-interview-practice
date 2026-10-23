@@ -41,6 +41,14 @@ const profileOf = id => { const p = PROMPT_PROFILES[id]; if (!p) throw new Error
 
 // Voice v2: an answer is too short for a 60-second answer below this many
 // words of substance (fillers and stutters removed). The score is capped at 2.
+// LOCKED grading configuration (2026-10-23, prompts/CHANGELOG.md): the model and
+// prompt versions validated by the eval. Routes use these defaults; change them only
+// with a new prompt version and a new eval run.
+export const GRADING_CONFIG = Object.freeze({
+  fix: Object.freeze({ modelKey: 'sonnet-5-5', version: 'v2' }),
+  voice: Object.freeze({ modelKey: 'sonnet-5-5', version: 'v2' })
+});
+
 export const TOO_SHORT_WORDS = 40;
 export function substantiveWordCount(text) {
   const t = stripDisfluencies(normalizeForMatch(text || ''));
@@ -93,7 +101,7 @@ async function callGrader({ client, modelKey, system, user, schema, validate, ma
   return { ok: false, error: 'invalid_after_retry', attempts };
 }
 
-export async function gradeFix({ client, lesson, answer, modelKey = 'haiku-4-5', version = 'v1' }) {
+export async function gradeFix({ client, lesson, answer, modelKey = GRADING_CONFIG.fix.modelKey, version = GRADING_CONFIG.fix.version }) {
   const prompt = renderFixPrompt(lesson, answer, version);
   const profile = profileOf(prompt.promptId);
   const checklist = lesson.fixWeakAnswer.checklist;
@@ -112,7 +120,7 @@ export async function gradeFix({ client, lesson, answer, modelKey = 'haiku-4-5',
   return { ...result, promptId: prompt.promptId, rawGrade: result.grade, grade: { ...result.grade, checklist: items }, evidenceRejected: rejected };
 }
 
-export async function gradeVoice({ client, lesson, transcript, modelKey = 'sonnet-4-6', version = 'v1' }) {
+export async function gradeVoice({ client, lesson, transcript, modelKey = GRADING_CONFIG.voice.modelKey, version = GRADING_CONFIG.voice.version }) {
   const prompt = renderVoicePrompt(lesson, transcript, version);
   const profile = profileOf(prompt.promptId);
   const voice = lesson.voice;

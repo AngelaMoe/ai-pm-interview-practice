@@ -149,6 +149,10 @@ To match, align these copies to the wiki text. This changes **only text**, not b
 
 Grading failures let the user retry or skip the step.
 
+**Grading refusals (decided 2026-10-23):** grading runs on Claude Sonnet 5.5 for both steps (`docs/grading-plan.md`). If a grading call is refused (`stop_reason: "refusal"`), the route returns the safe "Couldn't grade that answer. Please try again." error, the same as any other grading failure.
+- **No fallback model:** Anthropic recommends enabling a refusal fallback for Sonnet 5.5, but grading doesn't use one. A different model would grade by different standards than the one the eval validated, and mastery would then depend on which model answered.
+- **The refusal is logged server-side**, with its `stop_details` category, so false refusals on learner answers can be spotted.
+
 **Before deploy** (these block deployment, not the Learn mode build):
 1. **Secrets only in Vercel settings:** `ANTHROPIC_API_KEY`, `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set in Vercel → Project → Settings → Environment Variables (Production and Preview). They never go in code, `vercel.json`, a committed file, or any `NEXT_PUBLIC_`/client-side variable. Check `git ls-files '.env*'` before each deploy: only `.env.example` should be listed.
 2. **Practice routes get the same protection as Learn:** the existing `/api/interview/*` routes that call Claude (`start`, `respond`, `evaluate`, `analyze-answer`) get the rate limiter, `safeError()` and the input sanitizer. This is a protection-only change: it doesn't alter Practice behavior for normal use, so it's compatible with the "no Practice changes" non-goal.
