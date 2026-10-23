@@ -1,0 +1,156 @@
+{
+  "set": "iteration",
+  "stamp": "20261023-090654",
+  "reps": 3,
+  "versions": {
+    "fix": "v2",
+    "voice": "v1"
+  },
+  "step": "fix",
+  "fixModels": [
+    "sonnet-4-6",
+    "sonnet-5-5"
+  ],
+  "voiceModels": [
+    "sonnet-4-6",
+    "sonnet-5-5"
+  ],
+  "cases": 27,
+  "calls": 162,
+  "stoppedForBudget": false,
+  "labelSource": "labels.claude.json + labels.review.json",
+  "groups": {
+    "fix/sonnet-4-6": {
+      "calls": 81,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "retryReasons": {},
+      "errors": {},
+      "items": {
+        "total": 324,
+        "tp": 131,
+        "fp": 11,
+        "fn": 1,
+        "tn": 181
+      },
+      "falseMetRate": 5.7,
+      "falseNotMetRate": 0.8,
+      "failedItems": 0,
+      "agreementOverall": 96.3,
+      "agreementClearCut": 99.4,
+      "agreementByKind": {
+        "strong": 98.8,
+        "weak": 100,
+        "borderline": 86.9,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 96.3,
+      "uncertainItemsGraded": 0,
+      "voiceScore": null,
+      "ordering": null,
+      "knownNegatives": {
+        "cases": 36,
+        "nothingMet": 36
+      },
+      "designedFlags": {
+        "checks": 3,
+        "correct": 3
+      },
+      "injectionFlagged": {
+        "cases": 0,
+        "flagged": 0
+      },
+      "consistency": {
+        "comparableItems": 108,
+        "flipped": 2,
+        "flipRate": 1.9
+      },
+      "evidence": {
+        "rawMet": 142,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.4658,
+        "perCall": 0.0058
+      },
+      "latencyMs": {
+        "median": 5760,
+        "p95": 6964
+      },
+      "tokens": {
+        "input": 28083,
+        "cacheRead": 141460,
+        "cacheWrite": 15533,
+        "output": 18727,
+        "cacheReadShare": 76.4
+      }
+    },
+    "fix/sonnet-5-5": {
+      "calls": 81,
+      "schemaValidAfterRetry": 100,
+      "retries": 0,
+      "retryReasons": {},
+      "errors": {},
+      "items": {
+        "total": 324,
+        "tp": 130,
+        "fp": 0,
+        "fn": 2,
+        "tn": 192
+      },
+      "falseMetRate": 0,
+      "falseNotMetRate": 1.5,
+      "failedItems": 0,
+      "agreementOverall": 99.4,
+      "agreementClearCut": 98.8,
+      "agreementByKind": {
+        "strong": 97.6,
+        "weak": 100,
+        "borderline": 100,
+        "adversarial": 100
+      },
+      "agreementExcludingUncertain": 99.4,
+      "uncertainItemsGraded": 0,
+      "voiceScore": null,
+      "ordering": null,
+      "knownNegatives": {
+        "cases": 36,
+        "nothingMet": 36
+      },
+      "designedFlags": {
+        "checks": 3,
+        "correct": 3
+      },
+      "injectionFlagged": {
+        "cases": 0,
+        "flagged": 0
+      },
+      "consistency": {
+        "comparableItems": 108,
+        "flipped": 1,
+        "flipRate": 0.9
+      },
+      "evidence": {
+        "rawMet": 130,
+        "rejected": 0,
+        "verifiedRate": 100
+      },
+      "cost": {
+        "total": 0.4274,
+        "perCall": 0.0053
+      },
+      "latencyMs": {
+        "median": 3451,
+        "p95": 5326
+      },
+      "tokens": {
+        "input": 36681,
+        "cacheRead": 181261,
+        "cacheWrite": 14543,
+        "output": 28145,
+        "cacheReadShare": 78
+      }
+    }
+  }
+}

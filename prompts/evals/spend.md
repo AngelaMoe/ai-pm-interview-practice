@@ -12,4 +12,5 @@
 | 2026-10-12 | eval run 20261012-135735 (iteration, 2 cases × 2 reps) | 8 | $0.0540 | measured |
 | 2026-10-23 | eval run 20261023-075119 (iteration, 54 cases × 3 reps) | 257 | $1.5722 | measured |
 | 2026-10-23 | eval run 20261023-085635 (iteration, 54 cases × 3 reps) | 243 | $1.5758 | measured |
-| | **Running total** | | **$3.58** | |
+| 2026-10-23 | eval run 20261023-090654 (iteration, 27 cases × 3 reps) | 162 | $0.8933 | measured |
+| | **Running total** | | **$4.47** | |

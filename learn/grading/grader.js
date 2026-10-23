@@ -103,7 +103,9 @@ export async function gradeFix({ client, lesson, answer, modelKey = 'haiku-4-5',
     schema: keyed ? fixGradeSchemaKeyed(checklist) : fixGradeSchema(checklist),
     normalize: keyed ? g => keyedFixToList(g, checklist) : undefined,
     validate: g => validateFixGrade(g, checklist),
-    maxTokens: 1500, cacheSystem: false // below Haiku 4.5's 4,096-token cache minimum
+    // Haiku 4.5 needs 4,096+ tokens to cache, and this prompt is ~600. Other models
+    // get the marker; it is a no-op wherever the prompt is under their minimum.
+    maxTokens: 1500, cacheSystem: modelKey !== 'haiku-4-5'
   });
   if (!result.ok) return { ...result, promptId: prompt.promptId };
   const { items, rejected } = enforceEvidence(result.grade.checklist, prompt.learnerText, 'id');

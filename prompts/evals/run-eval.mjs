@@ -7,6 +7,8 @@
 //     --cases id1,id2            only these cases (must belong to --set)
 //     --reps N                   runs per case, default 3 (consistency needs >= 2)
 //     --voice-models a,b         default sonnet-4-6,sonnet-5-5
+//     --fix-models a,b           default haiku-4-5
+//     --step fix|voice|all       default all
 //     --fix-version v1 --voice-version v1
 //     --tag name                 added to the output folder name
 //
@@ -37,6 +39,8 @@ const opt = (name, fallback) => { const i = args.indexOf(`--${name}`); return i 
 const set = opt('set', 'iteration');
 const reps = Number(opt('reps', '3'));
 const voiceModels = opt('voice-models', 'sonnet-4-6,sonnet-5-5').split(',');
+const fixModels = opt('fix-models', 'haiku-4-5').split(',');
+const stepFilter = opt('step', 'all');
 const versions = { fix: opt('fix-version', 'v1'), voice: opt('voice-version', 'v1') };
 const tag = opt('tag', '');
 const onlyCases = opt('cases', null)?.split(',');
@@ -45,6 +49,8 @@ const fail = msg => { console.error(`Stopped: ${msg}`); process.exit(1); };
 if (!['iteration', 'held-out'].includes(set)) fail('--set must be iteration or held-out');
 if (!Number.isInteger(reps) || reps < 1) fail('--reps must be a positive integer');
 for (const m of voiceModels) if (!MODELS[m] || m === 'haiku-4-5') fail(`unknown voice model ${m}`);
+for (const m of fixModels) if (!MODELS[m]) fail(`unknown fix model ${m}`);
+if (!['fix', 'voice', 'all'].includes(stepFilter)) fail('--step must be fix, voice or all');
 
 // ===== Cases and labels =====
 const readJson = f => JSON.parse(readFileSync(join(here, f), 'utf8'));
@@ -70,13 +76,13 @@ if (onlyCases) {
   const outside = onlyCases.filter(id => !allowed.has(id));
   if (outside.length) fail(`${outside.length} of the requested case(s) aren't in the ${set} set.`); // never name them
 }
-const runCases = cases.filter(c => allowed.has(c.id) && (!onlyCases || onlyCases.includes(c.id)));
+const runCases = cases.filter(c => allowed.has(c.id) && (!onlyCases || onlyCases.includes(c.id)) && (stepFilter === 'all' || c.step === stepFilter));
 if (!runCases.length) fail('no cases selected');
 
 // One job per case x model x rep
 const jobs = [];
 for (const c of runCases) {
-  const models = c.step === 'fix' ? ['haiku-4-5'] : voiceModels;
+  const models = c.step === 'fix' ? fixModels : voiceModels;
   for (const modelKey of models) for (let rep = 1; rep <= reps; rep++) jobs.push({ c, modelKey, rep });
 }
 
@@ -85,7 +91,7 @@ const LEDGER = join(here, 'spend-ledger.json');
 const ledger = JSON.parse(readFileSync(LEDGER, 'utf8'));
 const spentBefore = ledger.entries.reduce((n, e) => n + e.cost, 0);
 const estimate = jobs.reduce((n, j) => n + EST_COST[j.modelKey] * 1.3, 0); // 1.3: allowance for retries
-console.log(`Set: ${set} | cases: ${runCases.length} | reps: ${reps} | calls: ${jobs.length} | voice models: ${voiceModels.join(', ')}`);
+console.log(`Set: ${set} | step: ${stepFilter} | cases: ${runCases.length} | reps: ${reps} | calls: ${jobs.length} | fix models: ${fixModels.join(', ')} | voice models: ${voiceModels.join(', ')}`);
 console.log(`Spent so far: $${spentBefore.toFixed(2)} of $${BUDGET_CAP} | this run, estimated up to: $${estimate.toFixed(2)}`);
 if (spentBefore + estimate > BUDGET_CAP) fail(`this run could take spend past the $${BUDGET_CAP} cap. Ask Angela before raising it.`);
 
@@ -118,8 +124,9 @@ async function runJob({ c, modelKey, rep }) {
 // Warm each voice model's prompt cache with one call before going parallel; otherwise
 // concurrent first calls all write the cache and none read it, unlike real traffic
 const queue = [...jobs];
-for (const modelKey of voiceModels) {
-  const i = queue.findIndex(j => j.modelKey === modelKey);
+for (const group of [...new Set(queue.map(j => `${j.c.step}|${j.modelKey}`))]) {
+  if (group.endsWith('|haiku-4-5')) continue; // prompt below Haiku's cache minimum: nothing to warm
+  const i = queue.findIndex(j => `${j.c.step}|${j.modelKey}` === group);
   if (i !== -1 && !stopped) await runJob(queue.splice(i, 1)[0]);
 }
 await Promise.all(Array.from({ length: CONCURRENCY }, async () => { while (queue.length && !stopped) await runJob(queue.shift()); }));
@@ -252,7 +259,7 @@ for (const key of [...new Set(results.map(r => `${r.step}/${r.modelKey}`))].sort
   groupsOut[key] = summarize(results.filter(r => `${r.step}/${r.modelKey}` === key));
 }
 const summary = {
-  set, stamp, reps, versions, cases: runCases.length, calls: results.length, stoppedForBudget: stopped,
+  set, stamp, reps, versions, step: stepFilter, fixModels, voiceModels, cases: runCases.length, calls: results.length, stoppedForBudget: stopped,
   labelSource: set === 'held-out' ? 'labels.angela.json' : `labels.claude.json${existsSync(join(here, 'labels.review.json')) ? ' + labels.review.json' : ' (uncertain items not yet reviewed)'}`,
   groups: groupsOut
 };
