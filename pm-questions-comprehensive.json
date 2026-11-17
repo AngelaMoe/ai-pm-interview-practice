@@ -5,7 +5,7 @@
       "category": "product-design",
       "difficulty": "medium",
       "framework": "CIRCLES",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Design a product for elderly people.",
       "sampleAnswer": {
@@ -33,7 +33,7 @@
       "category": "product-design",
       "difficulty": "medium",
       "framework": "CIRCLES",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Design a product for drivers in rush hour.",
       "sampleAnswer": {
@@ -61,7 +61,7 @@
       "category": "product-design",
       "difficulty": "hard",
       "framework": "CIRCLES",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Meta",
       "question": "How would you improve Facebook Groups?",
       "sampleAnswer": {
@@ -89,7 +89,7 @@
       "category": "product-design",
       "difficulty": "medium",
       "framework": "CIRCLES",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Amazon",
       "question": "Design a product to help people find parking.",
       "sampleAnswer": {
@@ -117,7 +117,7 @@
       "category": "product-design",
       "difficulty": "hard",
       "framework": "CIRCLES",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Apple",
       "question": "Design the next version of Apple Watch.",
       "sampleAnswer": {
@@ -145,7 +145,7 @@
       "category": "product-design",
       "difficulty": "medium",
       "framework": "CIRCLES",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Airbnb",
       "question": "Design a product for frequent business travelers.",
       "sampleAnswer": {
@@ -173,7 +173,7 @@
       "category": "product-design",
       "difficulty": "medium",
       "framework": "CIRCLES",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Uber",
       "question": "Design Uber for kids.",
       "sampleAnswer": {
@@ -201,7 +201,7 @@
       "category": "product-design",
       "difficulty": "hard",
       "framework": "CIRCLES",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Microsoft",
       "question": "Design a product that helps people learn a new language.",
       "sampleAnswer": {
@@ -229,7 +229,7 @@
       "category": "metrics",
       "difficulty": "medium",
       "framework": "DIGS",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Amazon",
       "question": "You're the PM for Amazon Prime. How would you measure the success of the product?",
       "sampleAnswer": {
@@ -254,7 +254,7 @@
       "category": "metrics",
       "difficulty": "medium",
       "framework": "DIGS",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Facebook",
       "question": "How would you measure the success of Facebook Stories?",
       "sampleAnswer": {
@@ -279,7 +279,7 @@
       "category": "metrics",
       "difficulty": "hard",
       "framework": "DIGS",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Spotify",
       "question": "You just launched a new podcast discovery feature. What metrics do you track in the first 30 days?",
       "sampleAnswer": {
@@ -304,7 +304,7 @@
       "category": "metrics",
       "difficulty": "medium",
       "framework": "DIGS",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "How would you measure the success of Google Maps?",
       "sampleAnswer": {
@@ -329,7 +329,7 @@
       "category": "metrics",
       "difficulty": "hard",
       "framework": "DIGS",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "LinkedIn",
       "question": "LinkedIn's DAU/MAU ratio dropped 10% last month. How do you investigate?",
       "sampleAnswer": {
@@ -355,7 +355,7 @@
       "category": "behavioral",
       "difficulty": "medium",
       "framework": "STAR",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Tell me about a time when you had to make a decision with incomplete information.",
       "sampleAnswer": {
@@ -380,7 +380,7 @@
       "category": "behavioral",
       "difficulty": "medium",
       "framework": "STAR",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Meta",
       "question": "Describe a situation where you had to influence without authority.",
       "sampleAnswer": {
@@ -405,7 +405,7 @@
       "category": "behavioral",
       "difficulty": "medium",
       "framework": "STAR",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Amazon",
       "question": "Tell me about a time you failed and what you learned.",
       "sampleAnswer": {
@@ -430,7 +430,7 @@
       "category": "behavioral",
       "difficulty": "medium",
       "framework": "STAR",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Tell me about a product you launched that you're most proud of.",
       "sampleAnswer": {
@@ -455,7 +455,7 @@
       "category": "behavioral",
       "difficulty": "hard",
       "framework": "STAR",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Apple",
       "question": "Describe a time you disagreed with your manager and how you handled it.",
       "sampleAnswer": {
@@ -480,7 +480,7 @@
       "category": "behavioral",
       "difficulty": "medium",
       "framework": "STAR",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Microsoft",
       "question": "Tell me about a time you had to prioritize between multiple competing projects.",
       "sampleAnswer": {
@@ -505,7 +505,7 @@
       "category": "strategy",
       "difficulty": "hard",
       "framework": "SWOT",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Apple",
       "question": "Should Apple enter the search engine market?",
       "sampleAnswer": {
@@ -531,7 +531,7 @@
       "category": "strategy",
       "difficulty": "hard",
       "framework": "SWOT",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Should Google build a smartphone?",
       "sampleAnswer": {
@@ -557,7 +557,7 @@
       "category": "strategy",
       "difficulty": "hard",
       "framework": "SWOT",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Amazon",
       "question": "Should Amazon enter the healthcare market?",
       "sampleAnswer": {
@@ -583,7 +583,7 @@
       "category": "strategy",
       "difficulty": "medium",
       "framework": "SWOT",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Netflix",
       "question": "How should Netflix respond to the growth of Disney+?",
       "sampleAnswer": {
@@ -609,7 +609,7 @@
       "category": "strategy",
       "difficulty": "hard",
       "framework": "SWOT",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Microsoft",
       "question": "What should Microsoft do with its LinkedIn acquisition?",
       "sampleAnswer": {
@@ -635,7 +635,7 @@
       "category": "execution",
       "difficulty": "medium",
       "framework": "RICE",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Microsoft",
       "question": "You have three features to build but only capacity for one this quarter. How do you prioritize?",
       "sampleAnswer": {
@@ -661,7 +661,7 @@
       "category": "execution",
       "difficulty": "medium",
       "framework": "RICE",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Amazon",
       "question": "Your team's sprint velocity dropped 30%. What do you do?",
       "sampleAnswer": {
@@ -686,7 +686,7 @@
       "category": "execution",
       "difficulty": "hard",
       "framework": "RICE",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "A feature you launched has a bug affecting 5% of users. What do you do?",
       "sampleAnswer": {
@@ -711,7 +711,7 @@
       "category": "execution",
       "difficulty": "medium",
       "framework": "RICE",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Meta",
       "question": "How do you write a product requirements document (PRD)?",
       "sampleAnswer": {
@@ -738,7 +738,7 @@
       "category": "technical",
       "difficulty": "medium",
       "framework": "System Design",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Explain how you would design the backend system for a URL shortener.",
       "sampleAnswer": {
@@ -763,7 +763,7 @@
       "category": "technical",
       "difficulty": "medium",
       "framework": "System Design",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Amazon",
       "question": "How does HTTPS work? Why does it matter for a PM?",
       "sampleAnswer": {
@@ -787,7 +787,7 @@
       "category": "technical",
       "difficulty": "hard",
       "framework": "System Design",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "What is A/B testing and what are common mistakes PMs make with it?",
       "sampleAnswer": {
@@ -811,7 +811,7 @@
       "category": "technical",
       "difficulty": "medium",
       "framework": "System Design",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Microsoft",
       "question": "Explain the difference between SQL and NoSQL databases. When would you use each?",
       "sampleAnswer": {
@@ -837,7 +837,7 @@
       "category": "estimation",
       "difficulty": "medium",
       "framework": "Fermi",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "How many gas stations are in the United States?",
       "sampleAnswer": {
@@ -863,7 +863,7 @@
       "category": "estimation",
       "difficulty": "medium",
       "framework": "Fermi",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "How much revenue does the Google Play Store generate per year?",
       "sampleAnswer": {
@@ -889,7 +889,7 @@
       "category": "estimation",
       "difficulty": "hard",
       "framework": "Fermi",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Amazon",
       "question": "How many Amazon Prime members are there?",
       "sampleAnswer": {
@@ -915,7 +915,7 @@
       "category": "product-design",
       "difficulty": "medium",
       "framework": "CIRCLES",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Twitter",
       "question": "Design a feature to reduce misinformation on Twitter.",
       "sampleAnswer": {
@@ -943,7 +943,7 @@
       "category": "product-design",
       "difficulty": "hard",
       "framework": "CIRCLES",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Spotify",
       "question": "Design a social feature for Spotify.",
       "sampleAnswer": {
@@ -971,7 +971,7 @@
       "category": "metrics",
       "difficulty": "medium",
       "framework": "DIGS",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Uber",
       "question": "What metrics would you use to measure the health of Uber's marketplace?",
       "sampleAnswer": {
@@ -996,7 +996,7 @@
       "category": "behavioral",
       "difficulty": "medium",
       "framework": "STAR",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Tell me about a time you used data to change someone's mind.",
       "sampleAnswer": {
@@ -1021,7 +1021,7 @@
       "category": "strategy",
       "difficulty": "hard",
       "framework": "SWOT",
-      "source": "Swipe to Unlock",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "What should Google do with YouTube in the next 5 years?",
       "sampleAnswer": {
@@ -1047,7 +1047,7 @@
       "category": "execution",
       "difficulty": "hard",
       "framework": "RICE",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "How do you manage a product roadmap with 10 stakeholders, all of whom have different priorities?",
       "sampleAnswer": {
@@ -1072,7 +1072,7 @@
       "category": "product-design",
       "difficulty": "medium",
       "framework": "CIRCLES",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Design Google's next hardware product.",
       "sampleAnswer": {
@@ -1100,7 +1100,7 @@
       "category": "behavioral",
       "difficulty": "medium",
       "framework": "STAR",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Amazon",
       "question": "Tell me about a time you had to deliver bad news to a stakeholder.",
       "sampleAnswer": {
@@ -1125,7 +1125,7 @@
       "category": "metrics",
       "difficulty": "hard",
       "framework": "DIGS",
-      "source": "The Product Manager Interview",
+      "source": "common PM interview question",
       "company": "Airbnb",
       "question": "How would you measure trust on the Airbnb platform?",
       "sampleAnswer": {
@@ -1150,7 +1150,7 @@
       "category": "product-design",
       "difficulty": "hard",
       "framework": "CIRCLES",
-      "source": "Cracking the PM Interview",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Design a product to improve the college application process.",
       "sampleAnswer": {
@@ -1178,7 +1178,7 @@
       "category": "strategy",
       "difficulty": "hard",
       "framework": "SWOT",
-      "source": "Decode and Conquer",
+      "source": "common PM interview question",
       "company": "Apple",
       "question": "How should Apple respond to ChatGPT and the rise of generative AI?",
       "sampleAnswer": {
@@ -1204,7 +1204,7 @@
       "category": "ai-product-sense",
       "difficulty": "intermediate",
       "framework": "AI-CUPS-PDM",
-      "source": "Exponent AI PM Interview Questions 2026",
+      "source": "common PM interview question",
       "company": "Meta",
       "question": "How would you improve Meta AI, Meta's AI assistant?",
       "sampleAnswer": {
@@ -1238,7 +1238,7 @@
       "category": "ai-product-sense",
       "difficulty": "advanced",
       "framework": "10-Step-Design",
-      "source": "CrackPMInterview Complete AI PM Interview Guide 2026",
+      "source": "common PM interview question",
       "company": "Anthropic",
       "question": "Design an AI tool for small business owners who want to manage their customer relationships.",
       "sampleAnswer": {
@@ -1272,7 +1272,7 @@
       "category": "ai-product-sense",
       "difficulty": "intermediate",
       "framework": "TROPIC",
-      "source": "Exponent AI PM Interview Questions 2026",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "Your AI feature's user override rate has been rising for 3 weeks. Walk me through how you'd investigate.",
       "sampleAnswer": {
@@ -1308,7 +1308,7 @@
       "category": "ai-safety",
       "difficulty": "intermediate",
       "framework": "P-PRIME",
-      "source": "Exponent Anthropic PM Interview Questions 2026",
+      "source": "common PM interview question",
       "company": "Anthropic",
       "question": "How do you approach safety in a consumer AI product?",
       "sampleAnswer": {
@@ -1340,7 +1340,7 @@
       "category": "ai-safety",
       "difficulty": "advanced",
       "framework": "P-PRIME",
-      "source": "CrackPMInterview Complete AI PM Interview Guide 2026",
+      "source": "common PM interview question",
       "company": "OpenAI",
       "question": "Your AI gave harmful advice to a vulnerable user. Walk me through your incident response.",
       "sampleAnswer": {
@@ -1372,7 +1372,7 @@
       "category": "ai-safety",
       "difficulty": "intermediate",
       "framework": "P-PRIME",
-      "source": "Exponent AI PM Interview Questions 2026",
+      "source": "common PM interview question",
       "company": "Google",
       "question": "How would you prevent harmful outputs from a deployed chatbot at scale?",
       "sampleAnswer": {
@@ -1405,7 +1405,7 @@
       "category": "ai-metrics",
       "difficulty": "intermediate",
       "framework": "C-NABGT",
-      "source": "Exponent AI PM Interview Questions 2026",
+      "source": "common PM interview question",
       "company": "OpenAI",
       "question": "How would you measure the success of ChatGPT as a product?",
       "sampleAnswer": {
@@ -1437,7 +1437,7 @@
       "category": "ai-metrics",
       "difficulty": "advanced",
       "framework": "SIGNAL",
-      "source": "Exponent AI PM Interview Questions 2026",
+      "source": "common PM interview question",
       "company": "Snap",
       "question": "Snap is deploying an LLM-powered feature. What metrics would you track to evaluate its performance?",
       "sampleAnswer": {
@@ -1469,7 +1469,7 @@
       "category": "ai-metrics",
       "difficulty": "intermediate",
       "framework": "TROPIC",
-      "source": "Exponent AI PM Interview Questions 2026",
+      "source": "common PM interview question",
       "company": "Meta",
       "question": "The hallucination rate for your AI feature doubled after last week's model update. What do you do?",
       "sampleAnswer": {
